@@ -11,25 +11,29 @@ public class UserInputValidatorTest {
         @Test
         public void shouldReturnFalse_WhenInputContainsNonNumericalCharacters() {
             String inputWithNonNumericalCharacters = "hello1234";
-            Assert.assertFalse(validator.validateInputDimensionsAreNumbers(inputWithNonNumericalCharacters));
+            boolean inputWithWordCharacters = validator.validateInputDimensionsAreNumbers(inputWithNonNumericalCharacters);
+            Assert.assertFalse(inputWithWordCharacters);
         }
 
         @Test
         public void shouldReturnFalse_WhenInputContainsTrailingSpaces() {
             String inputDimensionsWithTrailingSpaces = "    34  ";
-            Assert.assertFalse(validator.validateInputDimensionsAreNumbers(inputDimensionsWithTrailingSpaces));
+            boolean inputWithTrailingSpaces = validator.validateInputDimensionsAreNumbers(inputDimensionsWithTrailingSpaces);
+            Assert.assertFalse(inputWithTrailingSpaces);
         }
 
         @Test
         public void shouldReturnFalse_WhenInputContainsSpacesBetweenNumbers() {
             String spacesBetweenNumbers = "100 90";
-            Assert.assertFalse(validator.validateInputDimensionsAreNumbers(spacesBetweenNumbers));
+            boolean inputContainsSpacesBetweenNumbers = validator.validateInputDimensionsAreNumbers(spacesBetweenNumbers);
+            Assert.assertFalse(inputContainsSpacesBetweenNumbers);
         }
 
         @Test
         public void shouldReturnTrue_WhenInputContainsOnlyNumbers() {
             String numericalInput = "1234";
-            Assert.assertTrue(validator.validateInputDimensionsAreNumbers(numericalInput));
+            boolean inputWithOnlyNumbers = validator.validateInputDimensionsAreNumbers(numericalInput);
+            Assert.assertTrue(inputWithOnlyNumbers);
         }
     }
 
@@ -39,42 +43,48 @@ public class UserInputValidatorTest {
         public void shouldReturnFalse_WhenGiven101RowsAnd101Columns() {
             int rows = 101;
             int columns = 101;
-            Assert.assertFalse(validator.validateMineFieldDimensions(rows, columns));
+            boolean dimensionMoreThan100 = validator.validateMineFieldDimensions(rows, columns);
+            Assert.assertFalse(dimensionMoreThan100);
         }
 
         @Test
         public void shouldReturnTrue_WhenGiven100RowsAnd100Columns() {
             int rows = 100;
             int columns = 100;
-            Assert.assertTrue(validator.validateMineFieldDimensions(rows, columns));
+            boolean dimensionLessThan100 = validator.validateMineFieldDimensions(rows, columns);
+            Assert.assertTrue(dimensionLessThan100);
         }
 
         @Test
         public void shouldReturnFalse_WhenGiven1NegativeNumber() {
             int rows = -1;
             int columns = 2;
-            Assert.assertFalse(validator.validateMineFieldDimensions(rows, columns));
+            boolean oneNegativeDimension = validator.validateMineFieldDimensions(rows, columns);
+            Assert.assertFalse(oneNegativeDimension);
         }
 
         @Test
         public void shouldReturnTrue_WhenGiven0RowAnd0Column() {
             int rows = 0;
             int columns = 0;
-            Assert.assertTrue(validator.validateMineFieldDimensions(rows, columns));
+            boolean zeroDimension = validator.validateMineFieldDimensions(rows, columns);
+            Assert.assertTrue(zeroDimension);
         }
 
         @Test
         public void shouldReturnFalse_WhenGiven2NegativeNumbers() {
             int rows = -1;
             int columns = -1;
-            Assert.assertFalse(validator.validateMineFieldDimensions(rows, columns));
+            boolean twoNegativeDimensions = validator.validateMineFieldDimensions(rows, columns);
+            Assert.assertFalse(twoNegativeDimensions);
         }
 
         @Test
         public void shouldReturnTrue_WhenGiven3RowsAnd5Columns() {
             int rows = 3;
             int columns = 5;
-            Assert.assertTrue(validator.validateMineFieldDimensions(rows, columns));
+            boolean dimensionsNotNegativeButSmallerThan100 = validator.validateMineFieldDimensions(rows, columns);
+            Assert.assertTrue(dimensionsNotNegativeButSmallerThan100);
         }
     }
 
@@ -83,49 +93,57 @@ public class UserInputValidatorTest {
         @Test
         public void shouldReturnFalse_WhenInputContainsNoAsterisksAndNoDots() {
             String inputWithNoAsteriskOrDot = "hello world 123";
-            Assert.assertFalse(validator.validateRowContent(inputWithNoAsteriskOrDot));
+            boolean rowWithoutAsteriskOrDot = validator.validateRowContent(inputWithNoAsteriskOrDot);
+            Assert.assertFalse(rowWithoutAsteriskOrDot);
         }
 
         @Test
         public void shouldReturnFalse_WhenInputContainsCharactersOtherThanAsteriskAndDot() {
             String inputWithMultipleCharacters = "hello*world.123()!@#$%^";
-            Assert.assertFalse(validator.validateRowContent(inputWithMultipleCharacters));
+            boolean rowWithMultipleKindsOfCharacters = validator.validateRowContent(inputWithMultipleCharacters);
+            Assert.assertFalse(rowWithMultipleKindsOfCharacters);
         }
 
         @Test
         public void shouldReturnFalse_WhenInputHasTrailingWhiteSpaces() {
             String trailingWhiteSpaceString = "  *....   ";
-            Assert.assertFalse(validator.validateRowContent(trailingWhiteSpaceString));
+            boolean rowWithTrailingSpaces = validator.validateRowContent(trailingWhiteSpaceString);
+            Assert.assertFalse(rowWithTrailingSpaces);
         }
 
         @Test
         public void shouldReturnFalse_WhenInputStringIsBlank() {
             String blankString = "       ";
-            Assert.assertFalse(validator.validateRowContent(blankString));
+            boolean blankRow = validator.validateRowContent(blankString);
+            Assert.assertFalse(blankRow);
         }
 
         @Test
         public void shouldReturnFalse_WhenInputStringIsEmpty() {
             String emptyString = "";
-            Assert.assertFalse(validator.validateRowContent(emptyString));
+            boolean emptyRow = validator.validateRowContent(emptyString);
+            Assert.assertFalse(emptyRow);
         }
 
         @Test
         public void shouldReturnTrue_WhenInputContainsBothAsterisksAndDots() {
             String inputWithBothAsteriskAndDot = "*...*";
-            Assert.assertTrue(validator.validateRowContent(inputWithBothAsteriskAndDot));
+            boolean rowWithAsteriskAndDot = validator.validateRowContent(inputWithBothAsteriskAndDot);
+            Assert.assertTrue(rowWithAsteriskAndDot);
         }
 
         @Test
         public void shouldReturnTrue_WhenInputOnlyContainsAsterisks() {
             String allAsterisks = "*******";
-            Assert.assertTrue(validator.validateRowContent(allAsterisks));
+            boolean rowWithAsterisks = validator.validateRowContent(allAsterisks);
+            Assert.assertTrue(rowWithAsterisks);
         }
 
         @Test
         public void shouldReturnTrue_WhenInputOnlyContainsDots() {
             String allDots = "......";
-            Assert.assertTrue(validator.validateRowContent(allDots));
+            boolean rowWithDots = validator.validateRowContent(allDots);
+            Assert.assertTrue(rowWithDots);
         }
     }
 
@@ -135,21 +153,24 @@ public class UserInputValidatorTest {
         public void shouldReturnFalse_WhenRowHasMoreCharactersThanItsGivenDimension() {
             String rowWithSixCharacters = "*.*.*.";
             int givenRowDimension = 4;
-            Assert.assertFalse(validator.validateLengthOfRowInput(rowWithSixCharacters, givenRowDimension));
+            boolean rowLengthTooLong = validator.validateLengthOfRowInput(rowWithSixCharacters, givenRowDimension);
+            Assert.assertFalse(rowLengthTooLong);
         }
 
         @Test
         public void shouldReturnFalse_WhenRowHasFewerCharactersThanItsGivenDimension() {
             String rowWithTwoCharacters = "..";
             int givenRowDimension = 4;
-            Assert.assertFalse(validator.validateLengthOfRowInput(rowWithTwoCharacters, givenRowDimension));
+            boolean rowLengthTooShort = validator.validateLengthOfRowInput(rowWithTwoCharacters, givenRowDimension);
+            Assert.assertFalse(rowLengthTooShort);
         }
 
         @Test
         public void shouldReturnTrue_WhenRowHasSameNumberOfCharactersAsItsDimension() {
             String rowWithFourCharacters = "****";
             int givenRowDimension = 4;
-            Assert.assertTrue(validator.validateLengthOfRowInput(rowWithFourCharacters, givenRowDimension));
+            boolean rowLengthMatchesDimension = validator.validateLengthOfRowInput(rowWithFourCharacters, givenRowDimension);
+            Assert.assertTrue(rowLengthMatchesDimension);
         }
     }
 
@@ -158,25 +179,29 @@ public class UserInputValidatorTest {
         @Test
         public void shouldReturnTrue_WhenInputIsAStringOf00() {
             String doubleZeros = "00";
-            Assert.assertTrue(validator.validateEndOfInput(doubleZeros));
+            boolean inputWithDoubleZeros = validator.validateEndOfInput(doubleZeros);
+            Assert.assertTrue(inputWithDoubleZeros);
         }
 
         @Test
         public void shouldReturnFalse_WhenInputHasMoreThan2Zeros() {
             String multipleZeros = "0000 ";
-            Assert.assertFalse(validator.validateEndOfInput(multipleZeros));
+            boolean inputWithMoreThanTwoZeros = validator.validateEndOfInput(multipleZeros);
+            Assert.assertFalse(inputWithMoreThanTwoZeros);
         }
 
         @Test
         public void shouldReturnFalse_WhenInputContainsTrailingSpaces() {
             String twoZerosWithTrailingSpaces = "   00    ";
-            Assert.assertFalse(validator.validateEndOfInput(twoZerosWithTrailingSpaces));
+            boolean inputWithTrailingSpaces = validator.validateEndOfInput(twoZerosWithTrailingSpaces);
+            Assert.assertFalse(inputWithTrailingSpaces);
         }
 
         @Test
         public void shouldReturnFalse_WhenInputContainsMoreThan2ZeroChracters() {
-            String twoZerosWithExtraCharacters = "hello00000123";
-            Assert.assertFalse(validator.validateEndOfInput(twoZerosWithExtraCharacters));
+            String twoZerosWithExtraCharacters = "hello00000123...";
+            boolean inputWithMultipleKindsOfCharacters = validator.validateEndOfInput(twoZerosWithExtraCharacters);
+            Assert.assertFalse(inputWithMultipleKindsOfCharacters);
         }
     }
 }
