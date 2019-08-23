@@ -1,12 +1,11 @@
 
 public class UserInputValidator {
 
-    public boolean validateInputDimensionsAreNumbers(String inputDimension) {
-        boolean inputOnlyHasNumericalCharacters = inputDimension.matches("[(0-9){1,}]+");
-        return inputOnlyHasNumericalCharacters;
+    public boolean validateInputHavingNumbersWithSpaceBetween(String inputDimension) {
+        return inputDimension.matches("[0-9]{1,}\\s[0-9]{1,}");
     }
 
-    public boolean validateMineFieldDimensions(int numRows, int numColumns) {
+    public boolean validateDimensionsInRange(int numRows, int numColumns) {
         if (numRows < Constants.MIN_FIED_SIZE
                 || numRows > Constants.MAX_FIELD_SIZE
                 || numColumns < Constants.MIN_FIED_SIZE

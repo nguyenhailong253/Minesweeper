@@ -1,39 +1,40 @@
 import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class UserInputValidatorTest {
 
     static UserInputValidator validator = new UserInputValidator();
 
-    public static class ValidateInputDimensionsAreNumbersTest {
+    public static class ValidateInputHavingNumbersWithSpaceBetweenTest {
 
         @Test
         public void shouldReturnFalse_WhenInputContainsNonNumericalCharacters() {
-            String inputWithNonNumericalCharacters = "hello1234";
-            boolean inputWithWordCharacters = validator.validateInputDimensionsAreNumbers(inputWithNonNumericalCharacters);
+            String inputWithNonNumericalCharacters = "hello12()-+ world34,./";
+            boolean inputWithWordCharacters = validator.validateInputHavingNumbersWithSpaceBetween(inputWithNonNumericalCharacters);
             Assert.assertFalse(inputWithWordCharacters);
         }
 
         @Test
         public void shouldReturnFalse_WhenInputContainsTrailingSpaces() {
-            String inputDimensionsWithTrailingSpaces = "    34  ";
-            boolean inputWithTrailingSpaces = validator.validateInputDimensionsAreNumbers(inputDimensionsWithTrailingSpaces);
+            String inputDimensionsWithTrailingSpaces = "    34  90  ";
+            boolean inputWithTrailingSpaces = validator.validateInputHavingNumbersWithSpaceBetween(inputDimensionsWithTrailingSpaces);
             Assert.assertFalse(inputWithTrailingSpaces);
         }
 
         @Test
-        public void shouldReturnFalse_WhenInputContainsSpacesBetweenNumbers() {
+        public void shouldReturnTrue_WhenInputContains2NumbersSeparatedBy1WhiteSpace() {
             String spacesBetweenNumbers = "100 90";
-            boolean inputContainsSpacesBetweenNumbers = validator.validateInputDimensionsAreNumbers(spacesBetweenNumbers);
-            Assert.assertFalse(inputContainsSpacesBetweenNumbers);
+            boolean inputContainsSpacesBetweenNumbers = validator.validateInputHavingNumbersWithSpaceBetween(spacesBetweenNumbers);
+            Assert.assertTrue(inputContainsSpacesBetweenNumbers);
         }
 
         @Test
-        public void shouldReturnTrue_WhenInputContainsOnlyNumbers() {
-            String numericalInput = "1234";
-            boolean inputWithOnlyNumbers = validator.validateInputDimensionsAreNumbers(numericalInput);
-            Assert.assertTrue(inputWithOnlyNumbers);
+        public void shouldReturnFalse_WhenInputContainsMoreThan1WhiteSpaceBetween2Numbers() {
+            String numericalInput = "12       34";
+            boolean inputWithOnlyNumbers = validator.validateInputHavingNumbersWithSpaceBetween(numericalInput);
+            Assert.assertFalse(inputWithOnlyNumbers);
         }
     }
 
@@ -43,7 +44,7 @@ public class UserInputValidatorTest {
         public void shouldReturnFalse_WhenGiven101RowsAnd101Columns() {
             int rows = 101;
             int columns = 101;
-            boolean dimensionMoreThan100 = validator.validateMineFieldDimensions(rows, columns);
+            boolean dimensionMoreThan100 = validator.validateDimensionsInRange(rows, columns);
             Assert.assertFalse(dimensionMoreThan100);
         }
 
@@ -51,7 +52,7 @@ public class UserInputValidatorTest {
         public void shouldReturnTrue_WhenGiven100RowsAnd100Columns() {
             int rows = 100;
             int columns = 100;
-            boolean dimensionLessThan100 = validator.validateMineFieldDimensions(rows, columns);
+            boolean dimensionLessThan100 = validator.validateDimensionsInRange(rows, columns);
             Assert.assertTrue(dimensionLessThan100);
         }
 
@@ -59,7 +60,7 @@ public class UserInputValidatorTest {
         public void shouldReturnFalse_WhenGiven1NegativeNumber() {
             int rows = -1;
             int columns = 2;
-            boolean oneNegativeDimension = validator.validateMineFieldDimensions(rows, columns);
+            boolean oneNegativeDimension = validator.validateDimensionsInRange(rows, columns);
             Assert.assertFalse(oneNegativeDimension);
         }
 
@@ -67,7 +68,7 @@ public class UserInputValidatorTest {
         public void shouldReturnTrue_WhenGiven0RowAnd0Column() {
             int rows = 0;
             int columns = 0;
-            boolean zeroDimension = validator.validateMineFieldDimensions(rows, columns);
+            boolean zeroDimension = validator.validateDimensionsInRange(rows, columns);
             Assert.assertTrue(zeroDimension);
         }
 
@@ -75,7 +76,7 @@ public class UserInputValidatorTest {
         public void shouldReturnFalse_WhenGiven2NegativeNumbers() {
             int rows = -1;
             int columns = -1;
-            boolean twoNegativeDimensions = validator.validateMineFieldDimensions(rows, columns);
+            boolean twoNegativeDimensions = validator.validateDimensionsInRange(rows, columns);
             Assert.assertFalse(twoNegativeDimensions);
         }
 
@@ -83,7 +84,7 @@ public class UserInputValidatorTest {
         public void shouldReturnTrue_WhenGiven3RowsAnd5Columns() {
             int rows = 3;
             int columns = 5;
-            boolean dimensionsNotNegativeButSmallerThan100 = validator.validateMineFieldDimensions(rows, columns);
+            boolean dimensionsNotNegativeButSmallerThan100 = validator.validateDimensionsInRange(rows, columns);
             Assert.assertTrue(dimensionsNotNegativeButSmallerThan100);
         }
     }
