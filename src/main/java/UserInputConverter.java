@@ -9,8 +9,8 @@ public class UserInputConverter {
         try {
             ArrayList<Integer> dimensionList = new ArrayList<>();
             for (String input: userInput) {
-                    int dimensionValue = Integer.parseInt(input);
-                    dimensionList.add(dimensionValue);
+                int dimensionValue = Integer.parseInt(input);
+                dimensionList.add(dimensionValue);
             }
             return dimensionList;
         } catch (Exception e) {

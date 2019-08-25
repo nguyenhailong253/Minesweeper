@@ -1,4 +1,5 @@
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -6,9 +7,14 @@ import java.util.Arrays;
 
 public class UserInputConverterTest {
 
-    static UserInputConverter converter = new UserInputConverter();
+    static UserInputConverter converter;
 
     public static class ConvertToNumericalDimensions {
+
+        @BeforeClass
+        public static void initialise() {
+            converter = new UserInputConverter();
+        }
 
         @Test
         public void shouldReturnListOfNumbers_WhenGivenStringArrayOfNumbers() {
@@ -19,7 +25,7 @@ public class UserInputConverterTest {
         }
 
         @Test(expected = StringToNumberConversionException.class)
-        public void shouldThrowExceptionWhenGivenNonNumericalInput() {
+        public void shouldThrowException_WhenGivenNonNumericalInput() {
             String[] inputWithNonNumericalCharacters = new String[] {"hello,./()", "123"};
             converter.convertToNumericalDimensions(inputWithNonNumericalCharacters);
         }
