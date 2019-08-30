@@ -1,7 +1,9 @@
+package com.myob.minesweeper.exception;
+
 public class InvalidNumberOfDimensionsException extends RuntimeException {
     private String customMessage;
 
-    InvalidNumberOfDimensionsException(String msg) {
+    public InvalidNumberOfDimensionsException(String msg) {
         super(msg);
         customMessage = msg;
     }

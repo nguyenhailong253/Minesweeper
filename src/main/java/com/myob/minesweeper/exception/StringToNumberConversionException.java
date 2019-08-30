@@ -1,9 +1,11 @@
+package com.myob.minesweeper.exception;
+
 public class StringToNumberConversionException extends RuntimeException {
 
     private String customMessage;
     private Exception rootException;
 
-    StringToNumberConversionException(String msg, Exception exception) {
+    public StringToNumberConversionException(String msg, Exception exception) {
         super(msg);
         customMessage = msg;
         rootException = exception;
