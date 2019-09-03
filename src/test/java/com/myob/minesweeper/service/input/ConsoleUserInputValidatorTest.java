@@ -3,72 +3,72 @@ package com.myob.minesweeper.service.input;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class UserInputValidatorTest {
+public class ConsoleUserInputValidatorTest {
 
-    static UserInputValidator validator = new UserInputValidator();
+    private static IUserInputValidator validator = new ConsoleUserInputValidator();
 
-    public static class TestValidateInputHavingNumbersWithSpaceAsDelimiter {
+    public static class TestValidateInputDimensionFormat {
 
         @Test
         public void shouldReturnTrue_WhenInputContains2NumbersSeparatedBy1WhiteSpace() {
             String spacesBetweenNumbers = "100 90";
-            boolean inputContainsSpacesBetweenNumbers = validator.validateInputHavingNumbersWithSpaceAsDelimiter(spacesBetweenNumbers);
+            boolean inputContainsSpacesBetweenNumbers = validator.validateInputDimensionFormat(spacesBetweenNumbers);
             Assert.assertTrue(inputContainsSpacesBetweenNumbers);
         }
 
         @Test
         public void shouldReturnFalse_WhenInputContainsANumberFollowedBy1WhiteSpace() {
             String numberFollowedBySpace = "100 ";
-            boolean inputContains1NumberAnd1Space = validator.validateInputHavingNumbersWithSpaceAsDelimiter(numberFollowedBySpace);
+            boolean inputContains1NumberAnd1Space = validator.validateInputDimensionFormat(numberFollowedBySpace);
             Assert.assertFalse(inputContains1NumberAnd1Space);
         }
 
         @Test
         public void shouldReturnFalse_WhenInputContains1WhiteSpaceFollowedByANumber() {
             String spaceFollowedByNumber = " 1";
-            boolean inputContains1SpaceAnd1Number = validator.validateInputHavingNumbersWithSpaceAsDelimiter(spaceFollowedByNumber);
+            boolean inputContains1SpaceAnd1Number = validator.validateInputDimensionFormat(spaceFollowedByNumber);
             Assert.assertFalse(inputContains1SpaceAnd1Number);
         }
 
         @Test
         public void shouldReturnFalse_WhenInputContainsMoreThan1WhiteSpaceBetween2Numbers() {
             String numericalInput = "12       34";
-            boolean inputWithOnlyNumbers = validator.validateInputHavingNumbersWithSpaceAsDelimiter(numericalInput);
+            boolean inputWithOnlyNumbers = validator.validateInputDimensionFormat(numericalInput);
             Assert.assertFalse(inputWithOnlyNumbers);
         }
 
         @Test
         public void shouldReturnFalse_WhenInputContainsNonNumericalCharacters() {
             String inputWithNonNumericalCharacters = "hello12()-+ world34,./";
-            boolean inputWithWordCharacters = validator.validateInputHavingNumbersWithSpaceAsDelimiter(inputWithNonNumericalCharacters);
+            boolean inputWithWordCharacters = validator.validateInputDimensionFormat(inputWithNonNumericalCharacters);
             Assert.assertFalse(inputWithWordCharacters);
         }
 
         @Test
         public void shouldReturnFalse_WhenInputContainsTrailingSpaces() {
             String numbersAndTrailingSpaces = "34  90  ";
-            boolean inputWithTrailingSpaces = validator.validateInputHavingNumbersWithSpaceAsDelimiter(numbersAndTrailingSpaces);
+            boolean inputWithTrailingSpaces = validator.validateInputDimensionFormat(numbersAndTrailingSpaces);
             Assert.assertFalse(inputWithTrailingSpaces);
         }
 
         @Test
         public void shouldReturnFalse_WhenInputContainsLeadingSpaces() {
             String leadingSpacesAndNumbers = "     1 2";
-            boolean inputWithLeadingSpaces = validator.validateInputHavingNumbersWithSpaceAsDelimiter(leadingSpacesAndNumbers);
+            boolean inputWithLeadingSpaces = validator.validateInputDimensionFormat(leadingSpacesAndNumbers);
             Assert.assertFalse(inputWithLeadingSpaces);
         }
 
         @Test
-        public void shouldReturnFalse_WhenInputIsEmpy() {
-            String emptyString = "";
-            boolean emptyInput = validator.validateInputHavingNumbersWithSpaceAsDelimiter(emptyString);
+        public void shouldReturnFalse_WhenInputIsEmpty() {
+            String emptyString = new String();
+            boolean emptyInput = validator.validateInputDimensionFormat(emptyString);
             Assert.assertFalse(emptyInput);
         }
 
         @Test
         public void shouldReturnFalse_WhenInputIsBlank() {
             String blankString = "      ";
-            boolean blankInput = validator.validateInputHavingNumbersWithSpaceAsDelimiter(blankString);
+            boolean blankInput = validator.validateInputDimensionFormat(blankString);
             Assert.assertFalse(blankInput);
         }
     }

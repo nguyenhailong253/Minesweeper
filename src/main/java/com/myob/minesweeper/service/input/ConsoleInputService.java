@@ -1,6 +1,6 @@
 package com.myob.minesweeper.service.input;
 
-import com.myob.minesweeper.model.MinesweeperBoard;
+import com.myob.minesweeper.model.MineField;
 import com.myob.minesweeper.utils.Constants;
 
 import java.util.ArrayList;
@@ -8,86 +8,90 @@ import java.util.List;
 
 public class ConsoleInputService implements IInputService {
 
-    private UserInputParser parser;
-    private UserInputValidator validator;
-    private UserInputConverter converter;
+    private IUserInputParser parser;
+    private IUserInputValidator validator;
+    private IUserInputConverter converter;
 
-    public ConsoleInputService(UserInputParser inputParser, UserInputValidator inputValidator, UserInputConverter inputConverter) {
+    public ConsoleInputService(IUserInputParser inputParser, IUserInputValidator inputValidator, IUserInputConverter inputConverter) {
         parser = inputParser;
         validator = inputValidator;
         converter = inputConverter;
     }
 
     @Override
-    public List<MinesweeperBoard> getValidInput() {
-        List<MinesweeperBoard> validListOfBoards = new ArrayList<>();
+    public List<MineField> getValidInput() {
+        List<MineField> validListOfFields = new ArrayList<>();
         boolean endOfInput = false;
 
         while (!endOfInput) {
-            MinesweeperBoard newEmptyBoard = createNewEmptyBoard();
-            if (isBoardDimensionZeroByZero(newEmptyBoard)) {
-                endOfInput = true;
-            } else {
-                MinesweeperBoard newBoardWithMines = plantMinesInNewBoard(newEmptyBoard);
-                validListOfBoards.add(newBoardWithMines);
+            try {
+                MineField newEmptyField = createNewEmptyField();
+                if (isFieldDimensionZeroByZero(newEmptyField)) {
+                    endOfInput = true;
+                } else {
+                    MineField newFieldWithMines = plantMinesInNewField(newEmptyField);
+                    validListOfFields.add(newFieldWithMines);
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
         }
-        return validListOfBoards;
+        return validListOfFields;
     }
 
-    private MinesweeperBoard createNewEmptyBoard() {
-        boolean gotNewBoard = false;
+    private MineField createNewEmptyField() {
+        boolean gotNewField = false;
         int[] userInputDimensions = new int[]{};
+        System.out.println(Constants.INPUT_DIMENSION_PROMPT);
 
-        while (!gotNewBoard) {
-            String inputDimensions = parser.readFromConsole();
-            boolean validInputFormat = validator.validateInputHavingNumbersWithSpaceAsDelimiter(inputDimensions);
+        while (!gotNewField) {
+            String inputDimensions = parser.readUserInput();
+            boolean validInputFormat = validator.validateInputDimensionFormat(inputDimensions);
 
             if (validInputFormat) {
-                userInputDimensions = convertUserInputDimension(inputDimensions);
+                userInputDimensions = converter.convertToNumericalDimensions(inputDimensions);
                 if (isDimensionWithinRange(userInputDimensions)) {
-                    gotNewBoard = true;
+                    gotNewField = true;
+                } else {
+                    System.out.println(Constants.DIMENSION_OUT_OF_RANGE);
                 }
+            } else {
+                System.out.println(Constants.INVALID_DIMENSION_FORMAT);
             }
         }
-        MinesweeperBoard newBoard = new MinesweeperBoard(userInputDimensions);
-        return newBoard;
+        return new MineField(userInputDimensions);
     }
 
-    private int[] convertUserInputDimension(String userInput) {
-        String[] splitString = converter.splitStringToArrayOf2Elements(userInput);
-        int[] convertedDimensions = converter.convertToNumericalDimensions(splitString);
-        return convertedDimensions;
+    private MineField plantMinesInNewField(MineField field) {
+
+        int numRows = field.getRowDimension();
+        int numColumns = field.getColumnDimension();
+        int inputRowCounter = 0;
+        System.out.println(Constants.PLANT_MINE_PROMPT);
+
+        while (inputRowCounter != numRows) {
+            String inputRow = parser.readUserInput();
+
+            if (isInputRowValid(inputRow, numColumns)) {
+                String[] arrayOfUserInput = inputRow.split(Constants.EMPTY_STRING);
+                field.setRowValue(arrayOfUserInput, inputRowCounter);
+                inputRowCounter += 1;
+            } else {
+                System.out.println(Constants.INVALID_ROW_FORMAT);
+            }
+        }
+        System.out.println(Constants.FIELD_CREATED);
+        return field;
     }
 
     private boolean isDimensionWithinRange(int[] dimensions) {
         int numRows = dimensions[0];
         int numColumns = dimensions[1];
-        boolean valid = validator.validateDimensionsInRange(numRows, numColumns);
-        return valid;
+        return validator.validateDimensionsInRange(numRows, numColumns);
     }
 
-    // quite specific to this app so leave it on this level? so if change condition, no touching the core
-    private boolean isBoardDimensionZeroByZero(MinesweeperBoard board) {
-        return board.getRowDimension() == 0 && board.getColumnDimension() == 0;
-    }
-
-    private MinesweeperBoard plantMinesInNewBoard(MinesweeperBoard board) {
-
-        int numRows = board.getRowDimension();
-        int numColumns = board.getColumnDimension();
-        int inputRowCounter = 0;
-
-        while (inputRowCounter != numRows) {
-            String inputRow = parser.readFromConsole();
-
-            if (isInputRowValid(inputRow, numColumns)) {
-                String[] arrayOfUserInput = inputRow.split(Constants.EMPTY_STRING);
-                board.setRowValue(arrayOfUserInput, inputRowCounter);
-                inputRowCounter += 1;
-            }
-        }
-        return board;
+    private boolean isFieldDimensionZeroByZero(MineField field) {
+        return field.getRowDimension() == 0 && field.getColumnDimension() == 0;
     }
 
     private boolean isInputRowValid(String inputRow, int rowSize) {

@@ -1,6 +1,6 @@
 package com.myob.minesweeper.service.output;
 
-import com.myob.minesweeper.model.MinesweeperBoard;
+import com.myob.minesweeper.model.MineField;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -14,25 +14,25 @@ public class ConsoleOutputServiceTest {
 
     private static IOutputService outputService = new ConsoleOutputService();
     private static int[] default2By2Dimension = new int[]{2,2};
-    private static List<MinesweeperBoard> testBoards = new ArrayList<>();
+    private static List<MineField> listOfTestFields = new ArrayList<>();
     private static PrintStream mockPrintStream = mock(PrintStream.class);
 
-    public static class TestPrintBoards {
+    public static class TestPrintFields {
 
         @BeforeClass
         public static void initialise() {
             System.setOut(mockPrintStream);
-            MinesweeperBoard test2By2Board = new MinesweeperBoard(default2By2Dimension);
-            test2By2Board.setCellValue("*", 0, 0);
-            test2By2Board.setCellValue("1", 0, 1);
-            test2By2Board.setCellValue("1", 1, 0);
-            test2By2Board.setCellValue("1", 1, 1);
-            testBoards.add(test2By2Board);
+
+            MineField test2By2Field = new MineField(default2By2Dimension);
+            String[][] fieldValue = new String[][]{{"*","1"}, {"1", "1"}};
+            test2By2Field.setFieldValue(fieldValue);
+
+            listOfTestFields.add(test2By2Field);
         }
 
         @Test
-        public void shouldPrint1Board_WhenListOnlyHasOneBoard() {
-            outputService.printBoards(testBoards);
+        public void shouldPrint1Field_WhenReceiveListWithOnlyHas1Field() {
+            outputService.printResultFields(listOfTestFields);
             verify(mockPrintStream).println("Field #1:");
             verify(mockPrintStream).println("*1");
             verify(mockPrintStream).println("11");
@@ -41,9 +41,9 @@ public class ConsoleOutputServiceTest {
 
         @Test
         public void shouldPrintNothing_WhenListIsEmpty() {
-            List<MinesweeperBoard> newEmptyList = new ArrayList<>();
-            outputService.printBoards(newEmptyList);
-            verify(mockPrintStream, times(0)).println();
+            List<MineField> newEmptyList = new ArrayList<>();
+            outputService.printResultFields(newEmptyList);
+            verify(mockPrintStream, times(0)).println("Field #1:");
         }
     }
 }

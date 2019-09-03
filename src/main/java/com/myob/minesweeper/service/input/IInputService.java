@@ -1,9 +1,9 @@
 package com.myob.minesweeper.service.input;
 
-import com.myob.minesweeper.model.MinesweeperBoard;
+import com.myob.minesweeper.model.MineField;
 
 import java.util.List;
 
 public interface IInputService {
-    public List<MinesweeperBoard> getValidInput();
+    public List<MineField> getValidInput();
 }

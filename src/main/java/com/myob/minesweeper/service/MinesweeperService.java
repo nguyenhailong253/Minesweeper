@@ -1,6 +1,9 @@
 package com.myob.minesweeper.service;
 
-import com.myob.minesweeper.model.MinesweeperBoard;
+import com.myob.minesweeper.model.MineField;
+import com.myob.minesweeper.service.gameengine.AdjacentMinesCalculator;
+import com.myob.minesweeper.service.gameengine.MineFieldInitiator;
+import com.myob.minesweeper.service.gameengine.MinesweeperGameEngine;
 import com.myob.minesweeper.service.input.IInputService;
 import com.myob.minesweeper.service.output.IOutputService;
 
@@ -8,17 +11,24 @@ import java.util.List;
 
 public class MinesweeperService {
 
-    private IInputService userInputService;
+    private IInputService inputService;
     private IOutputService outputService;
-    private MinesweeperGameEngine ruleEngine;
+    private MinesweeperGameEngine gameEngine;
 
-    // TODO: where to inject those dependencies
+    public MinesweeperService(IInputService inputService, IOutputService outputService) {
+        MineFieldInitiator initiator = new MineFieldInitiator();
+        AdjacentMinesCalculator calculator = new AdjacentMinesCalculator();
+        gameEngine = new MinesweeperGameEngine(initiator, calculator);
+
+        this.inputService = inputService;
+        this.outputService = outputService;
+    }
 
     public void startGame() {
-        List<MinesweeperBoard> inputBoards = userInputService.getValidInput();
+        List<MineField> inputFields = inputService.getValidInput();
 
-        List<MinesweeperBoard> resultBoards = ruleEngine.processBoards(inputBoards);
+        List<MineField> resultFields = gameEngine.processAllFields(inputFields);
 
-        outputService.printBoards(resultBoards);
+        outputService.printResultFields(resultFields);
     }
 }

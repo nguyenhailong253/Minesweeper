@@ -1,42 +1,41 @@
 package com.myob.minesweeper.service.output;
 
-import com.myob.minesweeper.model.MinesweeperBoard;
+import com.myob.minesweeper.model.MineField;
 import com.myob.minesweeper.utils.Constants;
 
 import java.util.List;
 
 public class ConsoleOutputService implements IOutputService {
 
-    @Override
-    public void print(String message) {
+    private void print(String message) {
         System.out.println(message);
     }
 
     @Override
-    public void printBoards(List<MinesweeperBoard> resultBoards) {
+    public void printResultFields(List<MineField> resultFields) {
 
-        for (int boardIndex = 0; boardIndex < resultBoards.size(); boardIndex++) {
-            printBoardLabel(boardIndex);
+        for (int fieldIndex = 0; fieldIndex < resultFields.size(); fieldIndex++) {
+            printFieldLabel(fieldIndex);
 
-            MinesweeperBoard currentBoard = resultBoards.get(boardIndex);
-            printAllRows(currentBoard);
+            MineField currentField = resultFields.get(fieldIndex);
+            printAllRows(currentField);
             
             print(Constants.EMPTY_STRING);
         }
     }
 
-    private void printBoardLabel(int boardIndex) {
-        String boardNumber = Integer.toString(boardIndex + 1);
-        String boardLabel = "Field #".concat(boardNumber).concat(":");
-        print(boardLabel);
+    private void printFieldLabel(int fieldIndex) {
+        String fieldNumber = Integer.toString(fieldIndex + 1);
+        String fieldLabel = Constants.LABEL.concat(fieldNumber).concat(":");
+        print(fieldLabel);
     }
 
-    private void printAllRows(MinesweeperBoard board) {
-        int numOfRows = board.getRowDimension();
+    private void printAllRows(MineField field) {
+        int numOfRows = field.getRowDimension();
 
         for (int rowIndex = 0; rowIndex < numOfRows; rowIndex++) {
-            String[] arrayOfCharactersInRow = board.getRowValue(rowIndex);
-            String row = String.join(Constants.EMPTY_STRING, arrayOfCharactersInRow);
+            String[] arrayOfStringsInRow = field.getRowValue(rowIndex);
+            String row = String.join(Constants.EMPTY_STRING, arrayOfStringsInRow);
             print(row);
         }
     }

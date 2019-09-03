@@ -2,12 +2,14 @@ package com.myob.minesweeper.service.input;
 
 import com.myob.minesweeper.utils.Constants;
 
-public class UserInputValidator {
+public class ConsoleUserInputValidator implements IUserInputValidator {
 
-    public boolean validateInputHavingNumbersWithSpaceAsDelimiter(String inputDimension) {
-        return inputDimension.matches(Constants.VALID_BOARD_DIMENSION_PATTERN);
+    @Override
+    public boolean validateInputDimensionFormat(String inputDimension) {
+        return inputDimension.matches(Constants.VALID_FIELD_DIMENSION_PATTERN);
     }
 
+    @Override
     public boolean validateDimensionsInRange(int numRows, int numColumns) {
         if (numRows < Constants.MIN_FIELD_SIZE
                 || numRows > Constants.MAX_FIELD_SIZE
@@ -18,14 +20,16 @@ public class UserInputValidator {
         return true;
     }
 
+    @Override
     public boolean validateRowContent(String rowContent) {
-        String invalidSubString = rowContent.replaceAll(Constants.VALID_ROW_PATTERN, "");
+        String invalidSubString = rowContent.replaceAll(Constants.VALID_ROW_PATTERN, Constants.EMPTY_STRING);
         if (!invalidSubString.isEmpty() || rowContent.isEmpty()) {
             return false;
         }
         return true;
     }
 
+    @Override
     public boolean validateLengthOfRowInput(String rowInput, int givenDimension) {
         return rowInput.length() == givenDimension;
     }
