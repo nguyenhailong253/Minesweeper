@@ -262,4 +262,74 @@ public class ConsoleUserInputValidatorTest {
             Assert.assertFalse(rowLengthTooShort);
         }
     }
+
+    public static class TestValidateEndOfInputPattern {
+
+        // 3 numbers
+        // 1 number
+        // emtpy array
+
+        @Test
+        public void shouldReturnTrue_WhenReceiveArrayWith2Zeros() {
+            int[] twoZeros = new int[]{0,0};
+            boolean isEndOfInput= validator.validateEndOfInputPattern(twoZeros);
+            Assert.assertTrue(isEndOfInput);
+        }
+
+        @Test
+        public void shouldReturnFalse_WhenReceiveArrayWith2PositiveIntegers() {
+            int[] twoPositiveIntegers = new int[]{1, 100};
+            boolean isEndOfInput = validator.validateEndOfInputPattern(twoPositiveIntegers);
+            Assert.assertFalse(isEndOfInput);
+        }
+
+        @Test
+        public void shouldReturnFalse_WhenReceiveArrayWith1PositiveIntegerAnd1Zero() {
+            int[] positiveIntegerAndZero = new int[]{1, 0};
+            boolean isEndOfInput = validator.validateEndOfInputPattern(positiveIntegerAndZero);
+            Assert.assertFalse(isEndOfInput);
+        }
+
+        @Test
+        public void shouldReturnFalse_WhenReceiveArrayWith2NegativeIntegers() {
+            int[] twoNegativeIntegers = new int[]{-1, -100};
+            boolean isEndOfInput = validator.validateEndOfInputPattern(twoNegativeIntegers);
+            Assert.assertFalse(isEndOfInput);
+        }
+
+        @Test
+        public void shouldReturnFalse_WhenReceiveArrayWith1NegativeIntegerAnd1Zero() {
+            int[] negativeIntegerAndZero = new int[]{-1, 0};
+            boolean isEndOfInput = validator.validateEndOfInputPattern(negativeIntegerAndZero);
+            Assert.assertFalse(isEndOfInput);
+        }
+
+        @Test
+        public void shouldReturnFalse_WhenReceiveArrayWith1PositiveAnd1NegativeIntegers() {
+            int[] negativeAndPositiveInteger = new int[]{-1, 1};
+            boolean isEndOfInput = validator.validateEndOfInputPattern(negativeAndPositiveInteger);
+            Assert.assertFalse(isEndOfInput);
+        }
+
+        @Test
+        public void shouldReturnFalse_WhenReceiveArrayOfLength3() {
+            int[] threeIntegers = new int[]{0, 0, 10};
+            boolean isEndOfInput = validator.validateEndOfInputPattern(threeIntegers);
+            Assert.assertFalse(isEndOfInput);
+        }
+
+        @Test
+        public void shouldReturnFalse_WhenReceiveArrayOfLength1() {
+            int[] oneInteger = new int[]{0};
+            boolean isEndOfInput = validator.validateEndOfInputPattern(oneInteger);
+            Assert.assertFalse(isEndOfInput);
+        }
+
+        @Test
+        public void shouldReturnFalse_WhenReceiveEmptyArray() {
+            int[] emptyArray = new int[]{};
+            boolean isEndOfInput = validator.validateEndOfInputPattern(emptyArray);
+            Assert.assertFalse(isEndOfInput);
+        }
+    }
 }

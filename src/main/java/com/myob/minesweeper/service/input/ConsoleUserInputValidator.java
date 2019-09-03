@@ -2,6 +2,8 @@ package com.myob.minesweeper.service.input;
 
 import com.myob.minesweeper.utils.Constants;
 
+import java.util.Arrays;
+
 public class ConsoleUserInputValidator implements IUserInputValidator {
 
     @Override
@@ -32,5 +34,10 @@ public class ConsoleUserInputValidator implements IUserInputValidator {
     @Override
     public boolean validateLengthOfRowInput(String rowInput, int givenDimension) {
         return rowInput.length() == givenDimension;
+    }
+
+    @Override
+    public boolean validateEndOfInputPattern(int[] convertedUserInputDimension) {
+        return Arrays.equals(convertedUserInputDimension, Constants.END_OF_INPUT_VALUE_SET);
     }
 }

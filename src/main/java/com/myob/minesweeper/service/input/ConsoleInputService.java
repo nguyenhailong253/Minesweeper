@@ -25,10 +25,11 @@ public class ConsoleInputService implements IInputService {
 
         while (!endOfInput) {
             try {
-                MineField newEmptyField = createNewEmptyField();
-                if (isFieldDimensionZeroByZero(newEmptyField)) {
+                int[] newValidDimensions = getNewFieldDimensions();
+                if (validator.validateEndOfInputPattern(newValidDimensions)) {
                     endOfInput = true;
                 } else {
+                    MineField newEmptyField = new MineField(newValidDimensions);
                     MineField newFieldWithMines = plantMinesInNewField(newEmptyField);
                     validListOfFields.add(newFieldWithMines);
                 }
@@ -39,19 +40,19 @@ public class ConsoleInputService implements IInputService {
         return validListOfFields;
     }
 
-    private MineField createNewEmptyField() {
-        boolean gotNewField = false;
+    private int[] getNewFieldDimensions() {
+        boolean isDimensionValid = false;
         int[] userInputDimensions = new int[]{};
         System.out.println(Constants.INPUT_DIMENSION_PROMPT);
 
-        while (!gotNewField) {
+        while (!isDimensionValid) {
             String inputDimensions = parser.readUserInput();
             boolean validInputFormat = validator.validateInputDimensionFormat(inputDimensions);
 
             if (validInputFormat) {
                 userInputDimensions = converter.convertToNumericalDimensions(inputDimensions);
                 if (isDimensionWithinRange(userInputDimensions)) {
-                    gotNewField = true;
+                    isDimensionValid = true;
                 } else {
                     System.out.println(Constants.DIMENSION_OUT_OF_RANGE);
                 }
@@ -59,7 +60,7 @@ public class ConsoleInputService implements IInputService {
                 System.out.println(Constants.INVALID_DIMENSION_FORMAT);
             }
         }
-        return new MineField(userInputDimensions);
+        return userInputDimensions;
     }
 
     private MineField plantMinesInNewField(MineField field) {
@@ -88,10 +89,6 @@ public class ConsoleInputService implements IInputService {
         int numRows = dimensions[0];
         int numColumns = dimensions[1];
         return validator.validateDimensionsInRange(numRows, numColumns);
-    }
-
-    private boolean isFieldDimensionZeroByZero(MineField field) {
-        return field.getRowDimension() == 0 && field.getColumnDimension() == 0;
     }
 
     private boolean isInputRowValid(String inputRow, int rowSize) {
