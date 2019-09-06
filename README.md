@@ -10,13 +10,12 @@
 ## Demo
 
 ```
-
 Please input dimension to create a new mine field.
 It should be 2 numbers separated by a white space. Both dimensions need to be from 1 to 100.
 If you no longer wants to create new fields, type in 0 0
-
 4 4
-Please plant the mines for each row.
+
+Dimensions are valid. Please plant the mines for each row.
 Put '*' where you want the mine to be, '.' where there's no mine.
 No other characters are allowed.
 Please enter the correct number of characters (the dimension you specified - row of length 3 cannot have 4 or more characters or 2 or fewer characters; same with column)
@@ -29,20 +28,20 @@ Field is created
 Please input dimension to create a new mine field.
 It should be 2 numbers separated by a white space. Both dimensions need to be from 1 to 100.
 If you no longer wants to create new fields, type in 0 0
-
 3 1000
-Dimensions out of range
+Dimension out of range. Please re-enter dimension of your field
 hello world
-Invalid dimension format. Make sure there is only 1 space between 2 numbers
+Invalid dimension. Make sure you follow the format of 2 numbers being separated by 1 space. Please re-enter dimension of your field
 3 5
-Please plant the mines for each row.
+
+Dimensions are valid. Please plant the mines for each row.
 Put '*' where you want the mine to be, '.' where there's no mine.
 No other characters are allowed.
 Please enter the correct number of characters (the dimension you specified - row of length 3 cannot have 4 or more characters or 2 or fewer characters; same with column)
 **...
 .....
-..............
-Invalid characters or number of characters in a row
+....................
+Invalid characters or number of characters in a row. Please re-enter your row.
 .*...
 Field is created
 
@@ -63,7 +62,6 @@ Field #2:
 **100
 33200
 1*100
-
 ```
 
 ## Rules & Assumptions
