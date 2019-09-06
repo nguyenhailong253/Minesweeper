@@ -17,6 +17,7 @@ public class ResultService implements IResultService {
     @Override
     public void displayResultFields(List<MineField> resultFields) {
 
+        ioService.displayOutput(Constants.RESULTS_CALCULATED);
         for (int fieldIndex = 0; fieldIndex < resultFields.size(); fieldIndex++) {
             displayFieldLabel(fieldIndex);
 

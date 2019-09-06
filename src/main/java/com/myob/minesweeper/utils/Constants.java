@@ -13,15 +13,16 @@ public class Constants {
     public static final String INVALID_ROW_FORMAT = "Invalid characters or number of characters in a row. " +
             "Please re-enter your row.";
 
-    // Game rules
+    // Game rules + messages
     public static final String INPUT_DIMENSION_PROMPT = "Please input dimension to create a new mine field." +
             "\nIt should be 2 numbers separated by a white space. Both dimensions need to be from 1 to 100." +
             "\nIf you no longer wants to create new fields, type in " + Constants.END_OF_INPUT_PATTERN;
-    public static final String PLANT_MINE_PROMPT = "Please plant the mines for each row." +
+    public static final String PLANT_MINE_PROMPT = "Dimensions are valid. Please plant the mines for each row." +
             "\nPut '*' where you want the mine to be, '.' where there's no mine.\nNo other characters are allowed." +
             "\nPlease enter the correct number of characters (the dimension you specified - row of length 3 cannot have " +
             "4 or more characters or 2 or fewer characters; same with column)";
     public static final String FIELD_CREATED = "Field is created\n";
+    public static final String RESULTS_CALCULATED = "\nResults are calculated: \n";
 
     // Other utils
     public static final String LABEL = "Field #";
