@@ -11,9 +11,12 @@ import java.util.List;
 /* INTEGRATION TEST */
 public class MinesweeperGameEngineTest {
 
+<<<<<<< HEAD
+=======
     private static MineFieldInitiator initiator = new MineFieldInitiator();
     private static AdjacentMinesCalculator calculator = new AdjacentMinesCalculator();
     private static MinesweeperGameEngine gameEngine = new MinesweeperGameEngine(initiator, calculator);
+>>>>>>> master
     private static int[] firstFieldDimension = new int[]{3,5};
     private static int[] secondFieldDimension = new int[]{4,4};
     private static MineField inputFirstField;
@@ -67,7 +70,11 @@ public class MinesweeperGameEngineTest {
             resultFirstField.setFieldValue(resultFirstFieldValue);
             resultSecondField.setFieldValue(resultSecondFieldValue);
 
+<<<<<<< HEAD
+            List<MineField> actualResult = MinesweeperGameEngine.processAllFields(inputListOfFields);
+=======
             List<MineField> actualResult = gameEngine.processAllFields(inputListOfFields);
+>>>>>>> master
 
             Assert.assertEquals(expectedResultListOfFields, actualResult);
         }
@@ -77,7 +84,11 @@ public class MinesweeperGameEngineTest {
             List<MineField> inputEmptyList = new ArrayList<>();
             List<MineField> expectedEmptyList = new ArrayList<>();
 
+<<<<<<< HEAD
+            List<MineField> actualResultList = MinesweeperGameEngine.processAllFields(inputEmptyList);
+=======
             List<MineField> actualResultList = gameEngine.processAllFields(inputEmptyList);
+>>>>>>> master
 
             Assert.assertEquals(expectedEmptyList, actualResultList);
         }
@@ -98,7 +109,11 @@ public class MinesweeperGameEngineTest {
             resultFirstField.setFieldValue(inputFirstFieldValue);
             resultSecondField.setFieldValue(inputSecondFieldValue);
 
+<<<<<<< HEAD
+            List<MineField> actualResult = MinesweeperGameEngine.processAllFields(inputListOfFields);
+=======
             List<MineField> actualResult = gameEngine.processAllFields(inputListOfFields);
+>>>>>>> master
 
             Assert.assertEquals(expectedResultListOfFields, actualResult);
         }
@@ -129,7 +144,11 @@ public class MinesweeperGameEngineTest {
             resultFirstField.setFieldValue(resultFirstFieldValue);
             resultSecondField.setFieldValue(resultSecondFieldValue);
 
+<<<<<<< HEAD
+            List<MineField> actualResult = MinesweeperGameEngine.processAllFields(inputListOfFields);
+=======
             List<MineField> actualResult = gameEngine.processAllFields(inputListOfFields);
+>>>>>>> master
 
             Assert.assertEquals(expectedResultListOfFields, actualResult);
         }

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class AdjacentMinesCalculator {
 
-    public String calculateAdjacentMines(MineField field, int rowIndex, int columnIndex) {
+    public static String calculateAdjacentMines(MineField field, int rowIndex, int columnIndex) {
         int numOfMines = 0;
 
         List<Integer> adjacentRows = getAdjacentIndices(rowIndex, field.getRowDimension());
@@ -25,7 +25,7 @@ public class AdjacentMinesCalculator {
         return Integer.toString(numOfMines);
     }
 
-    private List<Integer> getAdjacentIndices(int currentIndex, int maxDimension) {
+    private static List<Integer> getAdjacentIndices(int currentIndex, int maxDimension) {
         List<Integer> adjacentIndices = new ArrayList<>();
         adjacentIndices.add(currentIndex);
         if (currentIndex - 1 >= 0) {

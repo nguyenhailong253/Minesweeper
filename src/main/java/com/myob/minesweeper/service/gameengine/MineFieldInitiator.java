@@ -5,7 +5,7 @@ import com.myob.minesweeper.utils.Constants;
 
 public class MineFieldInitiator {
 
-    public MineField initialiseField(MineField inputField) {
+    public static MineField initialiseField(MineField inputField) {
         int rowDimension = inputField.getRowDimension();
 
         for (int rowIndex = 0; rowIndex < rowDimension; rowIndex++) {
@@ -16,7 +16,7 @@ public class MineFieldInitiator {
         return inputField;
     }
 
-    private String[] initialiseRow(String[] currentRow) {
+    private static String[] initialiseRow(String[] currentRow) {
         for (int i = 0; i < currentRow.length; i++) {
             if (currentRow[i] != null && currentRow[i].equals(Constants.SAFE_SQUARE)) {
                 currentRow[i] = Constants.ZERO_STRING;
