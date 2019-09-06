@@ -1,6 +1,8 @@
-package com.myob.minesweeper.service.output;
+package com.myob.minesweeper.service.result;
 
 import com.myob.minesweeper.model.MineField;
+import com.myob.minesweeper.infrastructure.io.ConsoleIOService;
+import com.myob.minesweeper.infrastructure.io.IIOService;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -10,9 +12,10 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 
-public class ConsoleOutputServiceTest {
+public class ResultServiceTest {
 
-    private static IOutputService outputService = new ConsoleOutputService();
+    private static IIOService consoleIOService = new ConsoleIOService();
+    private static IResultService resultService = new ResultService(consoleIOService);
     private static int[] default2By2Dimension = new int[]{2,2};
     private static List<MineField> listOfTestFields = new ArrayList<>();
     private static PrintStream mockPrintStream = mock(PrintStream.class);
@@ -32,7 +35,7 @@ public class ConsoleOutputServiceTest {
 
         @Test
         public void shouldPrint1Field_WhenReceiveListWithOnlyHas1Field() {
-            outputService.printResultFields(listOfTestFields);
+            resultService.displayResultFields(listOfTestFields);
             verify(mockPrintStream).println("Field #1:");
             verify(mockPrintStream).println("*1");
             verify(mockPrintStream).println("11");
@@ -42,7 +45,7 @@ public class ConsoleOutputServiceTest {
         @Test
         public void shouldPrintNothing_WhenListIsEmpty() {
             List<MineField> newEmptyList = new ArrayList<>();
-            outputService.printResultFields(newEmptyList);
+            resultService.displayResultFields(newEmptyList);
             verify(mockPrintStream, times(0)).println("Field #1:");
         }
     }

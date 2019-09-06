@@ -5,5 +5,5 @@ import com.myob.minesweeper.model.MineField;
 import java.util.List;
 
 public interface IInputService {
-    public List<MineField> getValidInput();
+    List<MineField> getListOfNewMineFields();
 }

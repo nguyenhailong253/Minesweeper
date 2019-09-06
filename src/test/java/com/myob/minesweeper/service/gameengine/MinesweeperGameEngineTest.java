@@ -11,9 +11,6 @@ import java.util.List;
 /* INTEGRATION TEST */
 public class MinesweeperGameEngineTest {
 
-    private static MineFieldInitiator initiator = new MineFieldInitiator();
-    private static AdjacentMinesCalculator calculator = new AdjacentMinesCalculator();
-    private static MinesweeperGameEngine gameEngine = new MinesweeperGameEngine(initiator, calculator);
     private static int[] firstFieldDimension = new int[]{3,5};
     private static int[] secondFieldDimension = new int[]{4,4};
     private static MineField inputFirstField;
@@ -67,7 +64,7 @@ public class MinesweeperGameEngineTest {
             resultFirstField.setFieldValue(resultFirstFieldValue);
             resultSecondField.setFieldValue(resultSecondFieldValue);
 
-            List<MineField> actualResult = gameEngine.processAllFields(inputListOfFields);
+            List<MineField> actualResult = MinesweeperGameEngine.processAllFields(inputListOfFields);
 
             Assert.assertEquals(expectedResultListOfFields, actualResult);
         }
@@ -77,7 +74,7 @@ public class MinesweeperGameEngineTest {
             List<MineField> inputEmptyList = new ArrayList<>();
             List<MineField> expectedEmptyList = new ArrayList<>();
 
-            List<MineField> actualResultList = gameEngine.processAllFields(inputEmptyList);
+            List<MineField> actualResultList = MinesweeperGameEngine.processAllFields(inputEmptyList);
 
             Assert.assertEquals(expectedEmptyList, actualResultList);
         }
@@ -98,7 +95,7 @@ public class MinesweeperGameEngineTest {
             resultFirstField.setFieldValue(inputFirstFieldValue);
             resultSecondField.setFieldValue(inputSecondFieldValue);
 
-            List<MineField> actualResult = gameEngine.processAllFields(inputListOfFields);
+            List<MineField> actualResult = MinesweeperGameEngine.processAllFields(inputListOfFields);
 
             Assert.assertEquals(expectedResultListOfFields, actualResult);
         }
@@ -129,7 +126,7 @@ public class MinesweeperGameEngineTest {
             resultFirstField.setFieldValue(resultFirstFieldValue);
             resultSecondField.setFieldValue(resultSecondFieldValue);
 
-            List<MineField> actualResult = gameEngine.processAllFields(inputListOfFields);
+            List<MineField> actualResult = MinesweeperGameEngine.processAllFields(inputListOfFields);
 
             Assert.assertEquals(expectedResultListOfFields, actualResult);
         }

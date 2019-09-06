@@ -1,42 +1,45 @@
-package com.myob.minesweeper.service.output;
+package com.myob.minesweeper.service.result;
 
 import com.myob.minesweeper.model.MineField;
+import com.myob.minesweeper.infrastructure.io.IIOService;
 import com.myob.minesweeper.utils.Constants;
 
 import java.util.List;
 
-public class ConsoleOutputService implements IOutputService {
+public class ResultService implements IResultService {
 
-    private void print(String message) {
-        System.out.println(message);
+    private IIOService ioService;
+
+    public ResultService(IIOService ioService) {
+        this.ioService = ioService;
     }
 
     @Override
-    public void printResultFields(List<MineField> resultFields) {
+    public void displayResultFields(List<MineField> resultFields) {
 
         for (int fieldIndex = 0; fieldIndex < resultFields.size(); fieldIndex++) {
-            printFieldLabel(fieldIndex);
+            displayFieldLabel(fieldIndex);
 
             MineField currentField = resultFields.get(fieldIndex);
-            printAllRows(currentField);
+            displayAllRows(currentField);
             
-            print(Constants.EMPTY_STRING);
+            ioService.displayOutput(Constants.EMPTY_STRING);
         }
     }
 
-    private void printFieldLabel(int fieldIndex) {
+    private void displayFieldLabel(int fieldIndex) {
         String fieldNumber = Integer.toString(fieldIndex + 1);
         String fieldLabel = Constants.LABEL.concat(fieldNumber).concat(":");
-        print(fieldLabel);
+        ioService.displayOutput(fieldLabel);
     }
 
-    private void printAllRows(MineField field) {
+    private void displayAllRows(MineField field) {
         int numOfRows = field.getRowDimension();
 
         for (int rowIndex = 0; rowIndex < numOfRows; rowIndex++) {
             String[] arrayOfStringsInRow = field.getRowValue(rowIndex);
             String row = String.join(Constants.EMPTY_STRING, arrayOfStringsInRow);
-            print(row);
+            ioService.displayOutput(row);
         }
     }
 }

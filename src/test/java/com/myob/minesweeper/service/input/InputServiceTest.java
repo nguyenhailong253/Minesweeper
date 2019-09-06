@@ -1,6 +1,8 @@
 package com.myob.minesweeper.service.input;
 
 import com.myob.minesweeper.model.MineField;
+import com.myob.minesweeper.infrastructure.io.ConsoleIOService;
+import com.myob.minesweeper.infrastructure.io.IIOService;
 import com.myob.minesweeper.utils.Constants;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -13,12 +15,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /* INTEGRATION TEST */
-public class ConsoleInputServiceTest {
+public class InputServiceTest {
 
-    private static IUserInputConverter converter = new ConsoleUserInputConverter();
-    private static IUserInputValidator validator = new ConsoleUserInputValidator();
-    private static IUserInputParser mockParser = mock(ConsoleUserInputParser.class);
-    private static IInputService inputService = new ConsoleInputService(mockParser, validator, converter);
+    private static IIOService mockConsoleIOService = mock(ConsoleIOService.class);
+    private static IInputService inputService = new InputService(mockConsoleIOService);
     private static int[] default2By2Dimension = new int[]{2,2};
     private static MineField default2By2Field = new MineField(default2By2Dimension);
 
@@ -34,8 +34,8 @@ public class ConsoleInputServiceTest {
         public void shouldReturnEmptyList_GivenOnlyEndOfInputPattern() {
             List<MineField> expectedEmptyList = new ArrayList<>();
 
-            when(mockParser.readUserInput()).thenReturn(Constants.END_OF_INPUT_PATTERN);
-            List<MineField> actualList = inputService.getValidInput();
+            when(mockConsoleIOService.readUserInput()).thenReturn(Constants.END_OF_INPUT_PATTERN);
+            List<MineField> actualList = inputService.getListOfNewMineFields();
 
             Assert.assertEquals(expectedEmptyList, actualList);
         }
@@ -45,12 +45,12 @@ public class ConsoleInputServiceTest {
             List<MineField> expectedListOfFields = new ArrayList<>();
             expectedListOfFields.add(default2By2Field);
 
-            when(mockParser.readUserInput())
+            when(mockConsoleIOService.readUserInput())
                     .thenReturn("2 2")
                     .thenReturn("*.")
                     .thenReturn("..")
                     .thenReturn(Constants.END_OF_INPUT_PATTERN);
-            List<MineField> actualListOfFields = inputService.getValidInput();
+            List<MineField> actualListOfFields = inputService.getListOfNewMineFields();
 
             Assert.assertEquals(expectedListOfFields, actualListOfFields);
         }
@@ -60,13 +60,13 @@ public class ConsoleInputServiceTest {
             List<MineField> expectedListOfFields = new ArrayList<>();
             expectedListOfFields.add(default2By2Field);
 
-            when(mockParser.readUserInput())
+            when(mockConsoleIOService.readUserInput())
                     .thenReturn("this-is_1nvalid_dimension@!&*(")
                     .thenReturn("2 2")
                     .thenReturn("*.")
                     .thenReturn("..")
                     .thenReturn(Constants.END_OF_INPUT_PATTERN);
-            List<MineField> actualListOfFields = inputService.getValidInput();
+            List<MineField> actualListOfFields = inputService.getListOfNewMineFields();
 
             Assert.assertEquals(expectedListOfFields, actualListOfFields);
         }
@@ -76,13 +76,13 @@ public class ConsoleInputServiceTest {
             List<MineField> expectedListOfFields = new ArrayList<>();
             expectedListOfFields.add(default2By2Field);
 
-            when(mockParser.readUserInput())
+            when(mockConsoleIOService.readUserInput())
                     .thenReturn("1000 30000")
                     .thenReturn("2 2")
                     .thenReturn("*.")
                     .thenReturn("..")
                     .thenReturn(Constants.END_OF_INPUT_PATTERN);
-            List<MineField> actualListOfFields = inputService.getValidInput();
+            List<MineField> actualListOfFields = inputService.getListOfNewMineFields();
 
             Assert.assertEquals(expectedListOfFields, actualListOfFields);
         }
@@ -92,13 +92,13 @@ public class ConsoleInputServiceTest {
             List<MineField> expectedListOfFields = new ArrayList<>();
             expectedListOfFields.add(default2By2Field);
 
-            when(mockParser.readUserInput())
+            when(mockConsoleIOService.readUserInput())
                     .thenReturn("2 2")
                     .thenReturn("this-is_invalid@row(content)")
                     .thenReturn("*.")
                     .thenReturn("..")
                     .thenReturn(Constants.END_OF_INPUT_PATTERN);
-            List<MineField> actualListOfFields = inputService.getValidInput();
+            List<MineField> actualListOfFields = inputService.getListOfNewMineFields();
 
             Assert.assertEquals(expectedListOfFields, actualListOfFields);
         }
@@ -108,13 +108,13 @@ public class ConsoleInputServiceTest {
             List<MineField> expectedListOfFields = new ArrayList<>();
             expectedListOfFields.add(default2By2Field);
 
-            when(mockParser.readUserInput())
+            when(mockConsoleIOService.readUserInput())
                     .thenReturn("2 2")
                     .thenReturn("*.")
                     .thenReturn("..")
                     .thenReturn("..")
                     .thenReturn(Constants.END_OF_INPUT_PATTERN);
-            List<MineField> actualListOfFields = inputService.getValidInput();
+            List<MineField> actualListOfFields = inputService.getListOfNewMineFields();
 
             Assert.assertEquals(expectedListOfFields, actualListOfFields);
         }
