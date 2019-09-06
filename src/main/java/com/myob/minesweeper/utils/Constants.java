@@ -22,7 +22,6 @@ public class Constants {
             "\nPlease enter the correct number of characters (the dimension you specified - row of length 3 cannot have " +
             "4 or more characters or 2 or fewer characters; same with column)";
     public static final String FIELD_CREATED = "Field is created\n";
-    public static final String RESULT_FIELD_CALCULATED = "\nAll fields are calculated. Results: \n";
 
     // Other utils
     public static final String LABEL = "Field #";
