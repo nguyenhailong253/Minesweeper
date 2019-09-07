@@ -8,7 +8,7 @@ public class UserInputValidatorTest {
 
     public static class TestValidateStringInputWithRequiredPattern_GivenFieldDimensionPattern {
 
-        private static String validFieldDimensionPattern = Constants.VALID_FIELD_DIMENSION_PATTERN;
+        private String validFieldDimensionPattern = Constants.FIELD_DIMENSION_PATTERN;
 
         @Test
         public void shouldReturnTrue_WhenInputContains2NumbersSeparatedBy1WhiteSpace() {
@@ -85,7 +85,7 @@ public class UserInputValidatorTest {
 
     public static class TestValidateStringInputWithRequiredPattern_GivenRowPattern {
 
-        private static String validRowPattern = Constants.VALID_ROW_PATTERN;
+        private String validRowPattern = Constants.ROW_PATTERN;
 
         @Test
         public void shouldReturnTrue_WhenInputOnlyContainsAsterisks() {
@@ -174,8 +174,8 @@ public class UserInputValidatorTest {
 
     public static class TestValidateDimensionValuesInRange {
 
-        private static int MAX = Constants.MAX_FIELD_SIZE;
-        private static int MIN = Constants.MIN_FIELD_SIZE;
+        private int MAX = Constants.MAX_SIZE;
+        private int MIN = Constants.MIN_SIZE;
 
         @Test
         public void shouldReturnTrue_WhenRowsAndColumnsAreEqualTo100() {
@@ -279,7 +279,7 @@ public class UserInputValidatorTest {
 
     public static class TestValidateEndOfInputValues {
 
-        private static int[] requiredEndOfInputValues = Constants.END_OF_INPUT_VALUE_SET;
+        private int[] requiredEndOfInputValues = Constants.END_OF_INPUT_VALUE_SET;
 
         @Test
         public void shouldReturnTrue_WhenReceiveArrayWith2Zeros() {

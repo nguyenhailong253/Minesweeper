@@ -22,7 +22,7 @@ public class MinesweeperServiceTest {
     public static class TestStartGame {
 
         @Before
-        public void initialise() {
+        public void initialiseNewGameBeforeEachTest() {
             mockConsoleIOService = mock(ConsoleIOService.class);
             resultService = new ResultService(mockConsoleIOService);
             inputService = new InputService(mockConsoleIOService);
@@ -34,7 +34,7 @@ public class MinesweeperServiceTest {
             when(mockConsoleIOService.readUserInput())
                     .thenReturn("4 4", "*...", "....", ".*..", "....")
                     .thenReturn("3 5", "**...", ".....", ".*...")
-                    .thenReturn(Constants.END_OF_INPUT_PATTERN);
+                    .thenReturn(Constants.END_OF_INPUT_STRING);
             minesweeperService.startGame();
             verify(mockConsoleIOService).displayOutput("Field #1:");
             verify(mockConsoleIOService).displayOutput("*100");
@@ -52,7 +52,7 @@ public class MinesweeperServiceTest {
             when(mockConsoleIOService.readUserInput())
                     .thenReturn("1 1")
                     .thenReturn("*")
-                    .thenReturn(Constants.END_OF_INPUT_PATTERN);
+                    .thenReturn(Constants.END_OF_INPUT_STRING);
             minesweeperService.startGame();
             verify(mockConsoleIOService, times(2)).displayOutput(Constants.INPUT_DIMENSION_PROMPT);
         }
@@ -60,7 +60,7 @@ public class MinesweeperServiceTest {
         @Test
         public void shouldDisplayRulesOfInputDimensionOnce_WhenReceiveEndOfInputPatternAtTheStartOfTheGame() {
             when(mockConsoleIOService.readUserInput())
-                    .thenReturn(Constants.END_OF_INPUT_PATTERN);
+                    .thenReturn(Constants.END_OF_INPUT_STRING);
             minesweeperService.startGame();
             verify(mockConsoleIOService, times(1)).displayOutput(Constants.INPUT_DIMENSION_PROMPT);
         }
@@ -71,7 +71,7 @@ public class MinesweeperServiceTest {
                     .thenReturn("1 1")
                     .thenReturn(Constants.PLANT_MINE_PROMPT)
                     .thenReturn("*")
-                    .thenReturn(Constants.END_OF_INPUT_PATTERN);
+                    .thenReturn(Constants.END_OF_INPUT_STRING);
             minesweeperService.startGame();
             verify(mockConsoleIOService).displayOutput(Constants.PLANT_MINE_PROMPT);
         }
@@ -80,7 +80,7 @@ public class MinesweeperServiceTest {
         public void shouldDisplayIncorrectDimensionFormatMessage_WhenReceiveIncorrectInputDimensionFormat() {
             when(mockConsoleIOService.readUserInput())
                     .thenReturn("12,34")
-                    .thenReturn(Constants.END_OF_INPUT_PATTERN);
+                    .thenReturn(Constants.END_OF_INPUT_STRING);
             minesweeperService.startGame();
             verify(mockConsoleIOService).displayOutput(Constants.INVALID_INPUT_DIMENSION);
         }
@@ -89,7 +89,7 @@ public class MinesweeperServiceTest {
         public void shouldDisplayDimensionOutOfRangeMessage_WhenInputDimensionIsOutOfRequiredRange() {
             when(mockConsoleIOService.readUserInput())
                     .thenReturn("1200 900")
-                    .thenReturn(Constants.END_OF_INPUT_PATTERN);
+                    .thenReturn(Constants.END_OF_INPUT_STRING);
             minesweeperService.startGame();
             verify(mockConsoleIOService).displayOutput(Constants.DIMENSION_OUT_OF_RANGE);
         }
@@ -100,7 +100,7 @@ public class MinesweeperServiceTest {
                     .thenReturn("1 1")
                     .thenReturn("./;****")
                     .thenReturn(".")
-                    .thenReturn(Constants.END_OF_INPUT_PATTERN);
+                    .thenReturn(Constants.END_OF_INPUT_STRING);
             minesweeperService.startGame();
             verify(mockConsoleIOService).displayOutput(Constants.INVALID_ROW_FORMAT);
         }

@@ -23,7 +23,7 @@ public class MinesweeperGameEngineTest {
     public static class ProcessMineFieldTest {
 
         @Before
-        public void initialise() {
+        public void initialiseNewListsBeforeEachTest() {
             inputFirstField = new MineField(firstFieldDimension);
             inputSecondField = new MineField(secondFieldDimension);
             resultFirstField = new MineField(firstFieldDimension);

@@ -15,7 +15,7 @@ public class AdjacentMinesCalculatorTest {
     public static class TestCalculateAdjacentMines {
 
         @BeforeClass
-        public static void initialise() {
+        public static void initialiseTestingInputBeforeAllTests() {
             String[][] fieldValues = new String[][]{
                     {"0", "0", "0", "0", "0"},
                     {"0", "0", "0", "0", "0"},

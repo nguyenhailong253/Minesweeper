@@ -23,7 +23,7 @@ public class ResultServiceTest {
     public static class TestPrintFields {
 
         @BeforeClass
-        public static void initialise() {
+        public static void initialiseSampleListBeforeAllTests() {
             System.setOut(mockPrintStream);
 
             MineField test2By2Field = new MineField(default2By2Dimension);

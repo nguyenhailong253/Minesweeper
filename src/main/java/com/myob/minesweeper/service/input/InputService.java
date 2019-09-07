@@ -24,10 +24,10 @@ public class InputService implements IInputService {
             try {
                 ioService.displayOutput(Constants.INPUT_DIMENSION_PROMPT);
                 int[] newValidDimensions = getNewFieldDimension();
-                if (UserInputValidator.validateEndOfInputValues(newValidDimensions, Constants.END_OF_INPUT_VALUE_SET)) {
+                if (isEndOfInput(newValidDimensions, Constants.END_OF_INPUT_VALUE_SET)) {
                     endOfInput = true;
                 } else {
-                    String[][] newValidFieldValue = getValidFieldValue(newValidDimensions);
+                    String[][] newValidFieldValue = getNewFieldValue(newValidDimensions);
                     MineField newFieldWithMines = createNewFieldWithMines(newValidDimensions, newValidFieldValue);
                     validListOfFields.add(newFieldWithMines);
                 }
@@ -46,15 +46,13 @@ public class InputService implements IInputService {
 
     private int[] getNewFieldDimension() {
         String inputDimensions = ioService.readUserInput();
-        boolean validInputFormat = UserInputValidator
-                .validateStringInputWithRequiredPattern(inputDimensions, Constants.VALID_FIELD_DIMENSION_PATTERN);
 
-        if (validInputFormat) {
+        if (isInputDimensionValid(inputDimensions, Constants.FIELD_DIMENSION_PATTERN)) {
             String[] splitInput = UserInputConverter
                     .splitStringToArray(inputDimensions, Constants.WHITESPACE_DELIMITER, Constants.REQUIRED_LENGTH);
             int[] userInputDimensions = UserInputConverter.convertStringToIntegerArray(splitInput);
 
-            if (isDimensionWithinRange(userInputDimensions)) {
+            if (isDimensionWithinRange(userInputDimensions, Constants.MIN_SIZE, Constants.MAX_SIZE)) {
                 return userInputDimensions;
 
             } else {
@@ -66,36 +64,47 @@ public class InputService implements IInputService {
         return getNewFieldDimension();
     }
 
-    private String[][] getValidFieldValue(int[] fieldDimensions) {
+    private String[][] getNewFieldValue(int[] fieldDimensions) {
         ioService.displayOutput(Constants.PLANT_MINE_PROMPT);
 
         int numRows = fieldDimensions[0];
         int numColumns = fieldDimensions[1];
-        int inputRowCounter = 0;
-        String[][] validFieldContent = new String[numRows][numColumns];
+        String[][] validFieldValue = new String[numRows][numColumns];
 
-        while (inputRowCounter != numRows) {
-            String inputRow = ioService.readUserInput();
-
-            if (isInputRowValid(inputRow, numColumns)) {
-                String[] arrayOfUserInput = inputRow.split(Constants.EMPTY_STRING);
-                validFieldContent[inputRowCounter] = arrayOfUserInput;
-                inputRowCounter += 1;
-            } else {
-                ioService.displayOutput(Constants.INVALID_ROW_FORMAT);
-            }
+        for (int rowIndex = 0; rowIndex < numRows; rowIndex++) {
+            validFieldValue[rowIndex] = getValidRowValue(numColumns);
         }
         ioService.displayOutput(Constants.FIELD_CREATED);
-        return validFieldContent;
+        return validFieldValue;
     }
 
-    private boolean isDimensionWithinRange(int[] dimensions) {
-        return UserInputValidator.validateDimensionValuesInRange(dimensions, Constants.MIN_FIELD_SIZE, Constants.MAX_FIELD_SIZE);
+    private String[] getValidRowValue(int rowLength) {
+        String inputRow = ioService.readUserInput();
+
+        if (isRowContentValid(inputRow, Constants.ROW_PATTERN) && isRowLengthValid(inputRow, rowLength)) {
+            return inputRow.split(Constants.EMPTY_STRING);
+        }
+        ioService.displayOutput(Constants.INVALID_ROW_FORMAT);
+        return getValidRowValue(rowLength);
     }
 
-    private boolean isInputRowValid(String inputRow, int rowSize) {
-        boolean rowContentIsValid = UserInputValidator.validateStringInputWithRequiredPattern(inputRow, Constants.VALID_ROW_PATTERN);
-        boolean rowLengthIsValid = UserInputValidator.validateLengthOfRowInput(inputRow, rowSize);
-        return rowContentIsValid && rowLengthIsValid;
+    private boolean isEndOfInput(int[] inputDimensions, int[] endOfInputValues) {
+        return UserInputValidator.validateEndOfInputValues(inputDimensions, endOfInputValues);
+    }
+
+    private boolean isInputDimensionValid(String inputDimension, String validPattern) {
+        return UserInputValidator.validateStringInputWithRequiredPattern(inputDimension, validPattern);
+    }
+
+    private boolean isDimensionWithinRange(int[] dimensions, int min, int max) {
+        return UserInputValidator.validateDimensionValuesInRange(dimensions, min, max);
+    }
+
+    private boolean isRowContentValid(String inputRow, String pattern) {
+        return UserInputValidator.validateStringInputWithRequiredPattern(inputRow, pattern);
+    }
+
+    private boolean isRowLengthValid(String inputRow, int rowLength) {
+        return UserInputValidator.validateLengthOfRowInput(inputRow, rowLength);
     }
 }

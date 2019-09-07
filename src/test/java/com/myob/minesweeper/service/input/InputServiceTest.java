@@ -25,7 +25,7 @@ public class InputServiceTest {
     public static class TestGetValidInput {
 
         @BeforeClass
-        public static void initialise() {
+        public static void initialiseDefaultAnswerBeforeAllTests() {
             String[][] defaultFieldValue = new String[][]{{"*", "."}, {".", "."}};
             default2By2Field.setFieldValue(defaultFieldValue);
         }
@@ -34,7 +34,7 @@ public class InputServiceTest {
         public void shouldReturnEmptyList_GivenOnlyEndOfInputPattern() {
             List<MineField> expectedEmptyList = new ArrayList<>();
 
-            when(mockConsoleIOService.readUserInput()).thenReturn(Constants.END_OF_INPUT_PATTERN);
+            when(mockConsoleIOService.readUserInput()).thenReturn(Constants.END_OF_INPUT_STRING);
             List<MineField> actualList = inputService.getListOfNewMineFields();
 
             Assert.assertEquals(expectedEmptyList, actualList);
@@ -49,7 +49,7 @@ public class InputServiceTest {
                     .thenReturn("2 2")
                     .thenReturn("*.")
                     .thenReturn("..")
-                    .thenReturn(Constants.END_OF_INPUT_PATTERN);
+                    .thenReturn(Constants.END_OF_INPUT_STRING);
             List<MineField> actualListOfFields = inputService.getListOfNewMineFields();
 
             Assert.assertEquals(expectedListOfFields, actualListOfFields);
@@ -65,7 +65,7 @@ public class InputServiceTest {
                     .thenReturn("2 2")
                     .thenReturn("*.")
                     .thenReturn("..")
-                    .thenReturn(Constants.END_OF_INPUT_PATTERN);
+                    .thenReturn(Constants.END_OF_INPUT_STRING);
             List<MineField> actualListOfFields = inputService.getListOfNewMineFields();
 
             Assert.assertEquals(expectedListOfFields, actualListOfFields);
@@ -81,7 +81,7 @@ public class InputServiceTest {
                     .thenReturn("2 2")
                     .thenReturn("*.")
                     .thenReturn("..")
-                    .thenReturn(Constants.END_OF_INPUT_PATTERN);
+                    .thenReturn(Constants.END_OF_INPUT_STRING);
             List<MineField> actualListOfFields = inputService.getListOfNewMineFields();
 
             Assert.assertEquals(expectedListOfFields, actualListOfFields);
@@ -97,7 +97,7 @@ public class InputServiceTest {
                     .thenReturn("this-is_invalid@row(content)")
                     .thenReturn("*.")
                     .thenReturn("..")
-                    .thenReturn(Constants.END_OF_INPUT_PATTERN);
+                    .thenReturn(Constants.END_OF_INPUT_STRING);
             List<MineField> actualListOfFields = inputService.getListOfNewMineFields();
 
             Assert.assertEquals(expectedListOfFields, actualListOfFields);
@@ -113,7 +113,7 @@ public class InputServiceTest {
                     .thenReturn("*.")
                     .thenReturn("..")
                     .thenReturn("..")
-                    .thenReturn(Constants.END_OF_INPUT_PATTERN);
+                    .thenReturn(Constants.END_OF_INPUT_STRING);
             List<MineField> actualListOfFields = inputService.getListOfNewMineFields();
 
             Assert.assertEquals(expectedListOfFields, actualListOfFields);

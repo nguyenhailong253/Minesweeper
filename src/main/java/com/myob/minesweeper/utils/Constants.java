@@ -15,8 +15,9 @@ public class Constants {
 
     // Game rules + messages
     public static final String INPUT_DIMENSION_PROMPT = "Please input dimension to create a new mine field." +
-            "\nIt should be 2 numbers separated by a white space. Both dimensions need to be from 1 to 100." +
-            "\nIf you no longer wants to create new fields, type in " + Constants.END_OF_INPUT_PATTERN;
+            "\nIt should be 2 numbers separated by a white space. Both dimensions need to be from " +
+            Constants.MIN_SIZE + " to " + Constants.MAX_SIZE + "." +
+            "\nIf you no longer wants to create new fields, type in " + Constants.END_OF_INPUT_STRING;
     public static final String PLANT_MINE_PROMPT = "\nDimensions are valid. Please plant the mines for each row." +
             "\nPut '*' where you want the mine to be, '.' where there's no mine.\nNo other characters are allowed." +
             "\nPlease enter the correct number of characters (the dimension you specified - row of length 3 cannot have " +
@@ -27,15 +28,15 @@ public class Constants {
     // Other utils
     public static final String LABEL = "Field #";
     public static final String ZERO_STRING = "0";
-    public static final String VALID_FIELD_DIMENSION_PATTERN = "[0-9]{1,}\\s[0-9]{1,}";
-    public static final String VALID_ROW_PATTERN = "[\\*\\.]+";
+    public static final String FIELD_DIMENSION_PATTERN = "[0-9]{1,}\\s[0-9]{1,}";
+    public static final String ROW_PATTERN = "[\\*\\.]+";
     public static final String WHITESPACE_DELIMITER = "\\s";
     public static final String MINE_SQUARE = "*";
     public static final String SAFE_SQUARE = ".";
-    public static final String END_OF_INPUT_PATTERN = "0 0";
+    public static final String END_OF_INPUT_STRING = "0 0";
     public static final String EMPTY_STRING = "";
-    public static final int MAX_FIELD_SIZE = 100;
-    public static final int MIN_FIELD_SIZE = 0;
+    public static final int MAX_SIZE = 100;
+    public static final int MIN_SIZE = 0;
     public static final int REQUIRED_LENGTH = 2;
     public static final int[] END_OF_INPUT_VALUE_SET = {0, 0};
 }
