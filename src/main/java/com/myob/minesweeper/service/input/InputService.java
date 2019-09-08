@@ -38,12 +38,6 @@ public class InputService implements IInputService {
         return validListOfFields;
     }
 
-    private MineField createNewFieldWithMines(int[] fieldDimensions, String[][] fieldValue) {
-        MineField newFieldWithMines = new MineField(fieldDimensions);
-        newFieldWithMines.setFieldValue(fieldValue);
-        return newFieldWithMines;
-    }
-
     private int[] getNewFieldDimension() {
         String inputDimensions = ioService.readUserInput();
 
@@ -86,6 +80,12 @@ public class InputService implements IInputService {
         }
         ioService.displayOutput(Constants.INVALID_ROW_FORMAT);
         return getValidRowValue(rowLength);
+    }
+
+    private MineField createNewFieldWithMines(int[] fieldDimensions, String[][] fieldValue) {
+        MineField newFieldWithMines = new MineField(fieldDimensions);
+        newFieldWithMines.setFieldValue(fieldValue);
+        return newFieldWithMines;
     }
 
     private boolean isEndOfInput(int[] inputDimensions, int[] endOfInputValues) {
