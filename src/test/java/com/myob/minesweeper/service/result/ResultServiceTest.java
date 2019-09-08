@@ -34,7 +34,7 @@ public class ResultServiceTest {
         }
 
         @Test
-        public void shouldPrint1Field_WhenReceiveListWithOnlyHas1Field() {
+        public void shouldPrint1Field_WhenReceiveListWithOnly1Field() {
             resultService.displayResultFields(listOfTestFields);
             verify(mockPrintStream).println("Field #1:");
             verify(mockPrintStream).println("*1");

@@ -9,8 +9,8 @@ import org.junit.Test;
 public class UserInputConverterTest {
 
     public static class TestSplitStringToArray {
-        private static String delimiter = Constants.WHITESPACE_DELIMITER;
-        private static int requiredLength = Constants.REQUIRED_LENGTH;
+        private String delimiter = Constants.WHITESPACE_DELIMITER;
+        private int requiredLength = Constants.REQUIRED_LENGTH;
 
         @Test
         public void shouldReturnArrayOf2Integers_WhenReceiveStringArrayOf2Integers() {
