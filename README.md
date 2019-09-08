@@ -70,16 +70,19 @@ Field #2:
 - First line of input has to be dimensions of the field
 - Dimensions should be in the format of 2 numbers (row, column) separated by ONE white space. i.e "5 5"
 - 0 <= row, column <= 100
-- To stop creating new field, enter "0 0"
 - Any invalid input will be ignored and player will be asked to re-enter the input
 
-### Content of Field
+### Value of Field
 - Must only include 2 kinds of characters: "*" represents a mine square, "." represents a safe square
 - Number of squares for each row must match exactly the dimension specified
 - Any invalid input will be ignored and player will be asked to re-enter the input
 
 ### Adjacent squares
 - Adjacent here means within 1 square distance
+
+### End of input
+- When users do not want to input new fields anymore, type in "0 0".
+- Users can only type that when being asked for dimensions of field, cannot type "0 0" while entering field value
 
 ## Requirements
 - IntelliJ IDEA Ultimate 2019.2
