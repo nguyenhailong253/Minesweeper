@@ -50,11 +50,12 @@ public class InputService implements IInputService {
             if (isInputDimensionValid(inputDimensions, Constants.FIELD_DIMENSION_PATTERN)) {
                 String[] splitInput = UserInputConverter
                         .splitStringToArray(inputDimensions, Constants.WHITESPACE_DELIMITER, Constants.REQUIRED_LENGTH);
+
                 userInputDimensions = UserInputConverter.convertStringToIntegerArray(splitInput);
 
-                if (isDimensionWithinRange(userInputDimensions, Constants.MIN_SIZE, Constants.MAX_SIZE)) {
-                    isValidDimension = true;
-                } else {
+                isValidDimension = isDimensionWithinRange(userInputDimensions, Constants.MIN_SIZE, Constants.MAX_SIZE);
+
+                if (!isValidDimension) {
                     ioService.displayOutput(Constants.DIMENSION_OUT_OF_RANGE);
                 }
             } else {
@@ -90,6 +91,7 @@ public class InputService implements IInputService {
     private String[] getValidRowValue(int rowLength) {
         boolean isRowValid = false;
         String[] rowValues = new String[rowLength];
+
         while (!isRowValid) {
             String inputRow = ioService.readUserInput();
             isRowValid = isRowContentValid(inputRow, Constants.ROW_PATTERN)
