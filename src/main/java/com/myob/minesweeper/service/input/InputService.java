@@ -27,8 +27,10 @@ public class InputService implements IInputService {
                 if (isEndOfInput(newValidDimensions, Constants.END_OF_INPUT_VALUE_SET)) {
                     endOfInput = true;
                 } else {
-                    String[][] newValidFieldValue = getNewFieldValue(newValidDimensions);
-                    MineField newFieldWithMines = createNewFieldWithMines(newValidDimensions, newValidFieldValue);
+                    int numRows = newValidDimensions[0];
+                    int numColumns = newValidDimensions[1];
+
+                    MineField newFieldWithMines = createNewField(numRows, numColumns);
                     validListOfFields.add(newFieldWithMines);
                 }
             } catch (Exception e) {
@@ -39,53 +41,67 @@ public class InputService implements IInputService {
     }
 
     private int[] getNewFieldDimension() {
-        String inputDimensions = ioService.readUserInput();
+        boolean isValidDimension = false;
+        int[] userInputDimensions = new int[]{};
 
-        if (isInputDimensionValid(inputDimensions, Constants.FIELD_DIMENSION_PATTERN)) {
-            String[] splitInput = UserInputConverter
-                    .splitStringToArray(inputDimensions, Constants.WHITESPACE_DELIMITER, Constants.REQUIRED_LENGTH);
-            int[] userInputDimensions = UserInputConverter.convertStringToIntegerArray(splitInput);
+        while (!isValidDimension) {
+            String inputDimensions = ioService.readUserInput();
 
-            if (isDimensionWithinRange(userInputDimensions, Constants.MIN_SIZE, Constants.MAX_SIZE)) {
-                return userInputDimensions;
+            if (isInputDimensionValid(inputDimensions, Constants.FIELD_DIMENSION_PATTERN)) {
+                String[] splitInput = UserInputConverter
+                        .splitStringToArray(inputDimensions, Constants.WHITESPACE_DELIMITER, Constants.REQUIRED_LENGTH);
+                userInputDimensions = UserInputConverter.convertStringToIntegerArray(splitInput);
 
+                if (isDimensionWithinRange(userInputDimensions, Constants.MIN_SIZE, Constants.MAX_SIZE)) {
+                    isValidDimension = true;
+                } else {
+                    ioService.displayOutput(Constants.DIMENSION_OUT_OF_RANGE);
+                }
             } else {
-                ioService.displayOutput(Constants.DIMENSION_OUT_OF_RANGE);
+                ioService.displayOutput(Constants.INVALID_INPUT_DIMENSION);
             }
-        } else {
-            ioService.displayOutput(Constants.INVALID_INPUT_DIMENSION);
         }
-        return getNewFieldDimension();
+
+        return userInputDimensions;
     }
 
-    private String[][] getNewFieldValue(int[] fieldDimensions) {
+    private MineField createNewField(int numRows, int numColumns) {
+        MineField newFieldWithMines = new MineField(numRows, numColumns);
+
+        String[][] newValidFieldValue = getNewFieldValue(numRows, numColumns);
+        newFieldWithMines.setFieldValue(newValidFieldValue);
+
+        return newFieldWithMines;
+    }
+
+    private String[][] getNewFieldValue(int numRows, int numColumns) {
         ioService.displayOutput(Constants.PLANT_MINE_PROMPT);
 
-        int numRows = fieldDimensions[0];
-        int numColumns = fieldDimensions[1];
         String[][] validFieldValue = new String[numRows][numColumns];
 
         for (int rowIndex = 0; rowIndex < numRows; rowIndex++) {
             validFieldValue[rowIndex] = getValidRowValue(numColumns);
         }
+
         ioService.displayOutput(Constants.FIELD_CREATED);
         return validFieldValue;
     }
 
     private String[] getValidRowValue(int rowLength) {
-        String inputRow = ioService.readUserInput();
+        boolean isRowValid = false;
+        String[] rowValues = new String[rowLength];
+        while (!isRowValid) {
+            String inputRow = ioService.readUserInput();
+            isRowValid = isRowContentValid(inputRow, Constants.ROW_PATTERN)
+                    && isRowLengthValid(inputRow, rowLength);
 
-        if (isRowContentValid(inputRow, Constants.ROW_PATTERN) && isRowLengthValid(inputRow, rowLength)) {
-            return inputRow.split(Constants.EMPTY_STRING);
+            if (isRowValid) {
+                rowValues = inputRow.split(Constants.EMPTY_STRING);
+            } else {
+                ioService.displayOutput(Constants.INVALID_ROW_FORMAT);
+            }
         }
-        ioService.displayOutput(Constants.INVALID_ROW_FORMAT);
-        return getValidRowValue(rowLength);
-    }
-
-    private MineField createNewFieldWithMines(int[] fieldDimensions, String[][] fieldValue) {
-        MineField newFieldWithMines = new MineField(fieldDimensions);
-        newFieldWithMines.setFieldValue(fieldValue);
-        return newFieldWithMines;
+        return rowValues;
     }
 
     private boolean isEndOfInput(int[] inputDimensions, int[] endOfInputValues) {

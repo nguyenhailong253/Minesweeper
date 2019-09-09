@@ -14,6 +14,12 @@ public class MineField {
         createEmptyField();
     }
 
+    public MineField(int numRows, int numColumns) {
+        rowDimension = numRows;
+        columnDimension = numColumns;
+        createEmptyField();
+    }
+
     private void createDimensions(int[] input2Dimensions) {
         rowDimension = input2Dimensions[0];
         columnDimension = input2Dimensions[1];
