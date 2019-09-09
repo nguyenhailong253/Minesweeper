@@ -18,22 +18,23 @@ public class MinesweeperGameEngine {
         return resultFields;
     }
 
-    private static MineField processSingleField(MineField inputField) {
-        MineField resultField = MineFieldInitiator.initialiseField(inputField);
+    private static MineField processSingleField(MineField field) {
+//        MineField resultField = MineFieldInitiator.initialiseField(inputField);
+        field.initialiseField();
 
-        int rowDimension = resultField.getRowDimension();
-        int columnDimension = resultField.getColumnDimension();
+        int rowDimension = field.getRowDimension();
+        int columnDimension = field.getColumnDimension();
 
         for (int rowIndex = 0; rowIndex < rowDimension; rowIndex++) {
             for (int columnIndex = 0; columnIndex < columnDimension; columnIndex++) {
-                String currentSquareValue = resultField.getSquareValue(rowIndex, columnIndex);
+                String currentSquareValue = field.getSquareValue(rowIndex, columnIndex);
 
                 if (!currentSquareValue.equals(Constants.MINE_SQUARE)) {
-                    String processedSquare = AdjacentMinesCalculator.calculateAdjacentMines(inputField, rowIndex, columnIndex);
-                    resultField.setSquareValue(processedSquare, rowIndex, columnIndex);
+                    String processedSquare = AdjacentMinesCalculator.calculateAdjacentMines(field, rowIndex, columnIndex);
+                    field.setSquareValue(processedSquare, rowIndex, columnIndex);
                 }
             }
         }
-        return resultField;
+        return field;
     }
 }

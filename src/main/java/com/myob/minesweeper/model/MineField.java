@@ -1,5 +1,7 @@
 package com.myob.minesweeper.model;
 
+import com.myob.minesweeper.utils.Constants;
+
 import java.util.Arrays;
 
 public class MineField {
@@ -67,5 +69,16 @@ public class MineField {
 
     public void setSquareValue(String newSquareValue, int rowIndex, int colIndex) {
         fieldValue[rowIndex][colIndex] = newSquareValue;
+    }
+
+    public MineField initialiseField() {
+        for (int rowIndex = 0; rowIndex < rowDimension; rowIndex++) {
+            for (int columnIndex = 0; columnIndex < columnDimension; columnIndex++) {
+                if (fieldValue[rowIndex][columnIndex] != null && fieldValue[rowIndex][columnIndex].equals(Constants.SAFE_SQUARE)) {
+                    fieldValue[rowIndex][columnIndex] = Constants.ZERO_STRING;
+                }
+            }
+        }
+        return this;
     }
 }
