@@ -1,4 +1,4 @@
-package com.myob.minesweeper.unit.model;
+package com.myob.minesweeper.model;
 
 import java.util.Arrays;
 

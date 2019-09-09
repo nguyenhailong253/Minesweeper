@@ -1,6 +1,6 @@
-package com.myob.minesweeper.unit.service.result;
+package com.myob.minesweeper.service.result;
 
-import com.myob.minesweeper.unit.model.MineField;
+import com.myob.minesweeper.model.MineField;
 import com.myob.minesweeper.infrastructure.io.IIOService;
 import com.myob.minesweeper.utils.Constants;
 

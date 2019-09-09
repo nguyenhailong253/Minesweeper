@@ -1,4 +1,4 @@
-package com.myob.minesweeper.unit.service.input;
+package com.myob.minesweeper.service.input;
 
 import java.util.Arrays;
 

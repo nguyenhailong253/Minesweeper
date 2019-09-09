@@ -2,11 +2,11 @@ package com.myob.minesweeper.integration;
 
 import com.myob.minesweeper.infrastructure.io.ConsoleIOService;
 import com.myob.minesweeper.infrastructure.io.IIOService;
-import com.myob.minesweeper.unit.service.application.MinesweeperService;
-import com.myob.minesweeper.unit.service.input.IInputService;
-import com.myob.minesweeper.unit.service.input.InputService;
-import com.myob.minesweeper.unit.service.result.IResultService;
-import com.myob.minesweeper.unit.service.result.ResultService;
+import com.myob.minesweeper.service.application.MinesweeperService;
+import com.myob.minesweeper.service.input.IInputService;
+import com.myob.minesweeper.service.input.InputService;
+import com.myob.minesweeper.service.result.IResultService;
+import com.myob.minesweeper.service.result.ResultService;
 import com.myob.minesweeper.utils.Constants;
 import org.junit.Before;
 import org.junit.Test;

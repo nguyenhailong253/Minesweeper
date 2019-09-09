@@ -1,4 +1,4 @@
-package com.myob.minesweeper.unit.service.input;
+package com.myob.minesweeper.service.input;
 
 import com.myob.minesweeper.exception.InvalidNumberOfInputDimensionException;
 import com.myob.minesweeper.exception.StringToNumberConversionException;

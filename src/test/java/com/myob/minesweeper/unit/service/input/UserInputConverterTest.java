@@ -2,6 +2,7 @@ package com.myob.minesweeper.unit.service.input;
 
 import com.myob.minesweeper.exception.InvalidNumberOfInputDimensionException;
 import com.myob.minesweeper.exception.StringToNumberConversionException;
+import com.myob.minesweeper.service.input.UserInputConverter;
 import com.myob.minesweeper.utils.Constants;
 import org.junit.Assert;
 import org.junit.Test;

@@ -1,6 +1,6 @@
-package com.myob.minesweeper.unit.service.gameengine;
+package com.myob.minesweeper.service.gameengine;
 
-import com.myob.minesweeper.unit.model.MineField;
+import com.myob.minesweeper.model.MineField;
 import com.myob.minesweeper.utils.Constants;
 
 import java.util.ArrayList;

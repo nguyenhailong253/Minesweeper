@@ -1,6 +1,7 @@
 package com.myob.minesweeper.unit.service.gameengine;
 
-import com.myob.minesweeper.unit.model.MineField;
+import com.myob.minesweeper.model.MineField;
+import com.myob.minesweeper.service.gameengine.MineFieldInitiator;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

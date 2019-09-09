@@ -1,9 +1,9 @@
-package com.myob.minesweeper.unit.service.application;
+package com.myob.minesweeper.service.application;
 
-import com.myob.minesweeper.unit.model.MineField;
-import com.myob.minesweeper.unit.service.gameengine.MinesweeperGameEngine;
-import com.myob.minesweeper.unit.service.input.IInputService;
-import com.myob.minesweeper.unit.service.result.IResultService;
+import com.myob.minesweeper.model.MineField;
+import com.myob.minesweeper.service.gameengine.MinesweeperGameEngine;
+import com.myob.minesweeper.service.input.IInputService;
+import com.myob.minesweeper.service.result.IResultService;
 
 import java.util.List;
 

@@ -1,5 +1,6 @@
 package com.myob.minesweeper.unit.service.input;
 
+import com.myob.minesweeper.service.input.UserInputValidator;
 import com.myob.minesweeper.utils.Constants;
 import org.junit.Assert;
 import org.junit.Test;

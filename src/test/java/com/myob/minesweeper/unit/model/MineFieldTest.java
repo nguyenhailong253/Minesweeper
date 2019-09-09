@@ -1,5 +1,6 @@
 package com.myob.minesweeper.unit.model;
 
+import com.myob.minesweeper.model.MineField;
 import org.junit.Assert;
 import org.junit.Test;
 

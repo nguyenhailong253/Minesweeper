@@ -1,8 +1,8 @@
 package com.myob.minesweeper.integration;
 
-import com.myob.minesweeper.unit.service.input.IInputService;
-import com.myob.minesweeper.unit.service.input.InputService;
-import com.myob.minesweeper.unit.model.MineField;
+import com.myob.minesweeper.service.input.IInputService;
+import com.myob.minesweeper.service.input.InputService;
+import com.myob.minesweeper.model.MineField;
 import com.myob.minesweeper.infrastructure.io.ConsoleIOService;
 import com.myob.minesweeper.infrastructure.io.IIOService;
 import com.myob.minesweeper.utils.Constants;
