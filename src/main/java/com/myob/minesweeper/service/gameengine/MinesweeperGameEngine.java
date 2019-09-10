@@ -19,7 +19,6 @@ public class MinesweeperGameEngine {
     }
 
     private static MineField processSingleField(MineField field) {
-//        MineField resultField = MineFieldInitiator.initialiseField(inputField);
         field.initialiseField();
 
         int rowDimension = field.getRowDimension();
