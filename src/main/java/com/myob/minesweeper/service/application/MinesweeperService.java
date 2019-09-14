@@ -1,7 +1,7 @@
 package com.myob.minesweeper.service.application;
 
 import com.myob.minesweeper.model.MineField;
-import com.myob.minesweeper.service.gameengine.MinesweeperGameEngine;
+import com.myob.minesweeper.service.calculator.MinesweeperCalculator;
 import com.myob.minesweeper.service.input.IInputService;
 import com.myob.minesweeper.service.result.IResultService;
 
@@ -20,7 +20,7 @@ public class MinesweeperService {
     public void startGame() {
         List<MineField> inputFields = inputService.getListOfNewMineFields();
 
-        List<MineField> resultFields = MinesweeperGameEngine.processAllFields(inputFields);
+        List<MineField> resultFields = MinesweeperCalculator.processAllFields(inputFields);
 
         resultService.displayResultFields(resultFields);
     }

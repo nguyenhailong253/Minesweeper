@@ -1,208 +1,81 @@
 package com.myob.minesweeper.unit.model;
 
 import com.myob.minesweeper.model.MineField;
+import com.myob.minesweeper.utils.Constants;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MineFieldTest {
 
-    private static int[] fieldDimensions = new int[]{2,3};
-    private static MineField inputField;
-
-    public static class TestInitialiseField {
-
-        @Before
-        public void initialiseNewField() {
-            inputField = new MineField(fieldDimensions);
-        }
-
-        @Test
-        public void shouldReturnEmptyField_WhenReceiveFieldWithNoContent() {
-            String[][] expectedEmptyField = new String[2][3];
-
-            String[][] actualField = inputField.initialiseField().getFieldValue();
-
-            Assert.assertArrayEquals(expectedEmptyField, actualField);
-        }
-
-        @Test
-        public void shouldReturnFieldWithDotsReplacedByZeros_WhenReceiveFieldWithBothDotsAndAsterisks() {
-            String[][] inputFieldValue = new String[][]{
-                    {"*", ".", "."},
-                    {".", "*", "."}};
-            inputField.setFieldValue(inputFieldValue);
-            String[][] expectedField = new String[][]{{"*", "0", "0"}, {"0", "*", "0"}};
-
-            String[][] actualField = inputField.initialiseField().getFieldValue();
-
-            Assert.assertArrayEquals(expectedField, actualField);
-        }
-
-        @Test
-        public void shouldReturnFieldWithSameContent_WhenReceiveFieldWithAllAsterisks() {
-            String[][] inputFieldValue = new String[][]{
-                    {"*", "*", "*"},
-                    {"*", "*", "*"}};
-            inputField.setFieldValue(inputFieldValue);
-            String[][] expectedField = new String[][]{{"*", "*", "*"}, {"*", "*", "*"}};
-
-            String[][] actualField = inputField.initialiseField().getFieldValue();
-
-            Assert.assertArrayEquals(expectedField, actualField);
-        }
-
-        @Test
-        public void shouldReturnFieldWithAllZeros_WhenReceiveFieldWithAllDots() {
-            String[][] inputFieldValue = new String[][]{
-                    {".", ".", "."},
-                    {".", ".", "."}};
-            inputField.setFieldValue(inputFieldValue);
-            String[][] expectedField = new String[][]{{"0", "0", "0"}, {"0", "0", "0"}};
-
-            String[][] actualField = inputField.initialiseField().getFieldValue();
-
-            Assert.assertArrayEquals(expectedField, actualField);
-        }
+    public static boolean compareSizeOfTwoIntegerLists(List<Integer> baseList, List<Integer> compareList) {
+        return baseList.size() == compareList.size();
     }
 
-    public static class TestSetRowValue {
+    private static boolean compareListWithSameIntegersButNotInSameOrder(List<Integer> baseList, List<Integer> compareList) {
+        boolean sameContent = true;
 
-        @BeforeClass
-        public static void initialise(){
-            inputField = new MineField(fieldDimensions);
+        if (!compareSizeOfTwoIntegerLists(baseList, compareList)) {
+            return false;
         }
 
-        @Test
-        public void shouldSetArrayOf1DotAtRow0() {
-            String[] expectedRowValue = new String[]{"."};
-            int rowIndex = 0;
-            inputField.setRowValue(new String[]{"."}, rowIndex);
-
-            String[] actualRowValue = inputField.getRowValue(rowIndex);
-
-            Assert.assertArrayEquals(expectedRowValue, actualRowValue);
+        for (int compareInt: compareList) {
+            if (!baseList.contains(compareInt)) {
+                sameContent = false;
+                break;
+            }
         }
-
-        @Test(expected = IndexOutOfBoundsException.class)
-        public void shouldThrowOutOfBoundsException_WhenSetArrayAtOutOfBoundsRowIndex() {
-            int rowIndex = 100;
-            inputField.setRowValue(new String[]{"."}, rowIndex);
-        }
+        return sameContent;
     }
 
-    public static class TestSetSquareValue {
+    private static int adjacentRange = Constants.ADJACENT_RANGE;
+    private static int sampleNumRows = 3;
+    private static int sampleNumColumns = 4;
+    private static String[][] sampleFieldValue = new String[][]{
+            {".", "*", ".", "."},
+            {".", ".", "*", "*"},
+            {".", ".", ".", "."}};
+    private static MineField baseField = new MineField(sampleNumRows, sampleNumColumns, sampleFieldValue);
 
-        @BeforeClass
-        public static void initialise(){
-            inputField = new MineField(fieldDimensions);
+    public static class TestGetAdjacentRowIndices {
+
+        @Test
+        public void shouldReturnListOf3AdjacentIndices_WhenCurrentIndexIsNotAt0OrMaxIndex() {
+            List<Integer> expectedIndices = new ArrayList<>();
+            expectedIndices.add(0);
+            expectedIndices.add(1);
+            expectedIndices.add(2);
+            int currentIndex = 1;
+
+            List<Integer> actualIndices = baseField.getAdjacentRowIndices(currentIndex, adjacentRange);
+
+            Assert.assertTrue(compareListWithSameIntegersButNotInSameOrder(expectedIndices, actualIndices));
         }
 
         @Test
-        public void shouldSetValueOf5ForSquareAtRow0Column0() {
-            String expectedNewSquareValue = "5";
-            int rowIndex = 0;
-            int columnIndex = 0;
-            inputField.setSquareValue("5", rowIndex, columnIndex);
+        public void shouldReturnListOf2AdjacentIndices_WhenCurrentIndexIsAt0() {
+            List<Integer> expectedIndices = new ArrayList<>();
+            expectedIndices.add(0);
+            expectedIndices.add(1);
+            int currentIndex = 0;
 
-            String actualSquareValue = inputField.getSquareValue(rowIndex, columnIndex);
+            List<Integer> actualIndices = baseField.getAdjacentRowIndices(currentIndex, adjacentRange);
 
-            Assert.assertEquals(expectedNewSquareValue, actualSquareValue);
-        }
-
-        @Test(expected = IndexOutOfBoundsException.class)
-        public void shouldThrowOutOfBoundsException_WhenRowIndexIsOutOfBounds() {
-            int outOfBoundsRow = 10;
-            int columnIndex = 0;
-            inputField.setSquareValue("5", outOfBoundsRow, columnIndex);
-        }
-
-        @Test(expected = IndexOutOfBoundsException.class)
-        public void shouldThrowOutOfBoundsException_WhenColumnIndexIsOutOfBounds() {
-            int rowIndex = 0;
-            int outOfBoundsColumn = 100;
-            inputField.setSquareValue("5", rowIndex, outOfBoundsColumn);
-        }
-
-        @Test(expected = IndexOutOfBoundsException.class)
-        public void shouldThrowOutOfBoundsException_WhenRowAndColumnIndicesAreOutOfBounds() {
-            int rowIndex = 11110;
-            int outOfBoundsColumn = 10110;
-            inputField.setSquareValue("5", rowIndex, outOfBoundsColumn);
-        }
-    }
-
-    public static class TestEquals {
-
-        private int[] defaultSetOf2Dimensions = new int[]{1,1};
-        private MineField baseField = new MineField(defaultSetOf2Dimensions);
-        private MineField comparedField = new MineField(defaultSetOf2Dimensions);
-
-        @Test
-        public void shouldReturnTrue_WhenCompareTheSameFieldObject() {
-            Assert.assertEquals(baseField, baseField);
+            Assert.assertTrue(compareListWithSameIntegersButNotInSameOrder(expectedIndices, actualIndices));
         }
 
         @Test
-        public void shouldReturnTrue_WhenCompare2FieldsWithSameRowsAndColumnsAndContents() {
-            String sameSquareContent = new String("*");
-            int rowIndex = 0;
-            int columnIndex = 0;
+        public void shouldReturnListOf2AdjacentIndices_WhenCurrentIndexIsAtMaxIndex() {
+            List<Integer> expectedIndices = new ArrayList<>();
+            expectedIndices.add(1);
+            expectedIndices.add(2);
+            int currentIndex = sampleNumRows - 1;
 
-            baseField.setSquareValue(sameSquareContent, rowIndex, columnIndex);
-            comparedField.setSquareValue(sameSquareContent, rowIndex, columnIndex);
+            List<Integer> actualIndices = baseField.getAdjacentRowIndices(currentIndex, adjacentRange);
 
-            Assert.assertEquals(baseField, comparedField);
-        }
-
-        @Test
-        public void shouldReturnFalse_WhenCompare2FieldsWithDifferentRowsButSameColumns() {
-            int[] fourByOneDimension = new int[]{4,1};
-            MineField newFieldSize4By1 = new MineField(fourByOneDimension);
-            Assert.assertNotEquals(baseField, newFieldSize4By1);
-        }
-
-        @Test
-        public void shouldReturnFalse_WhenCompare2FieldsWithSameRowsButDifferentColumns() {
-            int[] oneByFourDimension = new int[]{1,4};
-            MineField newFieldSize1By4 = new MineField(oneByFourDimension);
-            Assert.assertNotEquals(baseField, newFieldSize1By4);
-        }
-
-        @Test
-        public void shouldReturnFalse_WhenCompare2FieldsWithDifferentRowsAndColumns() {
-            int[] fourByFourDimension = new int[]{4,4};
-            MineField newFieldSize4By4 = new MineField(fourByFourDimension);
-            Assert.assertNotEquals(baseField, newFieldSize4By4);
-        }
-
-        @Test
-        public void shouldReturnFalse_WhenCompare2FieldsWithSameRowsAndColumnsButDifferentContents() {
-            String squareContent = "*";
-            String newSquareContent = ".";
-            int rowIndex = 0;
-            int columnIndex = 0;
-
-            baseField.setSquareValue(squareContent, rowIndex, columnIndex);
-            comparedField.setSquareValue(newSquareContent, rowIndex, columnIndex);
-
-            Assert.assertNotEquals(baseField, comparedField);
-        }
-
-        @Test
-        public void shouldReturnFalse_WhenCompare2FieldsWithDifferentDimensionsAndContents() {
-            int rowIndex = 0;
-            int columnIndex = 0;
-            String squareContent = "*";
-            String newSquareContent = ".";
-            int[] fiveByFiveDimensions = new int[] {5,5};
-            MineField newField5By5 = new MineField(fiveByFiveDimensions);
-
-            baseField.setSquareValue(squareContent, rowIndex, columnIndex);
-            newField5By5.setSquareValue(newSquareContent, rowIndex, columnIndex);
-
-            Assert.assertNotEquals(baseField, newField5By5);
+            Assert.assertTrue(compareListWithSameIntegersButNotInSameOrder(expectedIndices, actualIndices));
         }
     }
 }

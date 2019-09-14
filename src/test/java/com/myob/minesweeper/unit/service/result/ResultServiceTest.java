@@ -18,7 +18,8 @@ public class ResultServiceTest {
 
     private static IIOService consoleIOService = new ConsoleIOService();
     private static IResultService resultService = new ResultService(consoleIOService);
-    private static int[] default2By2Dimension = new int[]{2,2};
+    private static int defaultNumRows = 2;
+    private static int defaultNumColumns = 2;
     private static List<MineField> listOfTestFields = new ArrayList<>();
     private static PrintStream mockPrintStream = mock(PrintStream.class);
 
@@ -28,9 +29,8 @@ public class ResultServiceTest {
         public static void initialiseSampleList() {
             System.setOut(mockPrintStream);
 
-            MineField test2By2Field = new MineField(default2By2Dimension);
             String[][] fieldValue = new String[][]{{"*","1"}, {"1", "1"}};
-            test2By2Field.setFieldValue(fieldValue);
+            MineField test2By2Field = new MineField(defaultNumRows, defaultNumColumns, fieldValue);
 
             listOfTestFields.add(test2By2Field);
         }

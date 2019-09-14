@@ -1,7 +1,7 @@
 package com.myob.minesweeper.service.input;
 
-import com.myob.minesweeper.model.MineField;
 import com.myob.minesweeper.infrastructure.io.IIOService;
+import com.myob.minesweeper.model.MineField;
 import com.myob.minesweeper.utils.Constants;
 
 import java.util.ArrayList;
@@ -29,9 +29,8 @@ public class InputService implements IInputService {
                 } else {
                     int numRows = newValidDimensions[0];
                     int numColumns = newValidDimensions[1];
-
-                    MineField newFieldWithMines = createNewField(numRows, numColumns);
-                    validListOfFields.add(newFieldWithMines);
+                    String[][] newValidFieldValue = getNewFieldValue(numRows, numColumns);
+                    validListOfFields.add(new MineField(numRows, numColumns, newValidFieldValue));
                 }
             } catch (Exception e) {
                 ioService.displayOutput(e.getMessage());
@@ -49,9 +48,9 @@ public class InputService implements IInputService {
 
             if (isInputDimensionValid(inputDimensions, Constants.FIELD_DIMENSION_PATTERN)) {
                 String[] splitInput = UserInputConverter
-                        .splitStringToArray(inputDimensions, Constants.WHITESPACE_DELIMITER, Constants.REQUIRED_LENGTH);
+                        .splitStringToArray(inputDimensions, Constants.WHITESPACE_DELIMITER);
 
-                userInputDimensions = UserInputConverter.convertStringToIntegerArray(splitInput);
+                userInputDimensions = UserInputConverter.convertStringArrayToIntegerArray(splitInput);
 
                 isValidDimension = isDimensionWithinRange(userInputDimensions, Constants.MIN_SIZE, Constants.MAX_SIZE);
 
@@ -64,15 +63,6 @@ public class InputService implements IInputService {
         }
 
         return userInputDimensions;
-    }
-
-    private MineField createNewField(int numRows, int numColumns) {
-        MineField newFieldWithMines = new MineField(numRows, numColumns);
-
-        String[][] newValidFieldValue = getNewFieldValue(numRows, numColumns);
-        newFieldWithMines.setFieldValue(newValidFieldValue);
-
-        return newFieldWithMines;
     }
 
     private String[][] getNewFieldValue(int numRows, int numColumns) {
@@ -107,7 +97,7 @@ public class InputService implements IInputService {
     }
 
     private boolean isEndOfInput(int[] inputDimensions, int[] endOfInputValues) {
-        return UserInputValidator.validateEndOfInputValues(inputDimensions, endOfInputValues);
+        return MineFieldValidator.validateEndOfInputValues(inputDimensions, endOfInputValues);
     }
 
     private boolean isInputDimensionValid(String inputDimension, String validPattern) {
@@ -115,7 +105,7 @@ public class InputService implements IInputService {
     }
 
     private boolean isDimensionWithinRange(int[] dimensions, int min, int max) {
-        return UserInputValidator.validateDimensionValuesInRange(dimensions, min, max);
+        return MineFieldValidator.validateDimensionValuesInRange(dimensions, min, max);
     }
 
     private boolean isRowContentValid(String inputRow, String pattern) {
@@ -123,6 +113,6 @@ public class InputService implements IInputService {
     }
 
     private boolean isRowLengthValid(String inputRow, int rowLength) {
-        return UserInputValidator.validateLengthOfRowInput(inputRow, rowLength);
+        return MineFieldValidator.validateLengthOfRowInput(inputRow, rowLength);
     }
 }
