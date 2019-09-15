@@ -20,8 +20,7 @@ public class MineFieldServiceTest {
     private static int sampleNumColumns = 3;
     private static MineField baseField;
 
-    // TODO: 15/9/19 Why do I have to do this?
-    private static void initialiseNewField() {
+    private static void initialiseNewFieldWithMines() {
         String[][] fieldValues = new String[][]{{"*", ".", "."}, {".", "*", "."}};
         baseField = MineFieldService.initialiseNewField(sampleNumRows, sampleNumColumns);
         baseField = MineFieldService.updateFieldValues(baseField, fieldValues);
@@ -31,7 +30,7 @@ public class MineFieldServiceTest {
 
         @BeforeClass
         public static void initialiseBaseMineField() {
-            initialiseNewField();
+            initialiseNewFieldWithMines();
         }
 
         @Test
@@ -79,7 +78,7 @@ public class MineFieldServiceTest {
 
         @BeforeClass
         public static void initialiseBaseMineField() {
-            initialiseNewField();
+            initialiseNewFieldWithMines();
         }
 
         @Test
@@ -93,8 +92,7 @@ public class MineFieldServiceTest {
 
         @Test(expected = IndexOutOfBoundsException.class)
         public void shouldThrowIndexOutOfBoundsException_WhenReceiveRowIndexAt1000() {
-            int outOfRangeRows = 1000;
-            MineFieldService.getRowOfFieldByIndex(baseField, outOfRangeRows);
+            MineFieldService.getRowOfFieldByIndex(baseField, 1000);
         }
     }
 
@@ -102,7 +100,7 @@ public class MineFieldServiceTest {
 
         @BeforeClass
         public static void initialiseBaseMineField() {
-            initialiseNewField();
+            initialiseNewFieldWithMines();
         }
 
         @Test
@@ -131,7 +129,7 @@ public class MineFieldServiceTest {
 
         @BeforeClass
         public static void initialiseBaseMineField() {
-            initialiseNewField();
+            initialiseNewFieldWithMines();
         }
 
         @Test
@@ -163,7 +161,7 @@ public class MineFieldServiceTest {
 
         @BeforeClass
         public static void initialiseBaseMineField() {
-            initialiseNewField();
+            initialiseNewFieldWithMines();
         }
 
         @Test

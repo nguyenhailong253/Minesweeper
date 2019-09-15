@@ -42,7 +42,7 @@ public class MinesweeperCalculatorTest {
         expectedResultListOfFields.add(resultSecondField);
     }
 
-    public static class TestProcessAllFields {
+    public static class TestCalculateAllFields {
 
         @Before
         public void initialiseDefaultValues() {

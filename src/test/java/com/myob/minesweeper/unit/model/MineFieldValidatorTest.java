@@ -35,7 +35,6 @@ public class MineFieldValidatorTest {
 
         @Test
         public void shouldReturnTrue_WhenRowIsMoreThan0AndColumnIs0() {
-            int[] rowAndColumn = new int[]{1, 0};
             boolean zeroColumnDimension =
                     MineFieldValidator.validateDimensionValuesInRange(1, 0, MIN, MAX);
             Assert.assertTrue(zeroColumnDimension);
@@ -57,7 +56,6 @@ public class MineFieldValidatorTest {
 
         @Test
         public void shouldReturnFalse_WhenReceiveBothNumOfRowsAndColumnsAreNegative() {
-            int[] rowAndColumn = new int[]{-100, -50};
             boolean twoNegativeDimensions =
                     MineFieldValidator.validateDimensionValuesInRange(-100, -50, MIN, MAX);
             Assert.assertFalse(twoNegativeDimensions);
@@ -65,7 +63,6 @@ public class MineFieldValidatorTest {
 
         @Test
         public void shouldReturnFalse_WhenNumOfRowsMoreThan100() {
-            int[] rowAndColumn = new int[]{500, 50};
             boolean numOfRowsMoreThan100 =
                     MineFieldValidator.validateDimensionValuesInRange(500, 50, MIN, MAX);
             Assert.assertFalse(numOfRowsMoreThan100);
@@ -73,7 +70,6 @@ public class MineFieldValidatorTest {
 
         @Test
         public void shouldReturnFalse_WhenNumOfColumnsMoreThan100() {
-            int[] rowAndColumn = new int[]{60, 150};
             boolean numOfColumnsMoreThan100 =
                     MineFieldValidator.validateDimensionValuesInRange(60, 150, MIN, MAX);
             Assert.assertFalse(numOfColumnsMoreThan100);
@@ -81,7 +77,6 @@ public class MineFieldValidatorTest {
 
         @Test
         public void shouldReturnFalse_WhenBothRowsAndColumnsAreMoreThan100() {
-            int[] rowAndColumn = new int[]{200, 109};
             boolean dimensionMoreThan100 =
                     MineFieldValidator.validateDimensionValuesInRange(200, 109, MIN, MAX);
             Assert.assertFalse(dimensionMoreThan100);

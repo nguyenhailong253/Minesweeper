@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class UserInputConverterTest {
 
-    public static class TestConvertToNumericalDimensions {
+    public static class TestConvertStringArrayToIntegerArray {
 
         @Test
         public void shouldReturnArrayOf2Integers_WhenReceiveStringArrayOf2Numbers() {
