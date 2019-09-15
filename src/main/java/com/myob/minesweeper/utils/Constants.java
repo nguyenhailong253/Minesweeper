@@ -28,8 +28,7 @@ public class Constants {
     // Other utils
     public static final String LABEL = "Field #";
     public static final String ZERO_STRING = "0";
-//    public static final String FIELD_DIMENSION_PATTERN = "[0-9]{1,}\\s[0-9]{1,}";
-    public static final String FIELD_DIMENSION_PATTERN = "([0-9]|[1-8][0-9]|9[0-9]|100)\\s([0-9]|[1-8][0-9]|9[0-9]|100)";
+    public static final String FIELD_DIMENSION_PATTERN = "[0-9]{1,}\\s[0-9]{1,}";
     public static final String ROW_PATTERN = "[\\*\\.]+";
     public static final String WHITESPACE_DELIMITER = "\\s";
     public static final String MINE_SQUARE = "*";
@@ -41,4 +40,5 @@ public class Constants {
     public static final int REQUIRED_LENGTH = 2;
     public static final int[] END_OF_INPUT_VALUE_SET = {0, 0};
     public static final int ADJACENT_RANGE = 1;
+    public static final int SQUARE_CONTENT_LENGTH = 1;
 }

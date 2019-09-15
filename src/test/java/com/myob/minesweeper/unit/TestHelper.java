@@ -10,7 +10,7 @@ public class TestHelper {
     public static boolean validateEqualFields(MineField baseField, MineField compareField) {
         return baseField.getRowDimension() == compareField.getRowDimension()
                 && baseField.getColumnDimension() == compareField.getColumnDimension()
-                && Arrays.deepEquals(baseField.getFieldValue(), compareField.getFieldValue());
+                && Arrays.deepEquals(baseField.getFieldValues(), compareField.getFieldValues());
     }
 
     public static boolean compareSizeOfTwoFieldLists(List<MineField> baseList, List<MineField> compareList) {

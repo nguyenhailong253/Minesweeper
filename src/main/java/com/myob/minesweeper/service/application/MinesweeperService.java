@@ -20,7 +20,7 @@ public class MinesweeperService {
     public void startGame() {
         List<MineField> inputFields = inputService.getListOfNewMineFields();
 
-        List<MineField> resultFields = MinesweeperCalculator.processAllFields(inputFields);
+        List<MineField> resultFields = MinesweeperCalculator.calculateAllFields(inputFields);
 
         resultService.displayResultFields(resultFields);
     }

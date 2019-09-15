@@ -1,8 +1,9 @@
 package com.myob.minesweeper.unit.service.result;
 
-import com.myob.minesweeper.model.MineField;
 import com.myob.minesweeper.infrastructure.io.ConsoleIOService;
 import com.myob.minesweeper.infrastructure.io.IIOService;
+import com.myob.minesweeper.model.MineField;
+import com.myob.minesweeper.model.MineFieldService;
 import com.myob.minesweeper.service.result.IResultService;
 import com.myob.minesweeper.service.result.ResultService;
 import org.junit.BeforeClass;
@@ -30,9 +31,10 @@ public class ResultServiceTest {
             System.setOut(mockPrintStream);
 
             String[][] fieldValue = new String[][]{{"*","1"}, {"1", "1"}};
-            MineField test2By2Field = new MineField(defaultNumRows, defaultNumColumns, fieldValue);
+            MineField testMineField = MineFieldService.initialiseNewField(defaultNumRows, defaultNumColumns);
+            testMineField = MineFieldService.updateFieldValues(testMineField, fieldValue);
 
-            listOfTestFields.add(test2By2Field);
+            listOfTestFields.add(testMineField);
         }
 
         @Test

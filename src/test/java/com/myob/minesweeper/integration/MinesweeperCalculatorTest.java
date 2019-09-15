@@ -1,6 +1,7 @@
 package com.myob.minesweeper.integration;
 
 import com.myob.minesweeper.model.MineField;
+import com.myob.minesweeper.model.MineFieldService;
 import com.myob.minesweeper.service.calculator.MinesweeperCalculator;
 import com.myob.minesweeper.unit.TestHelper;
 import org.junit.Assert;
@@ -23,24 +24,30 @@ public class MinesweeperCalculatorTest {
     private static List<MineField> inputListOfFields;
     private static List<MineField> expectedResultListOfFields;
 
+    private static void initialiseDefaultFields() {
+        inputFirstField = MineFieldService.initialiseNewField(firstFieldNumRows, firstFieldNumColumns);
+        inputSecondField = MineFieldService.initialiseNewField(secondFieldNumRows, secondFieldNumColumns);
+        resultFirstField = MineFieldService.initialiseNewField(firstFieldNumRows, firstFieldNumColumns);
+        resultSecondField = MineFieldService.initialiseNewField(secondFieldNumRows, secondFieldNumColumns);
+    }
+
+    private static void initialiseDefaultListOfFields() {
+        inputListOfFields = new ArrayList<>();
+        expectedResultListOfFields = new ArrayList<>();
+
+        inputListOfFields.add(inputFirstField);
+        inputListOfFields.add(inputSecondField);
+
+        expectedResultListOfFields.add(resultFirstField);
+        expectedResultListOfFields.add(resultSecondField);
+    }
+
     public static class TestProcessAllFields {
 
         @Before
-        public void initialiseNewLists() {
-            String[][] firstFieldValue = new String[firstFieldNumRows][firstFieldNumColumns];
-            String[][] secondFieldValue = new String[secondFieldNumRows][secondFieldNumColumns];
-            inputFirstField = new MineField(firstFieldNumRows, firstFieldNumColumns, firstFieldValue);
-            inputSecondField = new MineField(secondFieldNumRows, secondFieldNumColumns, secondFieldValue);
-            resultFirstField = new MineField(firstFieldNumRows, firstFieldNumColumns, firstFieldValue);
-            resultSecondField = new MineField(secondFieldNumRows, secondFieldNumColumns, secondFieldValue);
-            inputListOfFields = new ArrayList<>();
-            expectedResultListOfFields = new ArrayList<>();
-
-            inputListOfFields.add(inputFirstField);
-            inputListOfFields.add(inputSecondField);
-
-            expectedResultListOfFields.add(resultFirstField);
-            expectedResultListOfFields.add(resultSecondField);
+        public void initialiseDefaultValues() {
+            initialiseDefaultFields();
+            initialiseDefaultListOfFields();
         }
 
         @Test
@@ -54,8 +61,8 @@ public class MinesweeperCalculatorTest {
                     {".", ".", ".", "."},
                     {".", "*", ".", "."},
                     {".", ".", ".", "."},};
-            inputFirstField.setFieldValue(inputFirstFieldValue);
-            inputSecondField.setFieldValue(inputSecondFieldValue);
+            inputFirstField = MineFieldService.updateFieldValues(inputFirstField, inputFirstFieldValue);
+            inputSecondField = MineFieldService.updateFieldValues(inputSecondField, inputSecondFieldValue);
 
             String[][] resultFirstFieldValue = new String[][]{
                     {"*", "*", "1", "0", "0"},
@@ -66,10 +73,10 @@ public class MinesweeperCalculatorTest {
                     {"2", "2", "1", "0"},
                     {"1", "*", "1", "0"},
                     {"1", "1", "1", "0"},};
-            resultFirstField.setFieldValue(resultFirstFieldValue);
-            resultSecondField.setFieldValue(resultSecondFieldValue);
+            resultFirstField = MineFieldService.updateFieldValues(resultFirstField, resultFirstFieldValue);
+            resultSecondField = MineFieldService.updateFieldValues(resultSecondField, resultSecondFieldValue);
 
-            List<MineField> actualResult = MinesweeperCalculator.processAllFields(inputListOfFields);
+            List<MineField> actualResult = MinesweeperCalculator.calculateAllFields(inputListOfFields);
 
             boolean equalLists = TestHelper.validateEqualListsOfFields(expectedResultListOfFields, actualResult);
             Assert.assertTrue(equalLists);
@@ -80,7 +87,7 @@ public class MinesweeperCalculatorTest {
             List<MineField> inputEmptyList = new ArrayList<>();
             List<MineField> expectedEmptyList = new ArrayList<>();
 
-            List<MineField> actualResultList = MinesweeperCalculator.processAllFields(inputEmptyList);
+            List<MineField> actualResultList = MinesweeperCalculator.calculateAllFields(inputEmptyList);
 
             Assert.assertEquals(expectedEmptyList, actualResultList);
         }
@@ -96,12 +103,12 @@ public class MinesweeperCalculatorTest {
                     {"*", "*", "*", "*"},
                     {"*", "*", "*", "*"},
                     {"*", "*", "*", "*"},};
-            inputFirstField.setFieldValue(inputFirstFieldValue);
-            inputSecondField.setFieldValue(inputSecondFieldValue);
-            resultFirstField.setFieldValue(inputFirstFieldValue);
-            resultSecondField.setFieldValue(inputSecondFieldValue);
+            inputFirstField = MineFieldService.updateFieldValues(inputFirstField, inputFirstFieldValue);
+            inputSecondField = MineFieldService.updateFieldValues(inputSecondField, inputSecondFieldValue);
+            resultFirstField = MineFieldService.updateFieldValues(resultFirstField, inputFirstFieldValue);
+            resultSecondField = MineFieldService.updateFieldValues(resultSecondField, inputSecondFieldValue);
 
-            List<MineField> actualResult = MinesweeperCalculator.processAllFields(inputListOfFields);
+            List<MineField> actualResult = MinesweeperCalculator.calculateAllFields(inputListOfFields);
 
             boolean equalLists = TestHelper.validateEqualListsOfFields(expectedResultListOfFields, actualResult);
             Assert.assertTrue(equalLists);
@@ -118,8 +125,8 @@ public class MinesweeperCalculatorTest {
                     {".", ".", ".", "."},
                     {".", ".", ".", "."},
                     {".", ".", ".", "."},};
-            inputFirstField.setFieldValue(inputFirstFieldValue);
-            inputSecondField.setFieldValue(inputSecondFieldValue);
+            inputFirstField = MineFieldService.updateFieldValues(inputFirstField, inputFirstFieldValue);
+            inputSecondField = MineFieldService.updateFieldValues(inputSecondField, inputSecondFieldValue);
 
             String[][] resultFirstFieldValue = new String[][]{
                     {"0", "0", "0", "0", "0"},
@@ -130,10 +137,10 @@ public class MinesweeperCalculatorTest {
                     {"0", "0", "0", "0"},
                     {"0", "0", "0", "0"},
                     {"0", "0", "0", "0"},};
-            resultFirstField.setFieldValue(resultFirstFieldValue);
-            resultSecondField.setFieldValue(resultSecondFieldValue);
+            resultFirstField = MineFieldService.updateFieldValues(resultFirstField, resultFirstFieldValue);
+            resultSecondField = MineFieldService.updateFieldValues(resultSecondField, resultSecondFieldValue);
 
-            List<MineField> actualResult = MinesweeperCalculator.processAllFields(inputListOfFields);
+            List<MineField> actualResult = MinesweeperCalculator.calculateAllFields(inputListOfFields);
 
             boolean equalLists = TestHelper.validateEqualListsOfFields(expectedResultListOfFields, actualResult);
             Assert.assertTrue(equalLists);
