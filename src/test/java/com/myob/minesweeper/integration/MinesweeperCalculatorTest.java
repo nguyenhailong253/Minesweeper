@@ -3,12 +3,12 @@ package com.myob.minesweeper.integration;
 import com.myob.minesweeper.model.MineField;
 import com.myob.minesweeper.model.MineFieldService;
 import com.myob.minesweeper.service.calculator.MinesweeperCalculator;
-import com.myob.minesweeper.unit.TestHelper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MinesweeperCalculatorTest {
@@ -23,6 +23,32 @@ public class MinesweeperCalculatorTest {
     private static MineField resultSecondField;
     private static List<MineField> inputListOfFields;
     private static List<MineField> expectedResultListOfFields;
+
+    private static boolean validateEqualFields(MineField baseField, MineField compareField) {
+        return baseField.getRowDimension() == compareField.getRowDimension()
+                && baseField.getColumnDimension() == compareField.getColumnDimension()
+                && Arrays.deepEquals(baseField.getFieldValues(), compareField.getFieldValues());
+    }
+
+    private static boolean compareSizeOfTwoFieldLists(List<MineField> baseList, List<MineField> compareList) {
+        return baseList.size() == compareList.size();
+    }
+
+    private static boolean validateEqualListsOfFields(List<MineField> baseList, List<MineField> compareList) {
+
+        if (!compareSizeOfTwoFieldLists(baseList, compareList)) {
+            return false;
+        }
+
+        for (int fieldIndex = 0; fieldIndex < baseList.size(); fieldIndex++) {
+            MineField baseField = baseList.get(fieldIndex);
+            MineField compareField = compareList.get(fieldIndex);
+            if (!validateEqualFields(baseField, compareField)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     private static void initialiseDefaultFields() {
         inputFirstField = MineFieldService.initialiseNewField(firstFieldNumRows, firstFieldNumColumns);
@@ -78,7 +104,7 @@ public class MinesweeperCalculatorTest {
 
             List<MineField> actualResult = MinesweeperCalculator.calculateAllFields(inputListOfFields);
 
-            boolean equalLists = TestHelper.validateEqualListsOfFields(expectedResultListOfFields, actualResult);
+            boolean equalLists = validateEqualListsOfFields(expectedResultListOfFields, actualResult);
             Assert.assertTrue(equalLists);
         }
 
@@ -110,7 +136,7 @@ public class MinesweeperCalculatorTest {
 
             List<MineField> actualResult = MinesweeperCalculator.calculateAllFields(inputListOfFields);
 
-            boolean equalLists = TestHelper.validateEqualListsOfFields(expectedResultListOfFields, actualResult);
+            boolean equalLists = validateEqualListsOfFields(expectedResultListOfFields, actualResult);
             Assert.assertTrue(equalLists);
         }
 
@@ -142,7 +168,7 @@ public class MinesweeperCalculatorTest {
 
             List<MineField> actualResult = MinesweeperCalculator.calculateAllFields(inputListOfFields);
 
-            boolean equalLists = TestHelper.validateEqualListsOfFields(expectedResultListOfFields, actualResult);
+            boolean equalLists = validateEqualListsOfFields(expectedResultListOfFields, actualResult);
             Assert.assertTrue(equalLists);
         }
     }
