@@ -20,8 +20,6 @@ import static org.mockito.Mockito.when;
 
 public class InputServiceTest {
 
-    // TODO: 15/9/19 remove TestHelper
-
     private static IIOService mockConsoleIOService = mock(ConsoleIOService.class);
     private static IInputService inputService = new InputService(mockConsoleIOService);
     private static int defaultNumRows = 2;

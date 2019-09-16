@@ -1,5 +1,6 @@
 package com.myob.minesweeper.service.input;
 
+import com.myob.minesweeper.exception.InvalidRowFormatException;
 import com.myob.minesweeper.infrastructure.io.IIOService;
 import com.myob.minesweeper.model.MineField;
 import com.myob.minesweeper.model.MineFieldService;
@@ -71,20 +72,24 @@ public class InputService implements IInputService {
 
         while (numRowsFilled < field.getRowDimension()) {
             try {
-                String inputRow = ioService.readUserInput();
-
-                if (isRowContentValid(inputRow, Constants.ROW_PATTERN)) {
-                    field = MineFieldService.setRowOfFieldByIndex(field, numRowsFilled, inputRow);
-                    numRowsFilled += 1;
-                } else {
-                    ioService.displayOutput(Constants.INVALID_ROW_FORMAT);
-                }
+                field = getNewRowContent(field, numRowsFilled);
+                numRowsFilled += 1;
             } catch (Exception e) {
                 ioService.displayOutput(e.getMessage());
             }
         }
         ioService.displayOutput(Constants.FIELD_CREATED);
         return field;
+    }
+
+    private MineField getNewRowContent(MineField field, int rowIndex) {
+        String inputRow = ioService.readUserInput();
+
+        if (isRowContentValid(inputRow, Constants.ROW_PATTERN)) {
+            field = MineFieldService.setRowOfFieldByIndex(field, rowIndex, inputRow);
+            return field;
+        }
+        throw new InvalidRowFormatException(Constants.INVALID_ROW_FORMAT);
     }
 
     private boolean isEndOfInput(int[] inputDimensions, int[] endOfInputValues) {
