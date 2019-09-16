@@ -28,6 +28,7 @@ public class MineFieldService {
         }
     }
 
+    // TODO: 16/9/19 Row pattern may change, inject via param? 
     public static void updateRowValue(MineField field, String inputRow, int rowIndex) {
         if (!StringInputValidator.isStringMatchedPattern(inputRow, Constants.ROW_PATTERN)
                 || inputRow.length() != field.getColumnDimension()) {
