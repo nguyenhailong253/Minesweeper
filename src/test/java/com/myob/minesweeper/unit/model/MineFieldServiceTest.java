@@ -84,13 +84,18 @@ public class MineFieldServiceTest {
         }
 
         @Test(expected = IndexOutOfBoundsException.class)
-        public void shouldThrowRowFormatException_WhenRowIndexIsOutOfBounds() {
+        public void shouldThrowOutOfBoundsException_WhenRowIndexIsOutOfBounds() {
             MineFieldService.updateRowValue(baseField, "*.*", 100);
         }
 
         @Test(expected = InvalidRowFormatException.class)
         public void shouldThrowRowFormatException_WhenStringInputHasInvalidPatternAndLengthAndRowIndexIsOutOfBounds() {
             MineFieldService.updateRowValue(baseField, "hello_world!@#!$12412531", 100);
+        }
+
+        @Test(expected = InvalidRowFormatException.class)
+        public void shouldThrowRowFormatException_WhenStringInputIsEmpty() {
+            MineFieldService.updateRowValue(baseField, "", 1);
         }
     }
 
