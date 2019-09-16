@@ -1,14 +1,11 @@
 package com.myob.minesweeper.unit.model;
 
 import com.myob.minesweeper.exception.InvalidFieldValuesException;
-import com.myob.minesweeper.exception.InvalidRowFormatException;
-import com.myob.minesweeper.exception.InvalidSquareContentLength;
 import com.myob.minesweeper.model.MineField;
 import com.myob.minesweeper.model.MineFieldService;
 import com.myob.minesweeper.utils.Constants;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -23,13 +20,13 @@ public class MineFieldServiceTest {
     private static void initialiseNewFieldWithMines() {
         String[][] fieldValues = new String[][]{{"*", ".", "."}, {".", "*", "."}};
         baseField = MineFieldService.initialiseNewField(sampleNumRows, sampleNumColumns);
-        baseField = MineFieldService.updateFieldValues(baseField, fieldValues);
+        MineFieldService.updateFieldValues(baseField, fieldValues);
     }
 
     public static class TestUpdateFieldValues {
 
-        @BeforeClass
-        public static void initialiseBaseMineField() {
+        @Before
+        public void initialiseBaseMineField() {
             initialiseNewFieldWithMines();
         }
 
@@ -71,167 +68,6 @@ public class MineFieldServiceTest {
         public void shouldThrowFieldValuesException_WhenNewFieldValuesAreNull() {
             String[][] inputFieldValues = null;
             MineFieldService.updateFieldValues(baseField, inputFieldValues);
-        }
-    }
-
-    public static class TestGetRowOfFieldByIndex {
-
-        @BeforeClass
-        public static void initialiseBaseMineField() {
-            initialiseNewFieldWithMines();
-        }
-
-        @Test
-        public void shouldReturnRowContent_WhenReceiveRowIndex() {
-            String[] expectedRowContent = new String[]{".", "*", "."};
-
-            String[] actualRowContent = MineFieldService.getRowOfFieldByIndex(baseField, 1);
-
-            Assert.assertArrayEquals(expectedRowContent, actualRowContent);
-        }
-
-        @Test(expected = IndexOutOfBoundsException.class)
-        public void shouldThrowIndexOutOfBoundsException_WhenReceiveRowIndexAt1000() {
-            MineFieldService.getRowOfFieldByIndex(baseField, 1000);
-        }
-
-        @Test(expected = IndexOutOfBoundsException.class)
-        public void shouldThrowIndexOutOfBoundsException_WhenReceiveNegativeRowIndex() {
-            MineFieldService.getRowOfFieldByIndex(baseField, -1);
-        }
-    }
-
-    public static class TestSetRowOfFieldByIndex {
-
-        @BeforeClass
-        public static void initialiseBaseMineField() {
-            initialiseNewFieldWithMines();
-        }
-
-        @Test
-        public void shouldSetCorrectStringArray_AtCorrectRowInMineField() {
-            String[] expectedRowContent = new String[]{".", ".", "."};
-            String userInputRow = new String("...");
-
-            MineFieldService.setRowOfFieldByIndex(baseField, 1, userInputRow);
-            String[] actualRowContent = MineFieldService.getRowOfFieldByIndex(baseField, 1);
-
-            Assert.assertArrayEquals(expectedRowContent, actualRowContent);
-        }
-
-        @Test(expected = IndexOutOfBoundsException.class)
-        public void shouldThrowIndexOutOfBoundsException_WhenReceiveRowIndexAt1000() {
-            MineFieldService.setRowOfFieldByIndex(baseField, 1000, "...");
-        }
-
-        @Test(expected = IndexOutOfBoundsException.class)
-        public void shouldThrowIndexOutOfBoundsException_WhenReceiveNegativeRowIndex() {
-            MineFieldService.setRowOfFieldByIndex(baseField, -1, "...");
-        }
-
-        @Test(expected = InvalidRowFormatException.class)
-        public void shouldThrowRowFormatException_WhenReceive10StringsFor1Row() {
-            MineFieldService.setRowOfFieldByIndex(baseField, 1, ".*.*.*.*.*");
-        }
-    }
-
-    public static class TestGetSquareOfFieldByIndices {
-
-        @BeforeClass
-        public static void initialiseBaseMineField() {
-            initialiseNewFieldWithMines();
-        }
-
-        @Test
-        public void shouldReturnSquareContent_WhenReceiveRowAndColumnIndices() {
-            String expectedSquareContent = "*";
-
-            String actualSquareContent = MineFieldService.getSquareOfFieldByIndices(baseField, 0, 0);
-
-            Assert.assertEquals(expectedSquareContent, actualSquareContent);
-        }
-
-        @Test(expected = IndexOutOfBoundsException.class)
-        public void shouldThrowOutOfBoundsException_WhenRowIndexIs3000() {
-            MineFieldService.getSquareOfFieldByIndices(baseField, 3000, 0);
-        }
-
-        @Test(expected = IndexOutOfBoundsException.class)
-        public void shouldThrowOutOfBoundsException_WhenRowIndexIsNegative() {
-            MineFieldService.getSquareOfFieldByIndices(baseField, -3, 0);
-        }
-
-        @Test(expected = IndexOutOfBoundsException.class)
-        public void shouldThrowOutOfBoundsException_WhenColumnIndexIs3000() {
-            MineFieldService.getSquareOfFieldByIndices(baseField, 0, 3000);
-        }
-
-        @Test(expected = IndexOutOfBoundsException.class)
-        public void shouldThrowOutOfBoundsException_WhenColumnIndexIsNegative() {
-            MineFieldService.getSquareOfFieldByIndices(baseField, 0, -3);
-        }
-
-        @Test(expected = IndexOutOfBoundsException.class)
-        public void shouldThrowOutOfBoundsException_WhenBothRowAndColumnAre500() {
-            MineFieldService.getSquareOfFieldByIndices(baseField, 500, 500);
-        }
-
-        @Test(expected = IndexOutOfBoundsException.class)
-        public void shouldThrowOutOfBoundsException_WhenBothRowAndColumnAreNegative() {
-            MineFieldService.getSquareOfFieldByIndices(baseField, -500, -500);
-        }
-    }
-
-    public static class TestSetSquareOfFieldByIndices {
-
-        @BeforeClass
-        public static void initialiseBaseMineField() {
-            initialiseNewFieldWithMines();
-        }
-
-        @Test
-        public void shouldSetCorrectSquareContent_AtCorrectRowAndColumnIndices() {
-            String expectedSquareContent = "8";
-
-            MineFieldService.setSquareOfFieldByIndices(baseField, 0, 0, "8");
-            String actualSquareContent = MineFieldService.getSquareOfFieldByIndices(baseField, 0, 0);
-
-            Assert.assertEquals(expectedSquareContent, actualSquareContent);
-        }
-
-        @Test(expected = IndexOutOfBoundsException.class)
-        public void shouldThrowOutOfBoundsException_WhenRowIndexIs3000() {
-            MineFieldService.setSquareOfFieldByIndices(baseField, 3000, 0, "5");
-        }
-
-        @Test(expected = IndexOutOfBoundsException.class)
-        public void shouldThrowOutOfBoundsException_WhenRowIndexIsNegative() {
-            MineFieldService.setSquareOfFieldByIndices(baseField, -3, 0, "5");
-        }
-
-        @Test(expected = IndexOutOfBoundsException.class)
-        public void shouldThrowOutOfBoundsException_WhenColumnIndexIs3000() {
-            MineFieldService.setSquareOfFieldByIndices(baseField, 0, 3000, "5");
-        }
-
-        @Test(expected = IndexOutOfBoundsException.class)
-        public void shouldThrowOutOfBoundsException_WhenColumnIndexIsNegative() {
-            MineFieldService.setSquareOfFieldByIndices(baseField, 0, -3, "5");
-        }
-
-        @Test(expected = IndexOutOfBoundsException.class)
-        public void shouldThrowOutOfBoundsException_WhenBothRowAndColumnAre500() {
-            MineFieldService.setSquareOfFieldByIndices(baseField, 500, 500, "5");
-        }
-
-        @Test(expected = IndexOutOfBoundsException.class)
-        public void shouldThrowOutOfBoundsException_WhenBothRowAndColumnAreNegative() {
-            MineFieldService.setSquareOfFieldByIndices(baseField, -500, -500, "5");
-        }
-
-        @Test(expected = InvalidSquareContentLength.class)
-        public void shouldThrowSquareContentLengthException_WhenSquareLengthIsMoreThan1() {
-            MineFieldService.setSquareOfFieldByIndices(baseField, 0, 0, "10");
         }
     }
 

@@ -16,40 +16,41 @@ public class MinesweeperCalculator {
 
         for (MineField field: inputFields) {
             if (field.getFieldState() == MineFieldState.INITIALISED) {
-                field = calculateEachField(field);
+                String[][] calculatedFieldValues =
+                        calculateEachField(field.getFieldValues(), field.getRowDimension(), field.getColumnDimension());
+                MineFieldService.updateFieldValues(field, calculatedFieldValues);
+                MineFieldService.updateFieldState(field, MineFieldState.CALCULATED);
             }
             resultFields.add(field);
         }
         return resultFields;
     }
 
-    private static MineField calculateEachField(MineField field) {
-        int rowDimension = field.getRowDimension();
-        int columnDimension = field.getColumnDimension();
-
-        for (int rowIndex = 0; rowIndex < rowDimension; rowIndex++) {
-            for (int columnIndex = 0; columnIndex < columnDimension; columnIndex++) {
-                String currentSquareValue = MineFieldService.getSquareOfFieldByIndices(field, rowIndex, columnIndex);
+    private static String[][] calculateEachField(String[][] fieldValues, int numRows, int numColumns) {
+        for (int rowIndex = 0; rowIndex < numRows; rowIndex++) {
+            for (int columnIndex = 0; columnIndex < numColumns; columnIndex++) {
+                String currentSquareValue = fieldValues[rowIndex][columnIndex];
 
                 if (!currentSquareValue.equals(Constants.MINE_SQUARE)) {
-                    field = calculateSingleSquare(field, rowIndex, columnIndex);
+                    String calculatedSquare = calculateSingleSquare(fieldValues, rowIndex, columnIndex);
+                    fieldValues[rowIndex][columnIndex] = calculatedSquare;
                 }
             }
         }
-        field = MineFieldService.updateFieldState(field, MineFieldState.CALCULATED);
-        return field;
+        return fieldValues;
     }
 
-    private static MineField calculateSingleSquare(MineField field, int rowIndex, int columnIndex) {
+    private static String calculateSingleSquare(String[][] fieldValues, int rowIndex, int columnIndex) {
+        int maxRowIndex = fieldValues.length;
+        int maxColumnIndex = fieldValues[0].length;
+
         List<Integer> adjacentRows =
-                MineFieldService.getAdjacentIndices(rowIndex, field.getRowDimension(), Constants.ADJACENT_RANGE);
+                MineFieldService.getAdjacentIndices(rowIndex, maxRowIndex, Constants.ADJACENT_RANGE);
         List<Integer> adjacentColumns =
-                MineFieldService.getAdjacentIndices(columnIndex, field.getColumnDimension(), Constants.ADJACENT_RANGE);
+                MineFieldService.getAdjacentIndices(columnIndex, maxColumnIndex, Constants.ADJACENT_RANGE);
 
-        String calculatedSquare = calculateAdjacentMines(field.getFieldValues(), adjacentRows, adjacentColumns);
-
-        field = MineFieldService.setSquareOfFieldByIndices(field, rowIndex, columnIndex, calculatedSquare);
-        return field;
+        String calculatedSquare = calculateAdjacentMines(fieldValues, adjacentRows, adjacentColumns);
+        return calculatedSquare;
     }
 
     private static String calculateAdjacentMines(String[][] fieldValue, List<Integer> adjacentRows, List<Integer> adjacentColumns) {

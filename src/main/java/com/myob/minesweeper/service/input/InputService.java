@@ -67,34 +67,38 @@ public class InputService implements IInputService {
     private MineField constructNewMineField(int[] fieldDimensions) {
         int numRows = fieldDimensions[0];
         int numColumns = fieldDimensions[1];
+
         MineField newField = MineFieldService.initialiseNewField(numRows, numColumns);
-        newField = getNewFieldValue(newField);
+        String[][] newFieldValues = getNewFieldValues(numRows, numColumns);
+
+        MineFieldService.updateFieldValues(newField, newFieldValues);
         return newField;
     }
 
-    private MineField getNewFieldValue(MineField field) {
+    private String[][] getNewFieldValues(int numRows, int numColumns) {
         ioService.displayOutput(Constants.PLANT_MINE_PROMPT);
 
         int numRowsFilled = 0;
+        String[][] newFieldValues = new String[numRows][numColumns];
 
-        while (numRowsFilled < field.getRowDimension()) {
+        while (numRowsFilled < numRows) {
             try {
-                field = getNewRowContent(field, numRowsFilled);
+                newFieldValues[numRowsFilled] = getNewRowContent(numColumns);
                 numRowsFilled += 1;
             } catch (Exception e) {
                 ioService.displayOutput(e.getMessage());
             }
         }
         ioService.displayOutput(Constants.FIELD_CREATED);
-        return field;
+        return newFieldValues;
     }
 
-    private MineField getNewRowContent(MineField field, int rowIndex) {
+    private String[] getNewRowContent(int rowLength) {
         String inputRow = ioService.readUserInput();
 
-        if (isRowContentValid(inputRow, Constants.ROW_PATTERN)) {
-            field = MineFieldService.setRowOfFieldByIndex(field, rowIndex, inputRow);
-            return field;
+        if (isRowContentValid(inputRow, Constants.ROW_PATTERN)
+                && isRowLengthValid(inputRow, rowLength)) {
+            return inputRow.split(Constants.EMPTY_STRING);
         }
         throw new InvalidRowFormatException(Constants.INVALID_ROW_FORMAT);
     }
@@ -109,5 +113,9 @@ public class InputService implements IInputService {
 
     private boolean isRowContentValid(String inputRow, String pattern) {
         return UserInputValidator.validateStringInputWithRequiredPattern(inputRow, pattern);
+    }
+
+    private boolean isRowLengthValid(String inputRow, int rowLength) {
+        return UserInputValidator.validateLengthOfRowInput(inputRow, rowLength);
     }
 }

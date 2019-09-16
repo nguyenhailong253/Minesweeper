@@ -32,7 +32,7 @@ public class ResultServiceTest {
 
             String[][] fieldValue = new String[][]{{"*","1"}, {"1", "1"}};
             MineField testMineField = MineFieldService.initialiseNewField(defaultNumRows, defaultNumColumns);
-            testMineField = MineFieldService.updateFieldValues(testMineField, fieldValue);
+            MineFieldService.updateFieldValues(testMineField, fieldValue);
 
             listOfTestFields.add(testMineField);
         }

@@ -58,7 +58,7 @@ public class InputServiceTest {
 
     private static void initialiseFieldAndList() {
         defaultField = MineFieldService.initialiseNewField(defaultNumRows, defaultNumColumns);
-        defaultField = MineFieldService.updateFieldValues(defaultField, defaultFieldValues);
+        MineFieldService.updateFieldValues(defaultField, defaultFieldValues);
         expectedListOfFields = new ArrayList<>();
         expectedListOfFields.add(defaultField);
     }

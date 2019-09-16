@@ -89,4 +89,33 @@ public class UserInputValidatorTest {
             Assert.assertEquals(expectedResult, UserInputValidator.validateEndOfInputValues(userInput, endOfInputValues));
         }
     }
+
+    public static class TestValidateLengthOfRowInput {
+
+        private static final int GIVEN_DIMENSION = 4;
+
+        @Test
+        public void shouldReturnTrue_WhenRowHasSameNumberOfCharactersAsItsDimension() {
+            String rowWithFourCharacters = "****";
+            boolean rowLengthMatchesDimension =
+                    UserInputValidator.validateLengthOfRowInput(rowWithFourCharacters, GIVEN_DIMENSION);
+            Assert.assertTrue(rowLengthMatchesDimension);
+        }
+
+        @Test
+        public void shouldReturnFalse_WhenRowHasMoreCharactersThanItsDimension() {
+            String rowWithSixCharacters = "*.*.*.";
+            boolean rowLengthTooLong =
+                    UserInputValidator.validateLengthOfRowInput(rowWithSixCharacters, GIVEN_DIMENSION);
+            Assert.assertFalse(rowLengthTooLong);
+        }
+
+        @Test
+        public void shouldReturnFalse_WhenRowHasFewerCharactersThanItsDimension() {
+            String rowWithTwoCharacters = "..";
+            boolean rowLengthTooShort =
+                    UserInputValidator.validateLengthOfRowInput(rowWithTwoCharacters, GIVEN_DIMENSION);
+            Assert.assertFalse(rowLengthTooShort);
+        }
+    }
 }

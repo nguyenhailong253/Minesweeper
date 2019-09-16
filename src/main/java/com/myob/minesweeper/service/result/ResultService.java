@@ -1,8 +1,7 @@
 package com.myob.minesweeper.service.result;
 
-import com.myob.minesweeper.model.MineField;
 import com.myob.minesweeper.infrastructure.io.IIOService;
-import com.myob.minesweeper.model.MineFieldService;
+import com.myob.minesweeper.model.MineField;
 import com.myob.minesweeper.utils.Constants;
 
 import java.util.List;
@@ -23,7 +22,7 @@ public class ResultService implements IResultService {
             displayFieldLabel(fieldIndex);
 
             MineField currentField = resultFields.get(fieldIndex);
-            displayAllRows(currentField);
+            displayFieldValues(currentField.getFieldValues());
             
             ioService.displayOutput(Constants.EMPTY_STRING);
         }
@@ -35,12 +34,11 @@ public class ResultService implements IResultService {
         ioService.displayOutput(fieldLabel);
     }
 
-    private void displayAllRows(MineField field) {
-        int numOfRows = field.getRowDimension();
+    private void displayFieldValues(String[][] fieldValues) {
+        int numOfRows = fieldValues.length;
 
         for (int rowIndex = 0; rowIndex < numOfRows; rowIndex++) {
-            String[] arrayOfStringsInRow = MineFieldService.getRowOfFieldByIndex(field, rowIndex);
-            String row = String.join(Constants.EMPTY_STRING, arrayOfStringsInRow);
+            String row = String.join(Constants.EMPTY_STRING, fieldValues[rowIndex]);
             ioService.displayOutput(row);
         }
     }
