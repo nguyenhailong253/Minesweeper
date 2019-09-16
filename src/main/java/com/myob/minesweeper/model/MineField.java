@@ -29,10 +29,6 @@ public class MineField {
         return fieldState;
     }
 
-    protected void setFieldValues(String[][] fieldValues) {
-        this.fieldValues = fieldValues;
-    }
-
     protected void setRowValue(String[] rowValue, int rowIndex) {
         this.fieldValues[rowIndex] = rowValue;
     }
