@@ -17,7 +17,7 @@ public class MineFieldService {
     }
 
     public static void updateFieldValues(MineField field, String[][] newFieldValues) {
-        if (newFieldValues == null
+        if (!MineFieldValidator.validateContentOf2DStringArray(newFieldValues, Constants.VALID_SQUARE)
                 || newFieldValues.length != field.getRowDimension()
                 || newFieldValues[0].length != field.getColumnDimension()) {
             throw new InvalidFieldValuesException();

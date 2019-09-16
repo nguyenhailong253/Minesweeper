@@ -63,12 +63,6 @@ public class MineFieldServiceTest {
             String[][] inputFieldValues = new String[][]{};
             MineFieldService.updateFieldValues(baseField, inputFieldValues);
         }
-
-        @Test(expected = InvalidFieldValuesException.class)
-        public void shouldThrowFieldValuesException_WhenNewFieldValuesAreNull() {
-            String[][] inputFieldValues = null;
-            MineFieldService.updateFieldValues(baseField, inputFieldValues);
-        }
     }
 
     public static class TestGetAdjacentIndices {
