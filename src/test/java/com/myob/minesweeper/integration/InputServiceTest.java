@@ -28,6 +28,8 @@ public class InputServiceTest {
     private static MineField defaultField;
     private static List<MineField> expectedListOfFields;
 
+    // TODO: 16/9/19 Duplicated methods (also in calculator test)
+
     private static boolean validateEqualFields(MineField baseField, MineField compareField) {
         return baseField.getRowDimension() == compareField.getRowDimension()
                 && baseField.getColumnDimension() == compareField.getColumnDimension()

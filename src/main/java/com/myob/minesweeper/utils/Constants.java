@@ -36,8 +36,7 @@ public class Constants {
     public static final String END_OF_INPUT_STRING = "0 0";
     public static final String EMPTY_STRING = "";
     public static final int MAX_SIZE = 100;
-    public static final int MIN_SIZE = 0;
-    public static final int REQUIRED_LENGTH = 2;
+    public static final int MIN_SIZE = 1;
     public static final int[] END_OF_INPUT_VALUE_SET = {0, 0};
     public static final int ADJACENT_RANGE = 1;
     public static final int SQUARE_CONTENT_LENGTH = 1;

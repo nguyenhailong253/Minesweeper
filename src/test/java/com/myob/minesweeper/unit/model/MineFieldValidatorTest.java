@@ -14,30 +14,44 @@ public class MineFieldValidatorTest {
 
         @Test
         public void shouldReturnTrue_WhenRowsAndColumnsAreEqualTo100() {
-            boolean dimensionLessThanOrEqualTo100 =
+            boolean maxDimension =
                     MineFieldValidator.validateDimensionValuesInRange(100, 100, MIN, MAX);
-            Assert.assertTrue(dimensionLessThanOrEqualTo100);
+            Assert.assertTrue(maxDimension);
         }
 
         @Test
-        public void shouldReturnTrue_WhenRowsAndColumnsAre0() {
-            boolean zeroDimension =
-                    MineFieldValidator.validateDimensionValuesInRange(0, 0, MIN, MAX);
-            Assert.assertTrue(zeroDimension);
+        public void shouldReturnTrue_WhenRowsAndColumnsAre1() {
+            boolean minDimension =
+                    MineFieldValidator.validateDimensionValuesInRange(1, 1, MIN, MAX);
+            Assert.assertTrue(minDimension);
         }
 
         @Test
-        public void shouldReturnTrue_WhenRowIs0AndColumnIsMoreThan0() {
+        public void shouldReturnTrue_WhenRowIs1AndColumnIsMoreThan1() {
+            boolean minRowDimension =
+                    MineFieldValidator.validateDimensionValuesInRange(1, 2, MIN, MAX);
+            Assert.assertTrue(minRowDimension);
+        }
+
+        @Test
+        public void shouldReturnTrue_WhenRowIsMoreThan1AndColumnIs1() {
+            boolean minColumnDimension =
+                    MineFieldValidator.validateDimensionValuesInRange(2, 1, MIN, MAX);
+            Assert.assertTrue(minColumnDimension);
+        }
+
+        @Test
+        public void shouldReturnFalse_WhenRowIs0AndColumnIsInRange() {
             boolean zeroRowDimension =
                     MineFieldValidator.validateDimensionValuesInRange(0, 1, MIN, MAX);
-            Assert.assertTrue(zeroRowDimension);
+            Assert.assertFalse(zeroRowDimension);
         }
 
         @Test
-        public void shouldReturnTrue_WhenRowIsMoreThan0AndColumnIs0() {
+        public void shouldReturnFalse_WhenRowIsInRangeAndColumnIs0() {
             boolean zeroColumnDimension =
                     MineFieldValidator.validateDimensionValuesInRange(1, 0, MIN, MAX);
-            Assert.assertTrue(zeroColumnDimension);
+            Assert.assertFalse(zeroColumnDimension);
         }
 
         @Test

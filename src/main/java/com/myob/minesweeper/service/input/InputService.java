@@ -17,7 +17,7 @@ public class InputService implements IInputService {
         this.ioService = ioService;
     }
 
-    // TODO: 16/9/19 is exception handling good here? 
+    // TODO: 16/9/19 is exception handling good here?
     
     @Override
     public List<MineField> getListOfNewMineFields() {
@@ -31,10 +31,7 @@ public class InputService implements IInputService {
                 if (isEndOfInput(newValidDimensions, Constants.END_OF_INPUT_VALUE_SET)) {
                     endOfInput = true;
                 } else {
-                    int numRows = newValidDimensions[0];
-                    int numColumns = newValidDimensions[1];
-                    MineField newField = MineFieldService.initialiseNewField(numRows, numColumns);
-                    newField = getNewFieldValue(newField);
+                    MineField newField = constructNewMineField(newValidDimensions);
                     validListOfFields.add(newField);
                 }
             } catch (Exception e) {
@@ -49,11 +46,11 @@ public class InputService implements IInputService {
         int[] userInputDimensions = new int[]{};
 
         while (!dimensionIsValid) {
-            String inputDimensions = ioService.readUserInput();
+            String userInput = ioService.readUserInput();
 
-            dimensionIsValid = isInputDimensionValid(inputDimensions, Constants.FIELD_DIMENSION_PATTERN);
+            dimensionIsValid = isInputDimensionValid(userInput, Constants.FIELD_DIMENSION_PATTERN);
             if (dimensionIsValid) {
-                userInputDimensions = convertUserInputToFieldDimensions(inputDimensions);
+                userInputDimensions = convertUserInputToFieldDimensions(userInput);
             } else {
                 ioService.displayOutput(Constants.INVALID_INPUT_DIMENSION);
             }
@@ -65,6 +62,14 @@ public class InputService implements IInputService {
         String[] splitInput = UserInputConverter
                 .splitStringToArray(userInput, Constants.WHITESPACE_DELIMITER);
         return UserInputConverter.convertStringArrayToIntegerArray(splitInput);
+    }
+
+    private MineField constructNewMineField(int[] fieldDimensions) {
+        int numRows = fieldDimensions[0];
+        int numColumns = fieldDimensions[1];
+        MineField newField = MineFieldService.initialiseNewField(numRows, numColumns);
+        newField = getNewFieldValue(newField);
+        return newField;
     }
 
     private MineField getNewFieldValue(MineField field) {
