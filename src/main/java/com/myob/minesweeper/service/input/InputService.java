@@ -17,6 +17,8 @@ public class InputService implements IInputService {
         this.ioService = ioService;
     }
 
+    // TODO: 16/9/19 is exception handling good here? 
+    
     @Override
     public List<MineField> getListOfNewMineFields() {
         List<MineField> validListOfFields = new ArrayList<>();

@@ -94,6 +94,11 @@ public class MineFieldServiceTest {
         public void shouldThrowIndexOutOfBoundsException_WhenReceiveRowIndexAt1000() {
             MineFieldService.getRowOfFieldByIndex(baseField, 1000);
         }
+
+        @Test(expected = IndexOutOfBoundsException.class)
+        public void shouldThrowIndexOutOfBoundsException_WhenReceiveNegativeRowIndex() {
+            MineFieldService.getRowOfFieldByIndex(baseField, -1);
+        }
     }
 
     public static class TestSetRowOfFieldByIndex {
@@ -117,6 +122,11 @@ public class MineFieldServiceTest {
         @Test(expected = IndexOutOfBoundsException.class)
         public void shouldThrowIndexOutOfBoundsException_WhenReceiveRowIndexAt1000() {
             MineFieldService.setRowOfFieldByIndex(baseField, 1000, "...");
+        }
+
+        @Test(expected = IndexOutOfBoundsException.class)
+        public void shouldThrowIndexOutOfBoundsException_WhenReceiveNegativeRowIndex() {
+            MineFieldService.setRowOfFieldByIndex(baseField, -1, "...");
         }
 
         @Test(expected = InvalidRowFormatException.class)
@@ -147,13 +157,28 @@ public class MineFieldServiceTest {
         }
 
         @Test(expected = IndexOutOfBoundsException.class)
+        public void shouldThrowOutOfBoundsException_WhenRowIndexIsNegative() {
+            MineFieldService.getSquareOfFieldByIndices(baseField, -3, 0);
+        }
+
+        @Test(expected = IndexOutOfBoundsException.class)
         public void shouldThrowOutOfBoundsException_WhenColumnIndexIs3000() {
             MineFieldService.getSquareOfFieldByIndices(baseField, 0, 3000);
         }
 
         @Test(expected = IndexOutOfBoundsException.class)
+        public void shouldThrowOutOfBoundsException_WhenColumnIndexIsNegative() {
+            MineFieldService.getSquareOfFieldByIndices(baseField, 0, -3);
+        }
+
+        @Test(expected = IndexOutOfBoundsException.class)
         public void shouldThrowOutOfBoundsException_WhenBothRowAndColumnAre500() {
             MineFieldService.getSquareOfFieldByIndices(baseField, 500, 500);
+        }
+
+        @Test(expected = IndexOutOfBoundsException.class)
+        public void shouldThrowOutOfBoundsException_WhenBothRowAndColumnAreNegative() {
+            MineFieldService.getSquareOfFieldByIndices(baseField, -500, -500);
         }
     }
 
@@ -180,13 +205,28 @@ public class MineFieldServiceTest {
         }
 
         @Test(expected = IndexOutOfBoundsException.class)
+        public void shouldThrowOutOfBoundsException_WhenRowIndexIsNegative() {
+            MineFieldService.setSquareOfFieldByIndices(baseField, -3, 0, "5");
+        }
+
+        @Test(expected = IndexOutOfBoundsException.class)
         public void shouldThrowOutOfBoundsException_WhenColumnIndexIs3000() {
             MineFieldService.setSquareOfFieldByIndices(baseField, 0, 3000, "5");
         }
 
         @Test(expected = IndexOutOfBoundsException.class)
+        public void shouldThrowOutOfBoundsException_WhenColumnIndexIsNegative() {
+            MineFieldService.setSquareOfFieldByIndices(baseField, 0, -3, "5");
+        }
+
+        @Test(expected = IndexOutOfBoundsException.class)
         public void shouldThrowOutOfBoundsException_WhenBothRowAndColumnAre500() {
             MineFieldService.setSquareOfFieldByIndices(baseField, 500, 500, "5");
+        }
+
+        @Test(expected = IndexOutOfBoundsException.class)
+        public void shouldThrowOutOfBoundsException_WhenBothRowAndColumnAreNegative() {
+            MineFieldService.setSquareOfFieldByIndices(baseField, -500, -500, "5");
         }
 
         @Test(expected = InvalidSquareContentLength.class)

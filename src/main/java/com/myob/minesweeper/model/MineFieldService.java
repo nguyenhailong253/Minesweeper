@@ -34,14 +34,14 @@ public class MineFieldService {
     }
 
     public static String[] getRowOfFieldByIndex(MineField field, int rowIndex) {
-        if (rowIndex >= field.getRowDimension()) {
+        if (isIndexOutOfBounds(rowIndex, 0, field.getRowDimension())) {
             throw new IndexOutOfBoundsException();
         }
         return field.getFieldValues()[rowIndex];
     }
 
     public static MineField setRowOfFieldByIndex(MineField field, int rowIndex, String newRow) {
-        if (rowIndex >= field.getRowDimension()) {
+        if (isIndexOutOfBounds(rowIndex, 0, field.getRowDimension() - 1)) {
             throw new IndexOutOfBoundsException();
         }
         if (!MineFieldValidator.validateLengthOfRowInput(newRow, field.getColumnDimension())) {
@@ -55,17 +55,18 @@ public class MineFieldService {
     }
 
     public static String getSquareOfFieldByIndices(MineField field, int rowIndex, int colIndex) {
-        if (rowIndex >= field.getRowDimension() || colIndex >= field.getColumnDimension()) {
+        if (isIndexOutOfBounds(rowIndex, 0, field.getRowDimension() - 1)
+                || isIndexOutOfBounds(colIndex, 0, field.getColumnDimension() -1)) {
             throw new IndexOutOfBoundsException();
         }
         return field.getFieldValues()[rowIndex][colIndex];
     }
 
     public static MineField setSquareOfFieldByIndices(MineField field, int rowIndex, int colIndex, String newSquare) {
-        if (rowIndex >= field.getRowDimension() || colIndex >= field.getColumnDimension()) {
+        if (isIndexOutOfBounds(rowIndex, 0, field.getRowDimension() - 1)
+                || isIndexOutOfBounds(colIndex, 0, field.getColumnDimension() -1)) {
             throw new IndexOutOfBoundsException();
         }
-
         if (newSquare.length() != Constants.SQUARE_CONTENT_LENGTH) {
             throw new InvalidSquareContentLength();
         }
@@ -86,5 +87,9 @@ public class MineFieldService {
             adjacentIndices.add(currentIndex + adjacentRange);
         }
         return adjacentIndices;
+    }
+
+    private static boolean isIndexOutOfBounds(int index, int minIndex, int maxIndex) {
+        return !MineFieldValidator.validateNumberInRange(index, minIndex, maxIndex);
     }
 }

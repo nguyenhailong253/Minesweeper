@@ -9,8 +9,8 @@ public class MineFieldValidatorTest {
 
     public static class TestValidateDimensionValuesInRange {
 
-        private int MAX = Constants.MAX_SIZE;
-        private int MIN = Constants.MIN_SIZE;
+        private static final int MAX = Constants.MAX_SIZE;
+        private static final int MIN = Constants.MIN_SIZE;
 
         @Test
         public void shouldReturnTrue_WhenRowsAndColumnsAreEqualTo100() {
@@ -83,15 +83,55 @@ public class MineFieldValidatorTest {
         }
     }
 
+    public static class TestValidateNumberInRange {
+        private static final int MIN = 0;
+        private static final int MAX = 5;
+
+        @Test
+        public void shouldReturnTrue_WhenNumberIsEqualToMinValue() {
+            int number = MIN;
+            boolean numberIsInRange = MineFieldValidator.validateNumberInRange(number, MIN, MAX);
+            Assert.assertTrue(numberIsInRange);
+        }
+
+        @Test
+        public void shouldReturnTrue_WhenNumberIsBiggerThanMinValueButSmallerThanMaxValue() {
+            int number = 3;
+            boolean numberIsInRange = MineFieldValidator.validateNumberInRange(number, MIN, MAX);
+            Assert.assertTrue(numberIsInRange);
+        }
+
+        @Test
+        public void shouldReturnTrue_WhenNumberIsEqualToMaxValue() {
+            int number = MAX;
+            boolean numberIsInRange = MineFieldValidator.validateNumberInRange(number, MIN, MAX);
+            Assert.assertTrue(numberIsInRange);
+        }
+
+        @Test
+        public void shouldReturnFalse_WhenNumberIsSmallerThanMin() {
+            int number = -1;
+            boolean numberIsInRange = MineFieldValidator.validateNumberInRange(number, MIN, MAX);
+            Assert.assertFalse(numberIsInRange);
+        }
+
+        @Test
+        public void shouldReturnFalse_WhenNumberIsBiggerThanMax() {
+            int number = 10000;
+            boolean numberIsInRange = MineFieldValidator.validateNumberInRange(number, MIN, MAX);
+            Assert.assertFalse(numberIsInRange);
+        }
+    }
+
     public static class TestValidateLengthOfRowInput {
 
-        private int givenDimension = 4;
+        private static final int GIVEN_DIMENSION = 4;
 
         @Test
         public void shouldReturnTrue_WhenRowHasSameNumberOfCharactersAsItsDimension() {
             String rowWithFourCharacters = "****";
             boolean rowLengthMatchesDimension =
-                    MineFieldValidator.validateLengthOfRowInput(rowWithFourCharacters, givenDimension);
+                    MineFieldValidator.validateLengthOfRowInput(rowWithFourCharacters, GIVEN_DIMENSION);
             Assert.assertTrue(rowLengthMatchesDimension);
         }
 
@@ -99,7 +139,7 @@ public class MineFieldValidatorTest {
         public void shouldReturnFalse_WhenRowHasMoreCharactersThanItsDimension() {
             String rowWithSixCharacters = "*.*.*.";
             boolean rowLengthTooLong =
-                    MineFieldValidator.validateLengthOfRowInput(rowWithSixCharacters, givenDimension);
+                    MineFieldValidator.validateLengthOfRowInput(rowWithSixCharacters, GIVEN_DIMENSION);
             Assert.assertFalse(rowLengthTooLong);
         }
 
@@ -107,7 +147,7 @@ public class MineFieldValidatorTest {
         public void shouldReturnFalse_WhenRowHasFewerCharactersThanItsDimension() {
             String rowWithTwoCharacters = "..";
             boolean rowLengthTooShort =
-                    MineFieldValidator.validateLengthOfRowInput(rowWithTwoCharacters, givenDimension);
+                    MineFieldValidator.validateLengthOfRowInput(rowWithTwoCharacters, GIVEN_DIMENSION);
             Assert.assertFalse(rowLengthTooShort);
         }
     }

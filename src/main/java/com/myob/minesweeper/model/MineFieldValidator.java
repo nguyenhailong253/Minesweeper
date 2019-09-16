@@ -6,7 +6,8 @@ public class MineFieldValidator {
                 && validateNumberInRange(numColumns, minDimension, maxDimension);
     }
 
-    private static boolean validateNumberInRange(int number, int min, int max) {
+    // TODO: 16/9/19 (check test file) is it duplicated test?
+    public static boolean validateNumberInRange(int number, int min, int max) {
         return min <= number && number <= max;
     }
 
