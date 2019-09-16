@@ -42,9 +42,15 @@ public class MineFieldServiceTest {
         }
 
         @Test(expected = InvalidFieldValuesException.class)
-        public void shouldThrowFieldValuesException_WhenNewFieldValuesAreEmpty() {
-            String[][] inputFieldValues = new String[][]{};
+        public void shouldThrowFieldValuesException_WhenReceiveStringArrayWithDifferentNumberOfRows() {
+            String[][] inputFieldValues = new String[][]{{"*", "*", "*"}};
             MineFieldService.updateFieldValues(baseField, inputFieldValues);
+        }
+
+        @Test(expected = InvalidFieldValuesException.class)
+        public void shouldThrowFieldValuesException_WhenNewFieldValuesAreEmpty() {
+            String[][] emptyFieldValues = new String[][]{};
+            MineFieldService.updateFieldValues(baseField, emptyFieldValues);
         }
     }
 
@@ -54,14 +60,6 @@ public class MineFieldServiceTest {
         public void initialiseBaseMineField() {
             initialiseNewFieldWithMines();
         }
-
-        // success
-        // valid string pattern, length, index
-        // fail
-        // wrong string pattern, correct length + index
-        // correct string pattern, wrong length, correct index
-        // correct patter, correct length, wrong index
-        // wrong string pattern, wrong length, wrong index
 
         @Test
         public void shouldSetRowValue_WhenReceiveValidStringAndRowIndex() {
@@ -100,6 +98,7 @@ public class MineFieldServiceTest {
     }
 
     public static class TestGetAdjacentIndices {
+
         private static final int adjacentRange = Constants.ADJACENT_RANGE;
         private static final int maxIndex = 3;
         private static List<Integer> expectedIndices;

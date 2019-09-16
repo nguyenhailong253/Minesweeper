@@ -19,7 +19,7 @@ public class MineFieldService {
     }
 
     public static void updateFieldValues(MineField field, String[][] newFieldValues) {
-        if (newFieldValues.length == 0) {
+        if (newFieldValues.length != field.getRowDimension()) {
             throw new InvalidFieldValuesException();
         }
         for (int rowIndex = 0; rowIndex < newFieldValues.length; rowIndex++) {
