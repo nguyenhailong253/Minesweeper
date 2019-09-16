@@ -127,6 +127,8 @@ public class InputServiceTest {
             when(mockConsoleIOService.readUserInput())
                     .thenReturn("2 2")
                     .thenReturn("this-is_invalid@row(content)")
+                    .thenReturn("...88888")
+                    .thenReturn("11")
                     .thenReturn("*.")
                     .thenReturn("..")
                     .thenReturn(Constants.END_OF_INPUT_STRING);

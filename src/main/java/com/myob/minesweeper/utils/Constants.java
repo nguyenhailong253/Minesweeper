@@ -28,14 +28,14 @@ public class Constants {
     // Other utils
     public static final String LABEL = "Field #";
     public static final String FIELD_DIMENSION_PATTERN = "[0-9]{1,}\\s[0-9]{1,}";
-    public static final String ROW_PATTERN = "[\\*\\.]+";
+//    public static final String ROW_PATTERN = "[\\*\\.]+";
+    public static final String ROW_PATTERN = "[*.\\d]+";
     public static final String WHITESPACE_DELIMITER = "\\s";
     public static final String MINE_SQUARE = "*";
     public static final String VALID_SQUARE = "[*.\\d]";
     public static final String END_OF_INPUT_STRING = "0 0";
-    public static final String EMPTY_STRING = "";
+    public static final String INPUT_DELIMITER = "";
     public static final int MAX_SIZE = 100;
     public static final int MIN_SIZE = 1;
-    public static final int[] END_OF_INPUT_VALUE_SET = {0, 0};
     public static final int ADJACENT_RANGE = 1;
 }

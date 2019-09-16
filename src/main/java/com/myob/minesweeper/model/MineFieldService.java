@@ -2,6 +2,8 @@ package com.myob.minesweeper.model;
 
 import com.myob.minesweeper.exception.DimensionsOutOfRangeException;
 import com.myob.minesweeper.exception.InvalidFieldValuesException;
+import com.myob.minesweeper.exception.InvalidRowFormatException;
+import com.myob.minesweeper.service.input.StringInputValidator;
 import com.myob.minesweeper.utils.Constants;
 
 import java.util.ArrayList;
@@ -17,12 +19,21 @@ public class MineFieldService {
     }
 
     public static void updateFieldValues(MineField field, String[][] newFieldValues) {
-        if (!MineFieldValidator.validateContentOf2DStringArray(newFieldValues, Constants.VALID_SQUARE)
-                || newFieldValues.length != field.getRowDimension()
-                || newFieldValues[0].length != field.getColumnDimension()) {
+        if (newFieldValues.length == 0) {
             throw new InvalidFieldValuesException();
         }
-        field.setFieldValues(newFieldValues);
+        for (int rowIndex = 0; rowIndex < newFieldValues.length; rowIndex++) {
+            String rowValue = String.join(Constants.INPUT_DELIMITER, newFieldValues[rowIndex]);
+            updateRowValue(field, rowValue, rowIndex);
+        }
+    }
+
+    public static void updateRowValue(MineField field, String inputRow, int rowIndex) {
+        if (!StringInputValidator.isStringMatchedPattern(inputRow, Constants.ROW_PATTERN)
+                || inputRow.length() != field.getColumnDimension()) {
+            throw new InvalidRowFormatException(Constants.INVALID_ROW_FORMAT);
+        }
+        field.setRowValue(inputRow.split(Constants.INPUT_DELIMITER), rowIndex);
     }
 
     public static void updateFieldState(MineField field, MineFieldState newState) {

@@ -33,6 +33,10 @@ public class MineField {
         this.fieldValues = fieldValues;
     }
 
+    protected void setRowValue(String[] rowValue, int rowIndex) {
+        this.fieldValues[rowIndex] = rowValue;
+    }
+
     protected void setFieldState(MineFieldState fieldState) {
         this.fieldState = fieldState;
     }

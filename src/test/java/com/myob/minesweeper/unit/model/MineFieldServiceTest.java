@@ -1,6 +1,7 @@
 package com.myob.minesweeper.unit.model;
 
 import com.myob.minesweeper.exception.InvalidFieldValuesException;
+import com.myob.minesweeper.exception.InvalidRowFormatException;
 import com.myob.minesweeper.model.MineField;
 import com.myob.minesweeper.model.MineFieldService;
 import com.myob.minesweeper.utils.Constants;
@@ -41,27 +42,55 @@ public class MineFieldServiceTest {
         }
 
         @Test(expected = InvalidFieldValuesException.class)
-        public void shouldThrowFieldValuesException_WhenNewFieldValuesHaveDifferentNumberOfColumns() {
-            String[][] inputFieldValues = new String[][]{{"*", "*"}, {"*", "*"}};
-            MineFieldService.updateFieldValues(baseField, inputFieldValues);
-        }
-
-        @Test(expected = InvalidFieldValuesException.class)
-        public void shouldThrowFieldValuesException_WhenNewFieldValuesHaveDifferentNumberOfRows() {
-            String[][] inputFieldValues = new String[][]{{"*", "*", "*"}, {"*", "*", "*"}, {"*", "*", "*"}};
-            MineFieldService.updateFieldValues(baseField, inputFieldValues);
-        }
-
-        @Test(expected = InvalidFieldValuesException.class)
-        public void shouldThrowFieldValuesException_WhenNewFieldValuesHaveDifferentNumberOfBothRowsAndColumns() {
-            String[][] inputFieldValues = new String[][]{{"*", "*"}, {"*", "*"}, {"*", "*"}};
-            MineFieldService.updateFieldValues(baseField, inputFieldValues);
-        }
-
-        @Test(expected = InvalidFieldValuesException.class)
         public void shouldThrowFieldValuesException_WhenNewFieldValuesAreEmpty() {
             String[][] inputFieldValues = new String[][]{};
             MineFieldService.updateFieldValues(baseField, inputFieldValues);
+        }
+    }
+
+    public static class TestUpdateRowValue {
+
+        @Before
+        public void initialiseBaseMineField() {
+            initialiseNewFieldWithMines();
+        }
+
+        // success
+        // valid string pattern, length, index
+        // fail
+        // wrong string pattern, correct length + index
+        // correct string pattern, wrong length, correct index
+        // correct patter, correct length, wrong index
+        // wrong string pattern, wrong length, wrong index
+
+        @Test
+        public void shouldSetRowValue_WhenReceiveValidStringAndRowIndex() {
+            MineFieldService.updateRowValue(baseField, "***", 1);
+            String[] expectedRowValue = new String[]{"*", "*", "*"};
+
+            String[] actualRowValue = baseField.getFieldValues()[1];
+
+            Assert.assertArrayEquals(expectedRowValue, actualRowValue);
+        }
+
+        @Test(expected = InvalidRowFormatException.class)
+        public void shouldThrowRowFormatException_WhenStringInputHasInvalidPattern() {
+            MineFieldService.updateRowValue(baseField, "hello_world!@#!$12412531", 1);
+        }
+
+        @Test(expected = InvalidRowFormatException.class)
+        public void shouldThrowRowFormatException_WhenStringInputHasInvalidLength() {
+            MineFieldService.updateRowValue(baseField, "*........**", 1);
+        }
+
+        @Test(expected = IndexOutOfBoundsException.class)
+        public void shouldThrowRowFormatException_WhenRowIndexIsOutOfBounds() {
+            MineFieldService.updateRowValue(baseField, "*.*", 100);
+        }
+
+        @Test(expected = InvalidRowFormatException.class)
+        public void shouldThrowRowFormatException_WhenStringInputHasInvalidPatternAndLengthAndRowIndexIsOutOfBounds() {
+            MineFieldService.updateRowValue(baseField, "hello_world!@#!$12412531", 100);
         }
     }
 

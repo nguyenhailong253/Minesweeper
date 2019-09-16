@@ -24,7 +24,7 @@ public class ResultService implements IResultService {
             MineField currentField = resultFields.get(fieldIndex);
             displayFieldValues(currentField.getFieldValues());
             
-            ioService.displayOutput(Constants.EMPTY_STRING);
+            ioService.displayOutput(Constants.INPUT_DELIMITER);
         }
     }
 
@@ -38,7 +38,7 @@ public class ResultService implements IResultService {
         int numOfRows = fieldValues.length;
 
         for (int rowIndex = 0; rowIndex < numOfRows; rowIndex++) {
-            String row = String.join(Constants.EMPTY_STRING, fieldValues[rowIndex]);
+            String row = String.join(Constants.INPUT_DELIMITER, fieldValues[rowIndex]);
             ioService.displayOutput(row);
         }
     }
