@@ -5,9 +5,7 @@ public class Constants {
     // Exception messages
     public static final String STRING_TO_NUMBER_EXCEPTION = "Input is not numerical. Cannot convert to integers. " +
             "Please re-enter dimension of your field";
-    public static final String INVALID_INPUT_DIMENSION = "Invalid dimension. " +
-            "Make sure you follow the format of 2 numbers being separated by 1 space. " +
-            "Please re-enter dimension of your field";
+    public static final String INVALID_INPUT_DIMENSION = "Invalid dimension.";
     public static final String DIMENSION_OUT_OF_RANGE = "Dimension out of range. " +
             "Please re-enter dimension of your field";
     public static final String INVALID_ROW_FORMAT = "Invalid characters or number of characters in a row. " +
