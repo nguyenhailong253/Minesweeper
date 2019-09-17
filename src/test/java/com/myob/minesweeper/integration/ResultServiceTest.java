@@ -30,7 +30,7 @@ public class ResultServiceTest {
         System.setOut(mockPrintStream);
 
         String[][] fieldValue = new String[][]{{"*","1"}, {"1", "1"}};
-        MineField testMineField = MineFieldService.constructNewField(defaultNumRows, defaultNumColumns);
+        MineField testMineField = MineFieldService.constructMineField(defaultNumRows, defaultNumColumns);
         MineFieldService.updateFieldState(testMineField, MineFieldState.CALCULATED);
         MineFieldService.updateFieldValues(testMineField, fieldValue);
 

@@ -35,9 +35,9 @@ public class ResultService implements IResultService {
     }
 
     private void displayFieldValues(String[][] fieldValues) {
-        int numOfRows = fieldValues.length;
+        int numRows = fieldValues.length;
 
-        for (int rowIndex = 0; rowIndex < numOfRows; rowIndex++) {
+        for (int rowIndex = 0; rowIndex < numRows; rowIndex++) {
             String row = String.join(Constants.INPUT_DELIMITER, fieldValues[rowIndex]);
             ioService.displayOutput(row);
         }

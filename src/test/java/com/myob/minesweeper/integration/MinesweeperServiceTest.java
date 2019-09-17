@@ -3,6 +3,8 @@ package com.myob.minesweeper.integration;
 import com.myob.minesweeper.infrastructure.io.ConsoleIOService;
 import com.myob.minesweeper.infrastructure.io.IIOService;
 import com.myob.minesweeper.service.application.MinesweeperService;
+import com.myob.minesweeper.service.calculator.IMinesweeperCalculator;
+import com.myob.minesweeper.service.calculator.MinesweeperCalculator;
 import com.myob.minesweeper.service.input.IInputService;
 import com.myob.minesweeper.service.input.InputService;
 import com.myob.minesweeper.service.result.IResultService;
@@ -18,6 +20,7 @@ public class MinesweeperServiceTest {
     private static IIOService mockConsoleIOService;
     private static IResultService resultService;
     private static IInputService inputService;
+    private static IMinesweeperCalculator calculator;
     private static MinesweeperService minesweeperService;
 
     @Before
@@ -25,7 +28,8 @@ public class MinesweeperServiceTest {
         mockConsoleIOService = mock(ConsoleIOService.class);
         resultService = new ResultService(mockConsoleIOService);
         inputService = new InputService(mockConsoleIOService);
-        minesweeperService = new MinesweeperService(inputService, resultService);
+        calculator = new MinesweeperCalculator();
+        minesweeperService = new MinesweeperService(inputService, resultService, calculator);
     }
 
     @Test
@@ -47,7 +51,7 @@ public class MinesweeperServiceTest {
     }
 
     @Test
-    public void shouldDisplayRulesOfInputDimensionTwice_WhenReceive1ValidDimensionAndThenEndOfInputPattern() {
+    public void shouldDisplayRulesOfInputDimensionTwice_WhenReceiveValidDimensionsAndThenEndOfInputPattern() {
         when(mockConsoleIOService.readUserInput())
                 .thenReturn("1 1")
                 .thenReturn("*")
@@ -65,7 +69,7 @@ public class MinesweeperServiceTest {
     }
 
     @Test
-    public void shouldDisplayRulesOfInputRow_AfterEnteredValidDimension() {
+    public void shouldDisplayRulesOfInputRow_WhenReceiveValidDimensions() {
         when(mockConsoleIOService.readUserInput())
                 .thenReturn("1 1")
                 .thenReturn(Constants.PLANT_MINE_PROMPT)
@@ -76,7 +80,7 @@ public class MinesweeperServiceTest {
     }
 
     @Test
-    public void shouldDisplayIncorrectDimensionFormatMessage_WhenReceiveIncorrectInputDimensionFormat() {
+    public void shouldDisplayIncorrectDimensionFormatMessage_WhenReceiveInvalidInputDimensions() {
         when(mockConsoleIOService.readUserInput())
                 .thenReturn("12,34")
                 .thenReturn(Constants.END_OF_INPUT_STRING);
@@ -85,7 +89,7 @@ public class MinesweeperServiceTest {
     }
 
     @Test
-    public void shouldDisplayDimensionOutOfRangeMessage_WhenInputDimensionIsOutOfRequiredRange() {
+    public void shouldDisplayDimensionOutOfRangeMessage_WhenInputDimensionIsOutOfRange() {
         when(mockConsoleIOService.readUserInput())
                 .thenReturn("1200 900")
                 .thenReturn(Constants.END_OF_INPUT_STRING);
@@ -94,7 +98,7 @@ public class MinesweeperServiceTest {
     }
 
     @Test
-    public void shouldDisplayInvalidRowFormatMessage_WhenReceiveIncorrectInputRowFormat() {
+    public void shouldDisplayInvalidRowFormatMessage_WhenReceiveInvalidInputRowFormat() {
         when(mockConsoleIOService.readUserInput())
                 .thenReturn("1 1")
                 .thenReturn("./;****")

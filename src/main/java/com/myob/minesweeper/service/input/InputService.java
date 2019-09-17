@@ -31,10 +31,10 @@ public class InputService implements IInputService {
                 if (userInputDimension.matches(Constants.END_OF_INPUT_STRING)) {
                     break;
                 }
-                MineField newField = constructNewMineField(userInputDimension);
-                updateFieldValuesWithUserInput(newField);
+                MineField newMineField = constructNewMineField(userInputDimension);
+                updateFieldValuesWithUserInput(newMineField);
 
-                validListOfFields.add(newField);
+                validListOfFields.add(newMineField);
             } catch (Exception e) {
                 ioService.displayOutput(e.getMessage());
             }
@@ -51,25 +51,25 @@ public class InputService implements IInputService {
         int numRows = fieldDimensions[0];
         int numColumns = fieldDimensions[1];
 
-        return MineFieldService.constructNewField(numRows, numColumns);
+        return MineFieldService.constructMineField(numRows, numColumns);
     }
 
-    private void updateFieldValuesWithUserInput(MineField field) {
+    private void updateFieldValuesWithUserInput(MineField mineField) {
         ioService.displayOutput(Constants.PLANT_MINE_PROMPT);
 
         int rowIndex = 0;
-        int numRows = field.getRowDimension();
+        int numRows = mineField.getRowDimension();
 
         while (rowIndex < numRows) {
             try {
                 String inputRow = ioService.readUserInput();
-                MineFieldService.updateRowValue(field, inputRow, rowIndex);
+                MineFieldService.updateRowValue(mineField, inputRow, rowIndex);
                 rowIndex++;
             } catch (Exception e) {
                 ioService.displayOutput(e.getMessage());
             }
         }
-        MineFieldService.updateFieldState(field, MineFieldState.INITIALISED);
+        MineFieldService.updateFieldState(mineField, MineFieldState.VALIDATED);
         ioService.displayOutput(Constants.FIELD_CREATED);
     }
 }

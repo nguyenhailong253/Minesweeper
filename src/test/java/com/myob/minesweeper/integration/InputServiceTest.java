@@ -1,5 +1,6 @@
 package com.myob.minesweeper.integration;
 
+import com.myob.minesweeper.TestHelper;
 import com.myob.minesweeper.infrastructure.io.ConsoleIOService;
 import com.myob.minesweeper.infrastructure.io.IIOService;
 import com.myob.minesweeper.model.MineField;
@@ -13,7 +14,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.mock;
@@ -29,39 +29,10 @@ public class InputServiceTest {
     private static MineField defaultField;
     private static List<MineField> expectedListOfFields;
 
-    // TODO: 16/9/19 Duplicated methods (also in calculator test)
-
-    private static boolean validateEqualFields(MineField baseField, MineField compareField) {
-        return baseField.getFieldState() == compareField.getFieldState()
-                && baseField.getRowDimension() == compareField.getRowDimension()
-                && baseField.getColumnDimension() == compareField.getColumnDimension()
-                && Arrays.deepEquals(baseField.getFieldValues(), compareField.getFieldValues());
-    }
-
-    private static boolean compareSizeOfTwoFieldLists(List<MineField> baseList, List<MineField> compareList) {
-        return baseList.size() == compareList.size();
-    }
-
-    private static boolean validateEqualListsOfFields(List<MineField> baseList, List<MineField> compareList) {
-
-        if (!compareSizeOfTwoFieldLists(baseList, compareList)) {
-            return false;
-        }
-
-        for (int fieldIndex = 0; fieldIndex < baseList.size(); fieldIndex++) {
-            MineField baseField = baseList.get(fieldIndex);
-            MineField compareField = compareList.get(fieldIndex);
-            if (!validateEqualFields(baseField, compareField)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     @Before
     public void initialiseExpectedListOfFields() {
-        defaultField = MineFieldService.constructNewField(defaultNumRows, defaultNumColumns);
-        MineFieldService.updateFieldState(defaultField, MineFieldState.INITIALISED);
+        defaultField = MineFieldService.constructMineField(defaultNumRows, defaultNumColumns);
+        MineFieldService.updateFieldState(defaultField, MineFieldState.VALIDATED);
         MineFieldService.updateFieldValues(defaultField, defaultFieldValues);
         expectedListOfFields = new ArrayList<>();
         expectedListOfFields.add(defaultField);
@@ -76,7 +47,8 @@ public class InputServiceTest {
                 .thenReturn(Constants.END_OF_INPUT_STRING);
         List<MineField> actualListOfFields = inputService.getListOfNewMineFields();
 
-        boolean equalLists = validateEqualListsOfFields(expectedListOfFields, actualListOfFields);
+        boolean equalLists = TestHelper.validateEqualListsOfFields(expectedListOfFields, actualListOfFields);
+
         Assert.assertTrue(equalLists);
     }
 
@@ -87,7 +59,7 @@ public class InputServiceTest {
         when(mockConsoleIOService.readUserInput()).thenReturn(Constants.END_OF_INPUT_STRING);
         List<MineField> actualList = inputService.getListOfNewMineFields();
 
-        boolean equalLists = validateEqualListsOfFields(expectedEmptyList, actualList);
+        boolean equalLists = TestHelper.validateEqualListsOfFields(expectedEmptyList, actualList);
         Assert.assertTrue(equalLists);
     }
 
@@ -101,7 +73,7 @@ public class InputServiceTest {
                 .thenReturn(Constants.END_OF_INPUT_STRING);
         List<MineField> actualListOfFields = inputService.getListOfNewMineFields();
 
-        boolean equalLists = validateEqualListsOfFields(expectedListOfFields, actualListOfFields);
+        boolean equalLists = TestHelper.validateEqualListsOfFields(expectedListOfFields, actualListOfFields);
         Assert.assertTrue(equalLists);
     }
 
@@ -115,7 +87,7 @@ public class InputServiceTest {
                 .thenReturn(Constants.END_OF_INPUT_STRING);
         List<MineField> actualListOfFields = inputService.getListOfNewMineFields();
 
-        boolean equalLists = validateEqualListsOfFields(expectedListOfFields, actualListOfFields);
+        boolean equalLists = TestHelper.validateEqualListsOfFields(expectedListOfFields, actualListOfFields);
         Assert.assertTrue(equalLists);
     }
 
@@ -131,7 +103,7 @@ public class InputServiceTest {
                 .thenReturn(Constants.END_OF_INPUT_STRING);
         List<MineField> actualListOfFields = inputService.getListOfNewMineFields();
 
-        boolean equalLists = validateEqualListsOfFields(expectedListOfFields, actualListOfFields);
+        boolean equalLists = TestHelper.validateEqualListsOfFields(expectedListOfFields, actualListOfFields);
         Assert.assertTrue(equalLists);
     }
 
@@ -145,7 +117,7 @@ public class InputServiceTest {
                 .thenReturn(Constants.END_OF_INPUT_STRING);
         List<MineField> actualListOfFields = inputService.getListOfNewMineFields();
 
-        boolean equalLists = validateEqualListsOfFields(expectedListOfFields, actualListOfFields);
+        boolean equalLists = TestHelper.validateEqualListsOfFields(expectedListOfFields, actualListOfFields);
         Assert.assertTrue(equalLists);
     }
 }

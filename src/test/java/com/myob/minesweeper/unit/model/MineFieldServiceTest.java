@@ -4,6 +4,7 @@ import com.myob.minesweeper.exception.InvalidFieldValuesException;
 import com.myob.minesweeper.exception.InvalidRowFormatException;
 import com.myob.minesweeper.model.MineField;
 import com.myob.minesweeper.model.MineFieldService;
+import com.myob.minesweeper.model.MineFieldState;
 import com.myob.minesweeper.utils.Constants;
 import org.junit.Assert;
 import org.junit.Before;
@@ -20,8 +21,9 @@ public class MineFieldServiceTest {
 
     private static void initialiseNewFieldWithMines() {
         String[][] fieldValues = new String[][]{{"*", ".", "."}, {".", "*", "."}};
-        baseField = MineFieldService.constructNewField(sampleNumRows, sampleNumColumns);
+        baseField = MineFieldService.constructMineField(sampleNumRows, sampleNumColumns);
         MineFieldService.updateFieldValues(baseField, fieldValues);
+        MineFieldService.updateFieldState(baseField, MineFieldState.VALIDATED);
     }
 
     public static class TestUpdateFieldValues {
