@@ -6,7 +6,6 @@ import com.myob.minesweeper.model.MineField;
 import com.myob.minesweeper.model.MineFieldService;
 import com.myob.minesweeper.model.MineFieldState;
 import com.myob.minesweeper.utils.Constants;
-import com.myob.minesweeper.utils.StringValidator;
 import com.myob.minesweeper.utils.UserInputConverter;
 
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ public class InputService implements IInputService {
                 ioService.displayOutput(Constants.INPUT_DIMENSION_PROMPT);
                 String userInputDimension = ioService.readUserInput();
 
-                if (StringValidator.isStringMatchedPattern(userInputDimension, Constants.END_OF_INPUT_STRING)) {
+                if (userInputDimension.matches(Constants.END_OF_INPUT_STRING)) {
                     break;
                 }
                 MineField newField = constructNewMineField(userInputDimension);
@@ -44,23 +43,15 @@ public class InputService implements IInputService {
     }
 
     private MineField constructNewMineField(String userInputDimension) {
-        if (!isInputFieldDimensionValid(userInputDimension)) {
+        if (!userInputDimension.matches(Constants.FIELD_DIMENSION_PATTERN)) {
             throw new InvalidInputDimensionPattern(Constants.INVALID_INPUT_DIMENSION);
         }
 
-        int[] fieldDimensions = convertUserInputToFieldDimensions(userInputDimension);
+        int[] fieldDimensions = UserInputConverter.convertStringToIntegerArray(userInputDimension, Constants.WHITESPACE_DELIMITER);
         int numRows = fieldDimensions[0];
         int numColumns = fieldDimensions[1];
 
         return MineFieldService.constructNewField(numRows, numColumns);
-    }
-
-    private boolean isInputFieldDimensionValid(String userInput) {
-        return StringValidator.isStringMatchedPattern(userInput, Constants.FIELD_DIMENSION_PATTERN);
-    }
-
-    private int[] convertUserInputToFieldDimensions(String userInput) {
-        return UserInputConverter.convertStringToIntegerArray(userInput, Constants.WHITESPACE_DELIMITER);
     }
 
     private void updateFieldValuesWithUserInput(MineField field) {

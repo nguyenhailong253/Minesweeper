@@ -3,7 +3,6 @@ package com.myob.minesweeper.model;
 import com.myob.minesweeper.exception.DimensionsOutOfRangeException;
 import com.myob.minesweeper.exception.InvalidFieldValuesException;
 import com.myob.minesweeper.exception.InvalidRowFormatException;
-import com.myob.minesweeper.utils.StringValidator;
 import com.myob.minesweeper.utils.Constants;
 
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ public class MineFieldService {
         String validPattern = field.getFieldState() == MineFieldState.CONSTRUCTED
                 ? Constants.INPUT_ROW_PATTERN : Constants.RESULT_ROW_PATTERN;
 
-        if (!StringValidator.isStringMatchedPattern(inputRow, validPattern)
+        if (!inputRow.matches(validPattern)
                 || inputRow.length() != field.getColumnDimension()) {
             throw new InvalidRowFormatException(Constants.INVALID_ROW_FORMAT);
         }

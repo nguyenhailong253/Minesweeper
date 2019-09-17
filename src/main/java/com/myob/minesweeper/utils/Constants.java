@@ -30,7 +30,6 @@ public class Constants {
     public static final String RESULT_ROW_PATTERN = "[*.\\d]+";
     public static final String WHITESPACE_DELIMITER = "\\s";
     public static final String MINE_SQUARE = "*";
-    public static final String VALID_SQUARE = "[*.\\d]";
     public static final String END_OF_INPUT_STRING = "0 0";
     public static final String INPUT_DELIMITER = "";
     public static final int MAX_SIZE = 100;
