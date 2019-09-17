@@ -33,8 +33,8 @@ public class InputService implements IInputService {
                 }
                 MineField newField = constructNewMineField(userInputDimension);
                 updateFieldValuesWithUserInput(newField);
-                validListOfFields.add(newField);
 
+                validListOfFields.add(newField);
             } catch (Exception e) {
                 ioService.displayOutput(e.getMessage());
             }

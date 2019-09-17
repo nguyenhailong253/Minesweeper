@@ -20,8 +20,8 @@ public class MinesweeperCalculator {
                         calculateEachField(field.getFieldValues(), field.getRowDimension(), field.getColumnDimension());
                 MineFieldService.updateFieldValues(field, calculatedFieldValues);
                 MineFieldService.updateFieldState(field, MineFieldState.CALCULATED);
+                resultFields.add(field);
             }
-            resultFields.add(field);
         }
         return resultFields;
     }

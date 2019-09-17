@@ -7,93 +7,90 @@ import org.junit.Test;
 
 public class MineFieldValidatorTest {
 
-    public static class TestValidateDimensionValuesInRange {
+    private static final int MAX = Constants.MAX_SIZE;
+    private static final int MIN = Constants.MIN_SIZE;
 
-        private static final int MAX = Constants.MAX_SIZE;
-        private static final int MIN = Constants.MIN_SIZE;
+    @Test
+    public void shouldReturnTrue_WhenRowsAndColumnsAreEqualTo100() {
+        boolean maxDimension =
+                MineFieldValidator.validateDimensionValuesInRange(100, 100, MIN, MAX);
+        Assert.assertTrue(maxDimension);
+    }
 
-        @Test
-        public void shouldReturnTrue_WhenRowsAndColumnsAreEqualTo100() {
-            boolean maxDimension =
-                    MineFieldValidator.validateDimensionValuesInRange(100, 100, MIN, MAX);
-            Assert.assertTrue(maxDimension);
-        }
+    @Test
+    public void shouldReturnTrue_WhenRowsAndColumnsAre1() {
+        boolean minDimension =
+                MineFieldValidator.validateDimensionValuesInRange(1, 1, MIN, MAX);
+        Assert.assertTrue(minDimension);
+    }
 
-        @Test
-        public void shouldReturnTrue_WhenRowsAndColumnsAre1() {
-            boolean minDimension =
-                    MineFieldValidator.validateDimensionValuesInRange(1, 1, MIN, MAX);
-            Assert.assertTrue(minDimension);
-        }
+    @Test
+    public void shouldReturnTrue_WhenRowIs1AndColumnIsMoreThan1() {
+        boolean minRowDimension =
+                MineFieldValidator.validateDimensionValuesInRange(1, 2, MIN, MAX);
+        Assert.assertTrue(minRowDimension);
+    }
 
-        @Test
-        public void shouldReturnTrue_WhenRowIs1AndColumnIsMoreThan1() {
-            boolean minRowDimension =
-                    MineFieldValidator.validateDimensionValuesInRange(1, 2, MIN, MAX);
-            Assert.assertTrue(minRowDimension);
-        }
+    @Test
+    public void shouldReturnTrue_WhenRowIsMoreThan1AndColumnIs1() {
+        boolean minColumnDimension =
+                MineFieldValidator.validateDimensionValuesInRange(2, 1, MIN, MAX);
+        Assert.assertTrue(minColumnDimension);
+    }
 
-        @Test
-        public void shouldReturnTrue_WhenRowIsMoreThan1AndColumnIs1() {
-            boolean minColumnDimension =
-                    MineFieldValidator.validateDimensionValuesInRange(2, 1, MIN, MAX);
-            Assert.assertTrue(minColumnDimension);
-        }
+    @Test
+    public void shouldReturnFalse_WhenRowIs0AndColumnIsInRange() {
+        boolean zeroRowDimension =
+                MineFieldValidator.validateDimensionValuesInRange(0, 1, MIN, MAX);
+        Assert.assertFalse(zeroRowDimension);
+    }
 
-        @Test
-        public void shouldReturnFalse_WhenRowIs0AndColumnIsInRange() {
-            boolean zeroRowDimension =
-                    MineFieldValidator.validateDimensionValuesInRange(0, 1, MIN, MAX);
-            Assert.assertFalse(zeroRowDimension);
-        }
+    @Test
+    public void shouldReturnFalse_WhenRowIsInRangeAndColumnIs0() {
+        boolean zeroColumnDimension =
+                MineFieldValidator.validateDimensionValuesInRange(1, 0, MIN, MAX);
+        Assert.assertFalse(zeroColumnDimension);
+    }
 
-        @Test
-        public void shouldReturnFalse_WhenRowIsInRangeAndColumnIs0() {
-            boolean zeroColumnDimension =
-                    MineFieldValidator.validateDimensionValuesInRange(1, 0, MIN, MAX);
-            Assert.assertFalse(zeroColumnDimension);
-        }
+    @Test
+    public void shouldReturnFalse_WhenReceiveNegativeNumOfRows() {
+        boolean negativeNumOfRows =
+                MineFieldValidator.validateDimensionValuesInRange(-1, 2, MIN, MAX);
+        Assert.assertFalse(negativeNumOfRows);
+    }
 
-        @Test
-        public void shouldReturnFalse_WhenReceiveNegativeNumOfRows() {
-            boolean negativeNumOfRows =
-                    MineFieldValidator.validateDimensionValuesInRange(-1, 2, MIN, MAX);
-            Assert.assertFalse(negativeNumOfRows);
-        }
+    @Test
+    public void shouldReturnFalse_WhenReceiveNegativeNumOfColumns() {
+        boolean negativeNumOfColumn =
+                MineFieldValidator.validateDimensionValuesInRange(10, -100, MIN, MAX);
+        Assert.assertFalse(negativeNumOfColumn);
+    }
 
-        @Test
-        public void shouldReturnFalse_WhenReceiveNegativeNumOfColumns() {
-            boolean negativeNumOfColumn =
-                    MineFieldValidator.validateDimensionValuesInRange(10, -100, MIN, MAX);
-            Assert.assertFalse(negativeNumOfColumn);
-        }
+    @Test
+    public void shouldReturnFalse_WhenReceiveBothNumOfRowsAndColumnsAreNegative() {
+        boolean twoNegativeDimensions =
+                MineFieldValidator.validateDimensionValuesInRange(-100, -50, MIN, MAX);
+        Assert.assertFalse(twoNegativeDimensions);
+    }
 
-        @Test
-        public void shouldReturnFalse_WhenReceiveBothNumOfRowsAndColumnsAreNegative() {
-            boolean twoNegativeDimensions =
-                    MineFieldValidator.validateDimensionValuesInRange(-100, -50, MIN, MAX);
-            Assert.assertFalse(twoNegativeDimensions);
-        }
+    @Test
+    public void shouldReturnFalse_WhenNumOfRowsMoreThan100() {
+        boolean numOfRowsMoreThan100 =
+                MineFieldValidator.validateDimensionValuesInRange(500, 50, MIN, MAX);
+        Assert.assertFalse(numOfRowsMoreThan100);
+    }
 
-        @Test
-        public void shouldReturnFalse_WhenNumOfRowsMoreThan100() {
-            boolean numOfRowsMoreThan100 =
-                    MineFieldValidator.validateDimensionValuesInRange(500, 50, MIN, MAX);
-            Assert.assertFalse(numOfRowsMoreThan100);
-        }
+    @Test
+    public void shouldReturnFalse_WhenNumOfColumnsMoreThan100() {
+        boolean numOfColumnsMoreThan100 =
+                MineFieldValidator.validateDimensionValuesInRange(60, 150, MIN, MAX);
+        Assert.assertFalse(numOfColumnsMoreThan100);
+    }
 
-        @Test
-        public void shouldReturnFalse_WhenNumOfColumnsMoreThan100() {
-            boolean numOfColumnsMoreThan100 =
-                    MineFieldValidator.validateDimensionValuesInRange(60, 150, MIN, MAX);
-            Assert.assertFalse(numOfColumnsMoreThan100);
-        }
-
-        @Test
-        public void shouldReturnFalse_WhenBothRowsAndColumnsAreMoreThan100() {
-            boolean dimensionMoreThan100 =
-                    MineFieldValidator.validateDimensionValuesInRange(200, 109, MIN, MAX);
-            Assert.assertFalse(dimensionMoreThan100);
-        }
+    @Test
+    public void shouldReturnFalse_WhenBothRowsAndColumnsAreMoreThan100() {
+        boolean dimensionMoreThan100 =
+                MineFieldValidator.validateDimensionValuesInRange(200, 109, MIN, MAX);
+        Assert.assertFalse(dimensionMoreThan100);
     }
 }

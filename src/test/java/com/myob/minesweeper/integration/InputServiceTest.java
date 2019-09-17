@@ -58,7 +58,8 @@ public class InputServiceTest {
         return true;
     }
 
-    private static void initialiseFieldAndList() {
+    @Before
+    public void initialiseExpectedListOfFields() {
         defaultField = MineFieldService.constructNewField(defaultNumRows, defaultNumColumns);
         MineFieldService.updateFieldState(defaultField, MineFieldState.INITIALISED);
         MineFieldService.updateFieldValues(defaultField, defaultFieldValues);
@@ -66,93 +67,85 @@ public class InputServiceTest {
         expectedListOfFields.add(defaultField);
     }
 
-    public static class TestGetListOfNewMineFields {
+    @Test
+    public void shouldReturnListOf1ValidField_GivenValidDimensionAndRowContents() {
+        when(mockConsoleIOService.readUserInput())
+                .thenReturn("2 2")
+                .thenReturn("*.")
+                .thenReturn("..")
+                .thenReturn(Constants.END_OF_INPUT_STRING);
+        List<MineField> actualListOfFields = inputService.getListOfNewMineFields();
 
-        @Before
-        public void initialiseExpectedResults() {
-            initialiseFieldAndList();
-        }
+        boolean equalLists = validateEqualListsOfFields(expectedListOfFields, actualListOfFields);
+        Assert.assertTrue(equalLists);
+    }
 
-        @Test
-        public void shouldReturnListOf1ValidField_GivenValidDimensionAndRowContents() {
-            when(mockConsoleIOService.readUserInput())
-                    .thenReturn("2 2")
-                    .thenReturn("*.")
-                    .thenReturn("..")
-                    .thenReturn(Constants.END_OF_INPUT_STRING);
-            List<MineField> actualListOfFields = inputService.getListOfNewMineFields();
+    @Test
+    public void shouldReturnEmptyList_GivenOnlyEndOfInputPattern() {
+        List<MineField> expectedEmptyList = new ArrayList<>();
 
-            boolean equalLists = validateEqualListsOfFields(expectedListOfFields, actualListOfFields);
-            Assert.assertTrue(equalLists);
-        }
+        when(mockConsoleIOService.readUserInput()).thenReturn(Constants.END_OF_INPUT_STRING);
+        List<MineField> actualList = inputService.getListOfNewMineFields();
 
-        @Test
-        public void shouldReturnEmptyList_GivenOnlyEndOfInputPattern() {
-            List<MineField> expectedEmptyList = new ArrayList<>();
+        boolean equalLists = validateEqualListsOfFields(expectedEmptyList, actualList);
+        Assert.assertTrue(equalLists);
+    }
 
-            when(mockConsoleIOService.readUserInput()).thenReturn(Constants.END_OF_INPUT_STRING);
-            List<MineField> actualList = inputService.getListOfNewMineFields();
+    @Test
+    public void shouldIgnoreInvalidDimension() {
+        when(mockConsoleIOService.readUserInput())
+                .thenReturn("this-is_1nvalid_dimension@!&*(")
+                .thenReturn("2 2")
+                .thenReturn("*.")
+                .thenReturn("..")
+                .thenReturn(Constants.END_OF_INPUT_STRING);
+        List<MineField> actualListOfFields = inputService.getListOfNewMineFields();
 
-            boolean equalLists = validateEqualListsOfFields(expectedEmptyList, actualList);
-            Assert.assertTrue(equalLists);
-        }
+        boolean equalLists = validateEqualListsOfFields(expectedListOfFields, actualListOfFields);
+        Assert.assertTrue(equalLists);
+    }
 
-        @Test
-        public void shouldIgnoreInvalidDimension() {
-            when(mockConsoleIOService.readUserInput())
-                    .thenReturn("this-is_1nvalid_dimension@!&*(")
-                    .thenReturn("2 2")
-                    .thenReturn("*.")
-                    .thenReturn("..")
-                    .thenReturn(Constants.END_OF_INPUT_STRING);
-            List<MineField> actualListOfFields = inputService.getListOfNewMineFields();
+    @Test
+    public void shouldIgnoreOutOfRangeDimension() {
+        when(mockConsoleIOService.readUserInput())
+                .thenReturn("1000 30000")
+                .thenReturn("2 2")
+                .thenReturn("*.")
+                .thenReturn("..")
+                .thenReturn(Constants.END_OF_INPUT_STRING);
+        List<MineField> actualListOfFields = inputService.getListOfNewMineFields();
 
-            boolean equalLists = validateEqualListsOfFields(expectedListOfFields, actualListOfFields);
-            Assert.assertTrue(equalLists);
-        }
+        boolean equalLists = validateEqualListsOfFields(expectedListOfFields, actualListOfFields);
+        Assert.assertTrue(equalLists);
+    }
 
-        @Test
-        public void shouldIgnoreOutOfRangeDimension() {
-            when(mockConsoleIOService.readUserInput())
-                    .thenReturn("1000 30000")
-                    .thenReturn("2 2")
-                    .thenReturn("*.")
-                    .thenReturn("..")
-                    .thenReturn(Constants.END_OF_INPUT_STRING);
-            List<MineField> actualListOfFields = inputService.getListOfNewMineFields();
+    @Test
+    public void shouldIgnoreInvalidRowContent() {
+        when(mockConsoleIOService.readUserInput())
+                .thenReturn("2 2")
+                .thenReturn("this-is_invalid@row(content)")
+                .thenReturn("...88888")
+                .thenReturn("11")
+                .thenReturn("*.")
+                .thenReturn("..")
+                .thenReturn(Constants.END_OF_INPUT_STRING);
+        List<MineField> actualListOfFields = inputService.getListOfNewMineFields();
 
-            boolean equalLists = validateEqualListsOfFields(expectedListOfFields, actualListOfFields);
-            Assert.assertTrue(equalLists);
-        }
+        boolean equalLists = validateEqualListsOfFields(expectedListOfFields, actualListOfFields);
+        Assert.assertTrue(equalLists);
+    }
 
-        @Test
-        public void shouldIgnoreInvalidRowContent() {
-            when(mockConsoleIOService.readUserInput())
-                    .thenReturn("2 2")
-                    .thenReturn("this-is_invalid@row(content)")
-                    .thenReturn("...88888")
-                    .thenReturn("11")
-                    .thenReturn("*.")
-                    .thenReturn("..")
-                    .thenReturn(Constants.END_OF_INPUT_STRING);
-            List<MineField> actualListOfFields = inputService.getListOfNewMineFields();
+    @Test
+    public void shouldIgnoreExtraRowContent() {
+        when(mockConsoleIOService.readUserInput())
+                .thenReturn("2 2")
+                .thenReturn("*.")
+                .thenReturn("..")
+                .thenReturn("..")
+                .thenReturn(Constants.END_OF_INPUT_STRING);
+        List<MineField> actualListOfFields = inputService.getListOfNewMineFields();
 
-            boolean equalLists = validateEqualListsOfFields(expectedListOfFields, actualListOfFields);
-            Assert.assertTrue(equalLists);
-        }
-
-        @Test
-        public void shouldIgnoreExtraRowContent() {
-            when(mockConsoleIOService.readUserInput())
-                    .thenReturn("2 2")
-                    .thenReturn("*.")
-                    .thenReturn("..")
-                    .thenReturn("..")
-                    .thenReturn(Constants.END_OF_INPUT_STRING);
-            List<MineField> actualListOfFields = inputService.getListOfNewMineFields();
-
-            boolean equalLists = validateEqualListsOfFields(expectedListOfFields, actualListOfFields);
-            Assert.assertTrue(equalLists);
-        }
+        boolean equalLists = validateEqualListsOfFields(expectedListOfFields, actualListOfFields);
+        Assert.assertTrue(equalLists);
     }
 }
