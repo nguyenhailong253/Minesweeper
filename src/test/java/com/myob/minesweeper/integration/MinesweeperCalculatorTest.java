@@ -2,6 +2,7 @@ package com.myob.minesweeper.integration;
 
 import com.myob.minesweeper.model.MineField;
 import com.myob.minesweeper.model.MineFieldService;
+import com.myob.minesweeper.model.MineFieldState;
 import com.myob.minesweeper.service.calculator.MinesweeperCalculator;
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,7 +26,8 @@ public class MinesweeperCalculatorTest {
     private static List<MineField> expectedResultListOfFields;
 
     private static boolean validateEqualFields(MineField baseField, MineField compareField) {
-        return baseField.getRowDimension() == compareField.getRowDimension()
+        return baseField.getFieldState() == compareField.getFieldState()
+                && baseField.getRowDimension() == compareField.getRowDimension()
                 && baseField.getColumnDimension() == compareField.getColumnDimension()
                 && Arrays.deepEquals(baseField.getFieldValues(), compareField.getFieldValues());
     }
@@ -50,11 +52,11 @@ public class MinesweeperCalculatorTest {
         return true;
     }
 
-    private static void initialiseDefaultFields() {
-        inputFirstField = MineFieldService.initialiseNewField(firstFieldNumRows, firstFieldNumColumns);
-        inputSecondField = MineFieldService.initialiseNewField(secondFieldNumRows, secondFieldNumColumns);
-        resultFirstField = MineFieldService.initialiseNewField(firstFieldNumRows, firstFieldNumColumns);
-        resultSecondField = MineFieldService.initialiseNewField(secondFieldNumRows, secondFieldNumColumns);
+    private static void constructDefaultFields() {
+        inputFirstField = MineFieldService.constructNewField(firstFieldNumRows, firstFieldNumColumns);
+        inputSecondField = MineFieldService.constructNewField(secondFieldNumRows, secondFieldNumColumns);
+        resultFirstField = MineFieldService.constructNewField(firstFieldNumRows, firstFieldNumColumns);
+        resultSecondField = MineFieldService.constructNewField(secondFieldNumRows, secondFieldNumColumns);
     }
 
     private static void initialiseDefaultListOfFields() {
@@ -72,7 +74,7 @@ public class MinesweeperCalculatorTest {
 
         @Before
         public void initialiseDefaultValues() {
-            initialiseDefaultFields();
+            constructDefaultFields();
             initialiseDefaultListOfFields();
         }
 
@@ -87,6 +89,8 @@ public class MinesweeperCalculatorTest {
                     {".", ".", ".", "."},
                     {".", "*", ".", "."},
                     {".", ".", ".", "."},};
+            MineFieldService.updateFieldState(inputFirstField, MineFieldState.INITIALISED);
+            MineFieldService.updateFieldState(inputSecondField, MineFieldState.INITIALISED);
             MineFieldService.updateFieldValues(inputFirstField, inputFirstFieldValue);
             MineFieldService.updateFieldValues(inputSecondField, inputSecondFieldValue);
 
@@ -99,6 +103,8 @@ public class MinesweeperCalculatorTest {
                     {"2", "2", "1", "0"},
                     {"1", "*", "1", "0"},
                     {"1", "1", "1", "0"},};
+            MineFieldService.updateFieldState(resultFirstField, MineFieldState.CALCULATED);
+            MineFieldService.updateFieldState(resultSecondField, MineFieldState.CALCULATED);
             MineFieldService.updateFieldValues(resultFirstField, resultFirstFieldValue);
             MineFieldService.updateFieldValues(resultSecondField, resultSecondFieldValue);
 
@@ -129,6 +135,10 @@ public class MinesweeperCalculatorTest {
                     {"*", "*", "*", "*"},
                     {"*", "*", "*", "*"},
                     {"*", "*", "*", "*"},};
+            MineFieldService.updateFieldState(inputFirstField, MineFieldState.INITIALISED);
+            MineFieldService.updateFieldState(inputSecondField, MineFieldState.INITIALISED);
+            MineFieldService.updateFieldState(resultFirstField, MineFieldState.CALCULATED);
+            MineFieldService.updateFieldState(resultSecondField, MineFieldState.CALCULATED);
             MineFieldService.updateFieldValues(inputFirstField, inputFirstFieldValue);
             MineFieldService.updateFieldValues(inputSecondField, inputSecondFieldValue);
             MineFieldService.updateFieldValues(resultFirstField, inputFirstFieldValue);
@@ -151,6 +161,8 @@ public class MinesweeperCalculatorTest {
                     {".", ".", ".", "."},
                     {".", ".", ".", "."},
                     {".", ".", ".", "."},};
+            MineFieldService.updateFieldState(inputFirstField, MineFieldState.INITIALISED);
+            MineFieldService.updateFieldState(inputSecondField, MineFieldState.INITIALISED);
             MineFieldService.updateFieldValues(inputFirstField, inputFirstFieldValue);
             MineFieldService.updateFieldValues(inputSecondField, inputSecondFieldValue);
 
@@ -163,6 +175,8 @@ public class MinesweeperCalculatorTest {
                     {"0", "0", "0", "0"},
                     {"0", "0", "0", "0"},
                     {"0", "0", "0", "0"},};
+            MineFieldService.updateFieldState(resultFirstField, MineFieldState.CALCULATED);
+            MineFieldService.updateFieldState(resultSecondField, MineFieldState.CALCULATED);
             MineFieldService.updateFieldValues(resultFirstField, resultFirstFieldValue);
             MineFieldService.updateFieldValues(resultSecondField, resultSecondFieldValue);
 

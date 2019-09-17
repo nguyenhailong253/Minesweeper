@@ -3,7 +3,7 @@ package com.myob.minesweeper.model;
 import com.myob.minesweeper.exception.DimensionsOutOfRangeException;
 import com.myob.minesweeper.exception.InvalidFieldValuesException;
 import com.myob.minesweeper.exception.InvalidRowFormatException;
-import com.myob.minesweeper.service.input.StringInputValidator;
+import com.myob.minesweeper.utils.StringValidator;
 import com.myob.minesweeper.utils.Constants;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class MineFieldService {
 
-    public static MineField initialiseNewField(int numRows, int numColumns) {
+    public static MineField constructNewField(int numRows, int numColumns) {
         if (!MineFieldValidator.validateDimensionValuesInRange(numRows, numColumns, Constants.MIN_SIZE, Constants.MAX_SIZE)) {
             throw new DimensionsOutOfRangeException(Constants.DIMENSION_OUT_OF_RANGE);
         }
@@ -28,12 +28,15 @@ public class MineFieldService {
         }
     }
 
-    // TODO: 16/9/19 Row pattern may change, when user input, only accept "*." but when calculate, need to accept number as well
     public static void updateRowValue(MineField field, String inputRow, int rowIndex) {
-        if (!StringInputValidator.isStringMatchedPattern(inputRow, Constants.ROW_PATTERN)
+        String validPattern = field.getFieldState() == MineFieldState.CONSTRUCTED
+                ? Constants.INPUT_ROW_PATTERN : Constants.RESULT_ROW_PATTERN;
+
+        if (!StringValidator.isStringMatchedPattern(inputRow, validPattern)
                 || inputRow.length() != field.getColumnDimension()) {
             throw new InvalidRowFormatException(Constants.INVALID_ROW_FORMAT);
         }
+
         field.setRowValue(inputRow.split(Constants.INPUT_DELIMITER), rowIndex);
     }
 

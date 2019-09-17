@@ -4,7 +4,10 @@ import com.myob.minesweeper.exception.InvalidInputDimensionPattern;
 import com.myob.minesweeper.infrastructure.io.IIOService;
 import com.myob.minesweeper.model.MineField;
 import com.myob.minesweeper.model.MineFieldService;
+import com.myob.minesweeper.model.MineFieldState;
 import com.myob.minesweeper.utils.Constants;
+import com.myob.minesweeper.utils.StringValidator;
+import com.myob.minesweeper.utils.UserInputConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +29,11 @@ public class InputService implements IInputService {
                 ioService.displayOutput(Constants.INPUT_DIMENSION_PROMPT);
                 String userInputDimension = ioService.readUserInput();
 
-                if (StringInputValidator.isStringMatchedPattern(userInputDimension, Constants.END_OF_INPUT_STRING)) {
+                if (StringValidator.isStringMatchedPattern(userInputDimension, Constants.END_OF_INPUT_STRING)) {
                     break;
                 }
                 MineField newField = constructNewMineField(userInputDimension);
+                updateFieldValuesWithUserInput(newField);
                 validListOfFields.add(newField);
 
             } catch (Exception e) {
@@ -40,27 +44,23 @@ public class InputService implements IInputService {
     }
 
     private MineField constructNewMineField(String userInputDimension) {
-        validateInputFieldDimension(userInputDimension);
+        if (!isInputFieldDimensionValid(userInputDimension)) {
+            throw new InvalidInputDimensionPattern(Constants.INVALID_INPUT_DIMENSION);
+        }
 
         int[] fieldDimensions = convertUserInputToFieldDimensions(userInputDimension);
         int numRows = fieldDimensions[0];
         int numColumns = fieldDimensions[1];
 
-        MineField newField = MineFieldService.initialiseNewField(numRows, numColumns);
-        updateFieldValuesWithUserInput(newField);
-        return newField;
+        return MineFieldService.constructNewField(numRows, numColumns);
     }
 
-    private void validateInputFieldDimension(String userInput) {
-        if (!StringInputValidator.isStringMatchedPattern(userInput, Constants.FIELD_DIMENSION_PATTERN)) {
-            throw new InvalidInputDimensionPattern(Constants.INVALID_INPUT_DIMENSION);
-        }
+    private boolean isInputFieldDimensionValid(String userInput) {
+        return StringValidator.isStringMatchedPattern(userInput, Constants.FIELD_DIMENSION_PATTERN);
     }
 
     private int[] convertUserInputToFieldDimensions(String userInput) {
-        String[] splitInput = UserInputConverter
-                .splitStringToArray(userInput, Constants.WHITESPACE_DELIMITER);
-        return UserInputConverter.convertStringArrayToIntegerArray(splitInput);
+        return UserInputConverter.convertStringToIntegerArray(userInput, Constants.WHITESPACE_DELIMITER);
     }
 
     private void updateFieldValuesWithUserInput(MineField field) {
@@ -78,6 +78,7 @@ public class InputService implements IInputService {
                 ioService.displayOutput(e.getMessage());
             }
         }
+        MineFieldService.updateFieldState(field, MineFieldState.INITIALISED);
         ioService.displayOutput(Constants.FIELD_CREATED);
     }
 }

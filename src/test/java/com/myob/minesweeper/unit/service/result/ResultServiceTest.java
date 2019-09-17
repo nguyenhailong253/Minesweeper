@@ -4,6 +4,7 @@ import com.myob.minesweeper.infrastructure.io.ConsoleIOService;
 import com.myob.minesweeper.infrastructure.io.IIOService;
 import com.myob.minesweeper.model.MineField;
 import com.myob.minesweeper.model.MineFieldService;
+import com.myob.minesweeper.model.MineFieldState;
 import com.myob.minesweeper.service.result.IResultService;
 import com.myob.minesweeper.service.result.ResultService;
 import org.junit.BeforeClass;
@@ -31,7 +32,8 @@ public class ResultServiceTest {
             System.setOut(mockPrintStream);
 
             String[][] fieldValue = new String[][]{{"*","1"}, {"1", "1"}};
-            MineField testMineField = MineFieldService.initialiseNewField(defaultNumRows, defaultNumColumns);
+            MineField testMineField = MineFieldService.constructNewField(defaultNumRows, defaultNumColumns);
+            MineFieldService.updateFieldState(testMineField, MineFieldState.CALCULATED);
             MineFieldService.updateFieldValues(testMineField, fieldValue);
 
             listOfTestFields.add(testMineField);

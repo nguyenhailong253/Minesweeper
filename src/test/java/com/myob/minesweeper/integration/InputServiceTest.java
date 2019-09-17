@@ -4,6 +4,7 @@ import com.myob.minesweeper.infrastructure.io.ConsoleIOService;
 import com.myob.minesweeper.infrastructure.io.IIOService;
 import com.myob.minesweeper.model.MineField;
 import com.myob.minesweeper.model.MineFieldService;
+import com.myob.minesweeper.model.MineFieldState;
 import com.myob.minesweeper.service.input.IInputService;
 import com.myob.minesweeper.service.input.InputService;
 import com.myob.minesweeper.utils.Constants;
@@ -31,7 +32,8 @@ public class InputServiceTest {
     // TODO: 16/9/19 Duplicated methods (also in calculator test)
 
     private static boolean validateEqualFields(MineField baseField, MineField compareField) {
-        return baseField.getRowDimension() == compareField.getRowDimension()
+        return baseField.getFieldState() == compareField.getFieldState()
+                && baseField.getRowDimension() == compareField.getRowDimension()
                 && baseField.getColumnDimension() == compareField.getColumnDimension()
                 && Arrays.deepEquals(baseField.getFieldValues(), compareField.getFieldValues());
     }
@@ -57,7 +59,8 @@ public class InputServiceTest {
     }
 
     private static void initialiseFieldAndList() {
-        defaultField = MineFieldService.initialiseNewField(defaultNumRows, defaultNumColumns);
+        defaultField = MineFieldService.constructNewField(defaultNumRows, defaultNumColumns);
+        MineFieldService.updateFieldState(defaultField, MineFieldState.INITIALISED);
         MineFieldService.updateFieldValues(defaultField, defaultFieldValues);
         expectedListOfFields = new ArrayList<>();
         expectedListOfFields.add(defaultField);

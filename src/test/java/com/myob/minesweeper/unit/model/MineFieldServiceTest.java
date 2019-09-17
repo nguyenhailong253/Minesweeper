@@ -20,7 +20,7 @@ public class MineFieldServiceTest {
 
     private static void initialiseNewFieldWithMines() {
         String[][] fieldValues = new String[][]{{"*", ".", "."}, {".", "*", "."}};
-        baseField = MineFieldService.initialiseNewField(sampleNumRows, sampleNumColumns);
+        baseField = MineFieldService.constructNewField(sampleNumRows, sampleNumColumns);
         MineFieldService.updateFieldValues(baseField, fieldValues);
     }
 

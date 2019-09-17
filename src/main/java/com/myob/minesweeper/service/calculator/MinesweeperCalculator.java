@@ -60,7 +60,7 @@ public class MinesweeperCalculator {
             for (int column : adjacentColumns) {
                 String adjacentSquare = fieldValue[row][column];
                 if (adjacentSquare.equals(Constants.MINE_SQUARE)) {
-                    numOfMines += 1;
+                    numOfMines++;
                 }
             }
         }

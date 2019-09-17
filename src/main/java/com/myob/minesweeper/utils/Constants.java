@@ -26,8 +26,8 @@ public class Constants {
     // Other utils
     public static final String LABEL = "Field #";
     public static final String FIELD_DIMENSION_PATTERN = "[0-9]{1,}\\s[0-9]{1,}";
-//    public static final String ROW_PATTERN = "[\\*\\.]+";
-    public static final String ROW_PATTERN = "[*.\\d]+";
+    public static final String INPUT_ROW_PATTERN = "[*.]+";
+    public static final String RESULT_ROW_PATTERN = "[*.\\d]+";
     public static final String WHITESPACE_DELIMITER = "\\s";
     public static final String MINE_SQUARE = "*";
     public static final String VALID_SQUARE = "[*.\\d]";

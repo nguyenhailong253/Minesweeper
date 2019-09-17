@@ -9,7 +9,7 @@ public class MineField {
     protected MineField(int numRows, int numColumns) {
         this.rowDimension = numRows;
         this.columnDimension = numColumns;
-        this.fieldState = MineFieldState.INITIALISED;
+        this.fieldState = MineFieldState.CONSTRUCTED;
         this.fieldValues = new String[numRows][numColumns];
     }
 
