@@ -59,6 +59,13 @@ public class MinesweeperCalculatorTest {
         resultSecondField = MineFieldService.constructNewField(secondFieldNumRows, secondFieldNumColumns);
     }
 
+    private static void initialiseFieldStates() {
+        MineFieldService.updateFieldState(inputFirstField, MineFieldState.INITIALISED);
+        MineFieldService.updateFieldState(inputSecondField, MineFieldState.INITIALISED);
+        MineFieldService.updateFieldState(resultFirstField, MineFieldState.CALCULATED);
+        MineFieldService.updateFieldState(resultSecondField, MineFieldState.CALCULATED);
+    }
+
     private static void initialiseDefaultListOfFields() {
         inputListOfFields = new ArrayList<>();
         expectedResultListOfFields = new ArrayList<>();
@@ -75,6 +82,7 @@ public class MinesweeperCalculatorTest {
         @Before
         public void initialiseDefaultValues() {
             constructDefaultFields();
+            initialiseFieldStates();
             initialiseDefaultListOfFields();
         }
 
@@ -89,8 +97,6 @@ public class MinesweeperCalculatorTest {
                     {".", ".", ".", "."},
                     {".", "*", ".", "."},
                     {".", ".", ".", "."},};
-            MineFieldService.updateFieldState(inputFirstField, MineFieldState.INITIALISED);
-            MineFieldService.updateFieldState(inputSecondField, MineFieldState.INITIALISED);
             MineFieldService.updateFieldValues(inputFirstField, inputFirstFieldValue);
             MineFieldService.updateFieldValues(inputSecondField, inputSecondFieldValue);
 
@@ -103,8 +109,6 @@ public class MinesweeperCalculatorTest {
                     {"2", "2", "1", "0"},
                     {"1", "*", "1", "0"},
                     {"1", "1", "1", "0"},};
-            MineFieldService.updateFieldState(resultFirstField, MineFieldState.CALCULATED);
-            MineFieldService.updateFieldState(resultSecondField, MineFieldState.CALCULATED);
             MineFieldService.updateFieldValues(resultFirstField, resultFirstFieldValue);
             MineFieldService.updateFieldValues(resultSecondField, resultSecondFieldValue);
 
@@ -135,10 +139,6 @@ public class MinesweeperCalculatorTest {
                     {"*", "*", "*", "*"},
                     {"*", "*", "*", "*"},
                     {"*", "*", "*", "*"},};
-            MineFieldService.updateFieldState(inputFirstField, MineFieldState.INITIALISED);
-            MineFieldService.updateFieldState(inputSecondField, MineFieldState.INITIALISED);
-            MineFieldService.updateFieldState(resultFirstField, MineFieldState.CALCULATED);
-            MineFieldService.updateFieldState(resultSecondField, MineFieldState.CALCULATED);
             MineFieldService.updateFieldValues(inputFirstField, inputFirstFieldValue);
             MineFieldService.updateFieldValues(inputSecondField, inputSecondFieldValue);
             MineFieldService.updateFieldValues(resultFirstField, inputFirstFieldValue);
@@ -161,8 +161,6 @@ public class MinesweeperCalculatorTest {
                     {".", ".", ".", "."},
                     {".", ".", ".", "."},
                     {".", ".", ".", "."},};
-            MineFieldService.updateFieldState(inputFirstField, MineFieldState.INITIALISED);
-            MineFieldService.updateFieldState(inputSecondField, MineFieldState.INITIALISED);
             MineFieldService.updateFieldValues(inputFirstField, inputFirstFieldValue);
             MineFieldService.updateFieldValues(inputSecondField, inputSecondFieldValue);
 
@@ -175,8 +173,6 @@ public class MinesweeperCalculatorTest {
                     {"0", "0", "0", "0"},
                     {"0", "0", "0", "0"},
                     {"0", "0", "0", "0"},};
-            MineFieldService.updateFieldState(resultFirstField, MineFieldState.CALCULATED);
-            MineFieldService.updateFieldState(resultSecondField, MineFieldState.CALCULATED);
             MineFieldService.updateFieldValues(resultFirstField, resultFirstFieldValue);
             MineFieldService.updateFieldValues(resultSecondField, resultSecondFieldValue);
 
