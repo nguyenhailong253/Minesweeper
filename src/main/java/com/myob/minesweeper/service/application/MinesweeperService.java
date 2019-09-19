@@ -9,21 +9,21 @@ import java.util.List;
 
 public class MinesweeperService {
 
-    private InputService inputService;
-    private ResultService resultService;
+    private InputService inputReader;
+    private ResultService resultWriter;
     private Calculator calculator;
 
-    public MinesweeperService(InputService inputService, ResultService resultService, Calculator calculator) {
-        this.inputService = inputService;
-        this.resultService = resultService;
+    public MinesweeperService(InputService inputReader, ResultService resultWriter, Calculator calculator) {
+        this.inputReader = inputReader;
+        this.resultWriter = resultWriter;
         this.calculator = calculator;
     }
 
     public void startGame() {
-        List<MineField> inputFields = inputService.getListOfNewMineFields();
+        List<MineField> inputFields = inputReader.getListOfNewMineFields();
 
         List<MineField> resultFields = calculator.calculateHintNumbersInFields(inputFields);
 
-        resultService.displayResultFields(resultFields);
+        resultWriter.displayResultFields(resultFields);
     }
 }

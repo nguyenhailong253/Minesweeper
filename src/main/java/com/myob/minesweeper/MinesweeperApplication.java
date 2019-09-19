@@ -12,11 +12,11 @@ import com.myob.minesweeper.service.result.ResultWriter;
 
 public class MinesweeperApplication {
     private static IOService consoleIOService = new ConsoleIOService();
-    private static InputService inputService = new InputReader(consoleIOService);
-    private static ResultService resultService = new ResultWriter(consoleIOService);
+    private static InputService inputReader = new InputReader(consoleIOService);
+    private static ResultService resultWriter = new ResultWriter(consoleIOService);
     private static Calculator calculator = new MinesweeperCalculator();
 
-    private static MinesweeperService service = new MinesweeperService(inputService, resultService, calculator);
+    private static MinesweeperService service = new MinesweeperService(inputReader, resultWriter, calculator);
 
     public static void main(String[] args) {
         service.startGame();
