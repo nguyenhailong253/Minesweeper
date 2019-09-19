@@ -1,6 +1,6 @@
 package com.myob.minesweeper.unit.model;
 
-import com.myob.minesweeper.exception.InvalidFieldValuesException;
+import com.myob.minesweeper.TestHelper;
 import com.myob.minesweeper.exception.InvalidRowFormatException;
 import com.myob.minesweeper.model.MineField;
 import com.myob.minesweeper.model.MineFieldService;
@@ -22,38 +22,8 @@ public class MineFieldServiceTest {
     private static void initialiseNewFieldWithMines() {
         String[][] fieldValues = new String[][]{{"*", ".", "."}, {".", "*", "."}};
         baseField = MineFieldService.constructMineField(sampleNumRows, sampleNumColumns);
-        MineFieldService.updateFieldValues(baseField, fieldValues);
+        TestHelper.updateFieldValues(baseField, fieldValues);
         MineFieldService.updateFieldState(baseField, MineFieldState.VALIDATED);
-    }
-
-    public static class TestUpdateFieldValues {
-
-        @Before
-        public void initialiseBaseMineField() {
-            initialiseNewFieldWithMines();
-        }
-
-        @Test
-        public void shouldSetFieldValues_WhenReceiveStringArrayWithMatchingDimensions() {
-            String[][] expectedFieldValues = new String[][]{{"*", "*", "*"}, {"*", "*", "*"}};
-            MineFieldService.updateFieldValues(baseField, expectedFieldValues);
-
-            String[][] actualFieldValues = baseField.getFieldValues();
-
-            Assert.assertArrayEquals(expectedFieldValues, actualFieldValues);
-        }
-
-        @Test(expected = InvalidFieldValuesException.class)
-        public void shouldThrowFieldValuesException_WhenReceiveStringArrayWithDifferentNumberOfRows() {
-            String[][] inputFieldValues = new String[][]{{"*", "*", "*"}};
-            MineFieldService.updateFieldValues(baseField, inputFieldValues);
-        }
-
-        @Test(expected = InvalidFieldValuesException.class)
-        public void shouldThrowFieldValuesException_WhenNewFieldValuesAreEmpty() {
-            String[][] emptyFieldValues = new String[][]{};
-            MineFieldService.updateFieldValues(baseField, emptyFieldValues);
-        }
     }
 
     public static class TestUpdateRowValue {

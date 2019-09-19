@@ -2,7 +2,7 @@ package com.myob.minesweeper.infrastructure.io;
 
 import java.util.Scanner;
 
-public class ConsoleIOService implements IIOService {
+public class ConsoleIOService implements IOService {
 
     @Override
     public String readUserInput() {

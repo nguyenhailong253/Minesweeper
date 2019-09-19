@@ -4,7 +4,7 @@ import com.myob.minesweeper.TestHelper;
 import com.myob.minesweeper.model.MineField;
 import com.myob.minesweeper.model.MineFieldService;
 import com.myob.minesweeper.model.MineFieldState;
-import com.myob.minesweeper.service.calculator.IMinesweeperCalculator;
+import com.myob.minesweeper.service.calculator.Calculator;
 import com.myob.minesweeper.service.calculator.MinesweeperCalculator;
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,7 +25,7 @@ public class MinesweeperCalculatorTest {
     private static MineField resultSecondField;
     private static List<MineField> inputListOfFields;
     private static List<MineField> expectedResultListOfFields;
-    private static IMinesweeperCalculator calculator = new MinesweeperCalculator();
+    private static Calculator calculator = new MinesweeperCalculator();
 
     private static void constructDefaultFields() {
         inputFirstField = MineFieldService.constructMineField(firstFieldNumRows, firstFieldNumColumns);
@@ -70,8 +70,8 @@ public class MinesweeperCalculatorTest {
                 {".", ".", ".", "."},
                 {".", "*", ".", "."},
                 {".", ".", ".", "."},};
-        MineFieldService.updateFieldValues(inputFirstField, inputFirstFieldValue);
-        MineFieldService.updateFieldValues(inputSecondField, inputSecondFieldValue);
+        TestHelper.updateFieldValues(inputFirstField, inputFirstFieldValue);
+        TestHelper.updateFieldValues(inputSecondField, inputSecondFieldValue);
 
         String[][] resultFirstFieldValue = new String[][]{
                 {"*", "*", "1", "0", "0"},
@@ -82,8 +82,8 @@ public class MinesweeperCalculatorTest {
                 {"2", "2", "1", "0"},
                 {"1", "*", "1", "0"},
                 {"1", "1", "1", "0"},};
-        MineFieldService.updateFieldValues(resultFirstField, resultFirstFieldValue);
-        MineFieldService.updateFieldValues(resultSecondField, resultSecondFieldValue);
+        TestHelper.updateFieldValues(resultFirstField, resultFirstFieldValue);
+        TestHelper.updateFieldValues(resultSecondField, resultSecondFieldValue);
 
         List<MineField> actualResult = calculator.calculateHintNumbersInFields(inputListOfFields);
 
@@ -112,10 +112,10 @@ public class MinesweeperCalculatorTest {
                 {"*", "*", "*", "*"},
                 {"*", "*", "*", "*"},
                 {"*", "*", "*", "*"},};
-        MineFieldService.updateFieldValues(inputFirstField, inputFirstFieldValue);
-        MineFieldService.updateFieldValues(inputSecondField, inputSecondFieldValue);
-        MineFieldService.updateFieldValues(resultFirstField, inputFirstFieldValue);
-        MineFieldService.updateFieldValues(resultSecondField, inputSecondFieldValue);
+        TestHelper.updateFieldValues(inputFirstField, inputFirstFieldValue);
+        TestHelper.updateFieldValues(inputSecondField, inputSecondFieldValue);
+        TestHelper.updateFieldValues(resultFirstField, inputFirstFieldValue);
+        TestHelper.updateFieldValues(resultSecondField, inputSecondFieldValue);
 
         List<MineField> actualResult = calculator.calculateHintNumbersInFields(inputListOfFields);
 
@@ -134,8 +134,8 @@ public class MinesweeperCalculatorTest {
                 {".", ".", ".", "."},
                 {".", ".", ".", "."},
                 {".", ".", ".", "."},};
-        MineFieldService.updateFieldValues(inputFirstField, inputFirstFieldValue);
-        MineFieldService.updateFieldValues(inputSecondField, inputSecondFieldValue);
+        TestHelper.updateFieldValues(inputFirstField, inputFirstFieldValue);
+        TestHelper.updateFieldValues(inputSecondField, inputSecondFieldValue);
 
         String[][] resultFirstFieldValue = new String[][]{
                 {"0", "0", "0", "0", "0"},
@@ -146,8 +146,8 @@ public class MinesweeperCalculatorTest {
                 {"0", "0", "0", "0"},
                 {"0", "0", "0", "0"},
                 {"0", "0", "0", "0"},};
-        MineFieldService.updateFieldValues(resultFirstField, resultFirstFieldValue);
-        MineFieldService.updateFieldValues(resultSecondField, resultSecondFieldValue);
+        TestHelper.updateFieldValues(resultFirstField, resultFirstFieldValue);
+        TestHelper.updateFieldValues(resultSecondField, resultSecondFieldValue);
 
         List<MineField> actualResult = calculator.calculateHintNumbersInFields(inputListOfFields);
 

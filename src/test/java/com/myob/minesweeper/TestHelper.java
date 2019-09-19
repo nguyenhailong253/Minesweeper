@@ -1,6 +1,7 @@
 package com.myob.minesweeper;
 
 import com.myob.minesweeper.model.MineField;
+import com.myob.minesweeper.model.MineFieldService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,5 +23,11 @@ public class TestHelper {
             }
         }
         return true;
+    }
+
+    public static void updateFieldValues(MineField mineField, String[][] newFieldValues) {
+        for (int rowIndex = 0; rowIndex < newFieldValues.length; rowIndex++) {
+            MineFieldService.updateRowValue(mineField, newFieldValues[rowIndex], rowIndex);
+        }
     }
 }

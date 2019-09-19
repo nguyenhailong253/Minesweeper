@@ -2,12 +2,12 @@ package com.myob.minesweeper.integration;
 
 import com.myob.minesweeper.TestHelper;
 import com.myob.minesweeper.infrastructure.io.ConsoleIOService;
-import com.myob.minesweeper.infrastructure.io.IIOService;
+import com.myob.minesweeper.infrastructure.io.IOService;
 import com.myob.minesweeper.model.MineField;
 import com.myob.minesweeper.model.MineFieldService;
 import com.myob.minesweeper.model.MineFieldState;
-import com.myob.minesweeper.service.input.IInputService;
 import com.myob.minesweeper.service.input.InputService;
+import com.myob.minesweeper.service.input.InputReader;
 import com.myob.minesweeper.utils.Constants;
 import org.junit.Assert;
 import org.junit.Before;
@@ -19,10 +19,10 @@ import java.util.List;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class InputServiceTest {
+public class InputReaderTest {
 
-    private static IIOService mockConsoleIOService = mock(ConsoleIOService.class);
-    private static IInputService inputService = new InputService(mockConsoleIOService);
+    private static IOService mockConsoleIOService = mock(ConsoleIOService.class);
+    private static InputService inputService = new InputReader(mockConsoleIOService);
     private static int defaultNumRows = 2;
     private static int defaultNumColumns = 2;
     private static String[][] defaultFieldValues = new String[][]{{"*", "."}, {".", "."}};
@@ -33,7 +33,7 @@ public class InputServiceTest {
     public void initialiseExpectedListOfFields() {
         defaultField = MineFieldService.constructMineField(defaultNumRows, defaultNumColumns);
         MineFieldService.updateFieldState(defaultField, MineFieldState.VALIDATED);
-        MineFieldService.updateFieldValues(defaultField, defaultFieldValues);
+        TestHelper.updateFieldValues(defaultField, defaultFieldValues);
         expectedListOfFields = new ArrayList<>();
         expectedListOfFields.add(defaultField);
     }

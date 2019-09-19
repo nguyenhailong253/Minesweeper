@@ -19,15 +19,6 @@ public class MineFieldService {
         return new MineField(numRows, numColumns);
     }
 
-    public static void updateFieldValues(MineField mineField, String[][] newFieldValues) {
-        if (newFieldValues.length != mineField.getRowDimension()) {
-            throw new InvalidFieldValuesException();
-        }
-        for (int rowIndex = 0; rowIndex < newFieldValues.length; rowIndex++) {
-            updateRowValue(mineField, newFieldValues[rowIndex], rowIndex);
-        }
-    }
-
     public static void updateRowValue(MineField mineField, String[] inputRow, int rowIndex) {
         updateRowValue(mineField, String.join(Constants.INPUT_DELIMITER, inputRow), rowIndex);
     }

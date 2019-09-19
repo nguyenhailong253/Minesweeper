@@ -1,12 +1,13 @@
 package com.myob.minesweeper.integration;
 
+import com.myob.minesweeper.TestHelper;
 import com.myob.minesweeper.infrastructure.io.ConsoleIOService;
-import com.myob.minesweeper.infrastructure.io.IIOService;
+import com.myob.minesweeper.infrastructure.io.IOService;
 import com.myob.minesweeper.model.MineField;
 import com.myob.minesweeper.model.MineFieldService;
 import com.myob.minesweeper.model.MineFieldState;
-import com.myob.minesweeper.service.result.IResultService;
 import com.myob.minesweeper.service.result.ResultService;
+import com.myob.minesweeper.service.result.ResultWriter;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -16,10 +17,10 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 
-public class ResultServiceTest {
+public class ResultWriterTest {
 
-    private static IIOService consoleIOService = new ConsoleIOService();
-    private static IResultService resultService = new ResultService(consoleIOService);
+    private static IOService consoleIOService = new ConsoleIOService();
+    private static ResultService resultService = new ResultWriter(consoleIOService);
     private static int defaultNumRows = 2;
     private static int defaultNumColumns = 2;
     private static List<MineField> listOfTestFields = new ArrayList<>();
@@ -32,7 +33,7 @@ public class ResultServiceTest {
         String[][] fieldValue = new String[][]{{"*","1"}, {"1", "1"}};
         MineField testMineField = MineFieldService.constructMineField(defaultNumRows, defaultNumColumns);
         MineFieldService.updateFieldState(testMineField, MineFieldState.CALCULATED);
-        MineFieldService.updateFieldValues(testMineField, fieldValue);
+        TestHelper.updateFieldValues(testMineField, fieldValue);
 
         listOfTestFields.add(testMineField);
     }

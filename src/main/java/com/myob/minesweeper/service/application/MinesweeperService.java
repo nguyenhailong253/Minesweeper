@@ -1,19 +1,19 @@
 package com.myob.minesweeper.service.application;
 
 import com.myob.minesweeper.model.MineField;
-import com.myob.minesweeper.service.calculator.IMinesweeperCalculator;
-import com.myob.minesweeper.service.input.IInputService;
-import com.myob.minesweeper.service.result.IResultService;
+import com.myob.minesweeper.service.calculator.Calculator;
+import com.myob.minesweeper.service.input.InputService;
+import com.myob.minesweeper.service.result.ResultService;
 
 import java.util.List;
 
 public class MinesweeperService {
 
-    private IInputService inputService;
-    private IResultService resultService;
-    private IMinesweeperCalculator calculator;
+    private InputService inputService;
+    private ResultService resultService;
+    private Calculator calculator;
 
-    public MinesweeperService(IInputService inputService, IResultService resultService, IMinesweeperCalculator calculator) {
+    public MinesweeperService(InputService inputService, ResultService resultService, Calculator calculator) {
         this.inputService = inputService;
         this.resultService = resultService;
         this.calculator = calculator;

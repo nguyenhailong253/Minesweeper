@@ -8,7 +8,7 @@ import com.myob.minesweeper.utils.Constants;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MinesweeperCalculator implements IMinesweeperCalculator {
+public class MinesweeperCalculator implements Calculator {
 
     @Override
     public List<MineField> calculateHintNumbersInFields(List<MineField> inputFields) {

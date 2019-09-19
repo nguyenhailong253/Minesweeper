@@ -1,14 +1,14 @@
 package com.myob.minesweeper.integration;
 
 import com.myob.minesweeper.infrastructure.io.ConsoleIOService;
-import com.myob.minesweeper.infrastructure.io.IIOService;
+import com.myob.minesweeper.infrastructure.io.IOService;
 import com.myob.minesweeper.service.application.MinesweeperService;
-import com.myob.minesweeper.service.calculator.IMinesweeperCalculator;
+import com.myob.minesweeper.service.calculator.Calculator;
 import com.myob.minesweeper.service.calculator.MinesweeperCalculator;
-import com.myob.minesweeper.service.input.IInputService;
 import com.myob.minesweeper.service.input.InputService;
-import com.myob.minesweeper.service.result.IResultService;
+import com.myob.minesweeper.service.input.InputReader;
 import com.myob.minesweeper.service.result.ResultService;
+import com.myob.minesweeper.service.result.ResultWriter;
 import com.myob.minesweeper.utils.Constants;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,17 +17,17 @@ import static org.mockito.Mockito.*;
 
 public class MinesweeperServiceTest {
 
-    private static IIOService mockConsoleIOService;
-    private static IResultService resultService;
-    private static IInputService inputService;
-    private static IMinesweeperCalculator calculator;
+    private static IOService mockConsoleIOService;
+    private static ResultService resultService;
+    private static InputService inputService;
+    private static Calculator calculator;
     private static MinesweeperService minesweeperService;
 
     @Before
     public void initialiseNewGame() {
         mockConsoleIOService = mock(ConsoleIOService.class);
-        resultService = new ResultService(mockConsoleIOService);
-        inputService = new InputService(mockConsoleIOService);
+        resultService = new ResultWriter(mockConsoleIOService);
+        inputService = new InputReader(mockConsoleIOService);
         calculator = new MinesweeperCalculator();
         minesweeperService = new MinesweeperService(inputService, resultService, calculator);
     }
