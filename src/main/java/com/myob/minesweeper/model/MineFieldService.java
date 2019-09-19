@@ -1,7 +1,6 @@
 package com.myob.minesweeper.model;
 
 import com.myob.minesweeper.exception.DimensionsOutOfRangeException;
-import com.myob.minesweeper.exception.InvalidFieldValuesException;
 import com.myob.minesweeper.exception.InvalidRowFormatException;
 import com.myob.minesweeper.utils.Constants;
 import com.myob.minesweeper.utils.NumberValidator;
